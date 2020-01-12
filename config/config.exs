@@ -25,6 +25,33 @@ config :logger, :console,
 # Use Jason for JSON parsing in Phoenix
 config :phoenix, :json_library, Jason
 
+#Configuracion de UerberAuth
+config :ueberauth, Ueberauth,
+    base_path: "/api/auth",
+    providers: [
+      identity: {Ueberauth.Strategy.Identity, [
+        callback_methods: ["POST"],
+        correoelectronico: :mail,
+        param_nesting: "usuario",
+        uid_field: :mail
+      ]}
+    ]
+
+#Configuracion de Guardian
+config :turnos, Turnos.Guardian,
+    issuer: "Auth",
+    secret_key: "YiCdBySVeRaFe3NYHp40ryepP+7eSaxsJ9WI1bvqQzFFiDcClp0RfY9t/DuKazD+",
+
+    # We will get round to using these permissions at the end
+    permissions: %{
+      default: [:read_users, :write_users]
+    }
+
+# Configure the authentication plug pipeline
+config :turnos, TurnosWeb.Plugs.AuthAccessPipeline,
+module: Turnos.Guardian,
+error_handler: TurnosWeb.Plugs.AuthErrorHandler
+
 # Import environment specific config. This must remain at the bottom
 # of this file so it overrides the configuration defined above.
 import_config "#{Mix.env()}.exs"

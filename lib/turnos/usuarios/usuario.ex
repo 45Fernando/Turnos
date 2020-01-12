@@ -28,12 +28,13 @@ defmodule Turnos.Usuarios.Usuario do
   telefono telefonoProfesional celular foto estado fechaNacimiento cuil matriculaNacional
  matriculaProvincial)a
 
+ @lista_validate_require ~w(nombre apellido dni mail direccion direccionProfesional password
+   telefono telefonoProfesional celular foto estado fechaNacimiento cuil matriculaNacional
+  matriculaProvincial)a
+
   @lista_create_cast ~w(nombre apellido mail password)a
   @lista_create_validate_require ~w(nombre apellido mail password)a
 
-  @lista_validate_require ~w(nombre apellido dni mail direccion direccionProfesional password
-   telefono telefonoProfesional celular foto estado fechaNacimiento cuil matriculaNacional
-  matriculaProvincial)a
 
   def create_changeset(usuario, attrs) do
     usuario

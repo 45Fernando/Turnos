@@ -101,4 +101,27 @@ defmodule Turnos.Usuarios do
   def change_usuario(%Usuario{} = usuario) do
     Usuario.changeset(usuario, %{})
   end
+
+
+  #Funcion para comparar el correo y la contraseña con la base de datos y autorizar el ingreso
+  #O no.
+  def login_email_password(nil, _password) do
+    {:error, :invalid}
+  end
+
+  def login_email_password(_mail, nil) do
+    {:error, :invalid}
+  end
+
+  def login_email_password(mail, password) do
+    with  %Usuario{} = usuario <- Repo.get_by(Usuario, mail: mail),
+          true <- Argon2.verify_pass(password, usuario.password_hash) do
+      {:ok, usuario}
+    else
+      _ ->
+        # Help to mitigate timing attacks
+        Argon2.no_user_verify
+        {:error, :unauthorised}
+    end
+  end
 end
