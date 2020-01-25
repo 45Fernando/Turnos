@@ -32,7 +32,7 @@ config :ueberauth, Ueberauth,
       identity: {Ueberauth.Strategy.Identity, [
         callback_methods: ["POST"],
         correoelectronico: :mail,
-        param_nesting: "usuario",
+        #param_nesting: "usuario",
         uid_field: :mail
       ]}
     ]
