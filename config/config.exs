@@ -52,11 +52,6 @@ config :turnos, TurnosWeb.Plugs.AuthAccessPipeline,
 module: Turnos.Guardian,
 error_handler: TurnosWeb.Plugs.AuthErrorHandler
 
-#Configuracion de CORS
-config :cors_plug,
-  origin: ["http://localhost:4200"],
-  max_age: 86400,
-  methods: ["GET", "POST"]
 
 # Import environment specific config. This must remain at the bottom
 # of this file so it overrides the configuration defined above.

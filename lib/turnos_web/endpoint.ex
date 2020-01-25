@@ -40,5 +40,6 @@ defmodule TurnosWeb.Endpoint do
     key: "_turnos_key",
     signing_salt: "bpDSjc+c"
 
+  plug CORSPlug, origin: "http://localhost:4200"
   plug TurnosWeb.Router
 end
