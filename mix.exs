@@ -46,7 +46,8 @@ defmodule Turnos.MixProject do
       {:not_qwerty123, "~> 2.3.1"},
       {:ueberauth, "~> 0.6.2"},
       {:ueberauth_identity, "~> 0.3.0"},
-      {:guardian, "~> 2.0"}
+      {:guardian, "~> 2.0"},
+      {:cors_plug, "~> 2.0"}
     ]
   end
 

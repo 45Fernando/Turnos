@@ -2,6 +2,7 @@ defmodule TurnosWeb.Router do
   use TurnosWeb, :router
 
   pipeline :api do
+    plug CORSPlug, origin: "http://localhost:4200"
     plug :accepts, ["json"]
   end
 

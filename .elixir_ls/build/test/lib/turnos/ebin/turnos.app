@@ -3,7 +3,7 @@
                              gettext,jason,comeonin,argon2_elixir,
                              phoenix_pubsub,not_qwerty123,postgrex,ecto_sql,
                              plug_cowboy,phoenix,ueberauth,ueberauth_identity,
-                             guardian,phoenix_ecto]},
+                             guardian,cors_plug,phoenix_ecto]},
               {description,"turnos"},
               {modules,['Elixir.Turnos','Elixir.Turnos.Application',
                         'Elixir.Turnos.DataCase','Elixir.Turnos.Guardian',
