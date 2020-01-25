@@ -1,39 +1,39 @@
-defmodule Turnos.Usuarios.Usuario do
+defmodule Turnos.Users.User do
   use Ecto.Schema
   import Ecto.Changeset
 
-  schema "usuarios" do
-    field :apellido, :string
-    field :celular, :string
+  schema "users" do
+    field :lastname, :string
+    field :mobilePhoneNumber, :string
     field :password, :string, virtual: true
     field :password_hash, :string
     field :cuil, :string
-    field :direccion, :string
-    field :direccionProfesional, :string
+    field :address, :string
+    field :professionalAddress, :string
     field :dni, :string
-    field :estado, :boolean, default: false
-    field :fechaNacimiento, :date
-    field :foto, :string
+    field :status, :boolean, default: false
+    field :birthDate, :date
+    field :profilePicture, :string
     field :mail, :string
-    field :matriculaNacional, :string
-    field :matriculaProvincial, :string
-    field :nombre, :string
-    field :telefono, :string
-    field :telefonoProfesional, :string
+    field :nationalRegistration, :string
+    field :provincialRegistration, :string
+    field :name, :string
+    field :phoneNumber, :string
+    field :professionalPhoneNumber, :string
 
     timestamps()
   end
 
-  @lista_cast ~w(nombre apellido dni mail direccion direccionProfesional password
-  telefono telefonoProfesional celular foto estado fechaNacimiento cuil matriculaNacional
- matriculaProvincial)a
+  @lista_cast ~w(name lastname dni mail address professionalAddress password
+  phoneNumber professionalPhoneNumber mobilePhoneNumber profilePicture status birthDate cuil nationalRegistration
+ provincialRegistration)a
 
- @lista_validate_require ~w(nombre apellido dni mail direccion direccionProfesional password
-   telefono telefonoProfesional celular foto estado fechaNacimiento cuil matriculaNacional
-  matriculaProvincial)a
+ @lista_validate_require ~w(name lastname dni mail address professionalAddress password
+   phoneNumber professionalPhoneNumber mobilephoneNumber profilePicture status birthDate cuil nationalRegistration
+  provincialRegistration)a
 
-  @lista_create_cast ~w(nombre apellido mail password)a
-  @lista_create_validate_require ~w(nombre apellido mail password)a
+  @lista_create_cast ~w(name lastname mail password)a
+  @lista_create_validate_require ~w(name lastname mail password)a
 
 
   def create_changeset(usuario, attrs) do

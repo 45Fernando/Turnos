@@ -18,10 +18,10 @@ defmodule TurnosWeb.Router do
 
 
 
-    post "/usuarios", UsuarioController, :create
+    post "/users", UserController, :create
     #Todo de aca para abajo va a pasar por la autentificacion.
     pipe_through :authenticated
 
-    resources "/usuarios", UsuarioController, except: [:new, :create, :edit]
+    resources "/users", UserController, except: [:new, :create, :edit]
   end
 end

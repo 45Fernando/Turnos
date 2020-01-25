@@ -1,7 +1,7 @@
 defmodule TurnosWeb.AutentificacionController do
   use TurnosWeb, :controller
 
-  alias Turnos.Usuarios
+  alias Turnos.Users
 
   plug Ueberauth
 
@@ -9,9 +9,10 @@ defmodule TurnosWeb.AutentificacionController do
     IO.inspect(auth, label: "auth")
     correo = auth.uid
     password = auth.credentials.other.password
-    handle_user_conn(Usuarios.login_email_password(correo, password), conn)
+    handle_user_conn(Users.login_email_password(correo, password), conn)
   end
 
+  #Es el que asigna el token.
   defp handle_user_conn(user, conn) do
     case user do
       {:ok, usuario} ->

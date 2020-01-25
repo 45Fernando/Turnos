@@ -1,23 +1,24 @@
-defmodule Turnos.Repo.Migrations.CreateUsuarios do
+defmodule Turnos.Repo.Migrations.CreateUsers do
   use Ecto.Migration
 
   def change do
-    create table(:usuarios) do
-      add :nombre, :string
-      add :apellido, :string
+    create table(:users) do
+      add :name, :string
+      add :lastname, :string
       add :dni, :string
       add :mail, :string
-      add :direccion, :string
-      add :direccionProfesional, :string
-      add :contraseña, :string
-      add :telefono, :string
-      add :telefonoProfesional, :string
-      add :celular, :string
-      add :foto, :string
-      add :estado, :boolean, default: false, null: false
-      add :fechaNacimiento, :date
+      add :address, :string
+      add :professionalAddress, :string
+      add :password_hash, :string
+      add :phoneNumber, :string
+      add :professionalPhoneNumber, :string
+      add :mobilePhoneNumber, :string
+      add :profilePicture, :string
+      add :status, :boolean, default: true, null: false
+      add :birthDate, :date
       add :cuil, :string
-      add :matricula, :string
+      add :nationalRegistration, :string
+      add :provincialRegistration, :string
 
       timestamps()
     end

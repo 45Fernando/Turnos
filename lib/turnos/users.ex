@@ -1,24 +1,24 @@
-defmodule Turnos.Usuarios do
+defmodule Turnos.Users do
   @moduledoc """
-  The Usuarios context.
+  The Users context.
   """
 
   import Ecto.Query, warn: false
   alias Turnos.Repo
 
-  alias Turnos.Usuarios.Usuario
+  alias Turnos.Users.User
 
   @doc """
-  Returns the list of usuarios.
+  Returns the list of users.
 
   ## Examples
 
-      iex> list_usuarios()
+      iex> list_users()
       [%Usuario{}, ...]
 
   """
-  def list_usuarios do
-    Repo.all(Usuario)
+  def list_users do
+    Repo.all(User)
   end
 
   @doc """
@@ -35,7 +35,7 @@ defmodule Turnos.Usuarios do
       ** (Ecto.NoResultsError)
 
   """
-  def get_usuario!(id), do: Repo.get!(Usuario, id)
+  def get_user!(id), do: Repo.get!(User, id)
 
   @doc """
   Creates a usuario.
@@ -49,9 +49,9 @@ defmodule Turnos.Usuarios do
       {:error, %Ecto.Changeset{}}
 
   """
-  def create_usuario(attrs \\ %{}) do
-    %Usuario{}
-    |> Usuario.create_changeset(attrs)
+  def create_user(attrs \\ %{}) do
+    %User{}
+    |> User.create_changeset(attrs)
     |> Repo.insert()
   end
 
@@ -67,9 +67,9 @@ defmodule Turnos.Usuarios do
       {:error, %Ecto.Changeset{}}
 
   """
-  def update_usuario(%Usuario{} = usuario, attrs) do
-    usuario
-    |> Usuario.changeset(attrs)
+  def update_user(%User{} = user, attrs) do
+    user
+    |> User.changeset(attrs)
     |> Repo.update()
   end
 
@@ -85,8 +85,8 @@ defmodule Turnos.Usuarios do
       {:error, %Ecto.Changeset{}}
 
   """
-  def delete_usuario(%Usuario{} = usuario) do
-    Repo.delete(usuario)
+  def delete_user(%User{} = user) do
+    Repo.delete(user)
   end
 
   @doc """
@@ -98,8 +98,8 @@ defmodule Turnos.Usuarios do
       %Ecto.Changeset{source: %Usuario{}}
 
   """
-  def change_usuario(%Usuario{} = usuario) do
-    Usuario.changeset(usuario, %{})
+  def change_user(%User{} = user) do
+    User.changeset(user, %{})
   end
 
 
@@ -114,9 +114,9 @@ defmodule Turnos.Usuarios do
   end
 
   def login_email_password(mail, password) do
-    with  %Usuario{} = usuario <- Repo.get_by(Usuario, mail: mail),
-          true <- Argon2.verify_pass(password, usuario.password_hash) do
-      {:ok, usuario}
+    with  %User{} = user <- Repo.get_by(User, mail: mail),
+          true <- Argon2.verify_pass(password, user.password_hash) do
+      {:ok, user}
     else
       _ ->
         # Help to mitigate timing attacks

@@ -10,7 +10,7 @@ defmodule Turnos.Guardian do
   end
 
   def resource_from_claims(%{"sub" => sub}) do
-    {:ok, Turnos.Usuarios.get_usuario!(sub)}
+    {:ok, Turnos.Users.get_user!(sub)}
   end
 
   def resource_from_claims(_claims) do
