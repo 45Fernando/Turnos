@@ -23,5 +23,6 @@ defmodule TurnosWeb.Router do
     pipe_through :authenticated
 
     resources "/users", UserController, except: [:new, :create, :edit]
+    resources "/roles", RoleController, except: [:new, :edit]
   end
 end

@@ -29,4 +29,5 @@ defmodule TurnosWeb.UserView do
       nationalRegistration: user.nationalRegistration,
       provincialRegistration: user.provincialRegistration}
   end
+
 end

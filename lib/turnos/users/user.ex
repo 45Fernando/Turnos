@@ -21,6 +21,8 @@ defmodule Turnos.Users.User do
     field :phoneNumber, :string
     field :professionalPhoneNumber, :string
 
+    many_to_many(:roles, Turnos.Roles.Role, join_through: "users_roles", on_replace: :delete)
+
     timestamps()
   end
 
@@ -84,5 +86,14 @@ defmodule Turnos.Users.User do
         {:error, msg} -> [{:password, msg}]
       end
     end)
+  end
+
+  #Agregando para añadir roles
+  def changeset_update_roles(user, roles) do
+    user
+    #|> cast(@required_fields)
+    |> cast(%{}, [])
+    # associate roles to the user
+    |> put_assoc(:roles, roles)
   end
 end

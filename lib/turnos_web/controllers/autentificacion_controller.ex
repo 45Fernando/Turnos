@@ -6,7 +6,7 @@ defmodule TurnosWeb.AutentificacionController do
   plug Ueberauth
 
   def identity_callback(%{assigns: %{ueberauth_auth: auth}} = conn, _params) do
-    IO.inspect(auth, label: "auth")
+    #IO.inspect(auth, label: "auth")
     correo = auth.uid
     password = auth.credentials.other.password
     handle_user_conn(Users.login_email_password(correo, password), conn)
@@ -19,9 +19,12 @@ defmodule TurnosWeb.AutentificacionController do
         {:ok, jwt, _full_claims} =
           Turnos.Guardian.encode_and_sign(usuario, %{})
 
+      conn =
         conn
         |> put_resp_header("authorization", "Bearer #{jwt}")
-        |> json(%{data: %{token: jwt}})
+        #|> json(%{data: %{token: jwt}})
+
+      render(conn, "auth.json", user: usuario, token: jwt)
 
       # Handle our own error to keep it generic
       {:error, _reason} ->

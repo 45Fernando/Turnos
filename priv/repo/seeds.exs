@@ -11,7 +11,24 @@
 # and so on) as they will fail if something goes wrong.
 
 alias Turnos.Repo
+alias Turnos.Roles.Role
 alias Turnos.Users.User
+
+#Seed de Roles
+Repo.delete_all(Role)
+
+#Roles
+Repo.insert!(%Role{
+  roleName: "admin"
+})
+
+Repo.insert!(%Role{
+  roleName: "profesional"
+})
+
+Repo.insert!(%Role{
+  roleName: "paciente"
+})
 
 # Seed de Users
 Repo.delete_all(User)

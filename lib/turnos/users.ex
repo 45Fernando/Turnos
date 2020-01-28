@@ -124,4 +124,24 @@ defmodule Turnos.Users do
         {:error, :unauthorised}
     end
   end
+
+  #para agregar roles a un usuario
+  def upsert_user_roles(user, role_ids) when is_list(role_ids) do
+    roles =
+      Role
+      |> where([role], role.id in ^role_ids)
+      |> Repo.all()
+
+    with {:ok, _struct} <-
+           user
+           |> User.changeset_update_roles(roles)
+           |> Repo.update() do
+      {:ok, Turnos.Users.get_user!(user.id)}
+    else
+      error ->
+        error
+    end
+  end
+
+
 end
