@@ -4,8 +4,8 @@ defmodule Turnos.Repo.Migrations.CreateUsersRolesTable do
   def change do
 
     create table(:users_roles, primary_key: false) do
-      add(:role_id, references(:roles, on_delete: :delete_all), primary_key: true)
-      add(:user_id, references(:users, on_delete: :delete_all), primary_key: true)
+      add(:role_id, references(:roles), primary_key: true)
+      add(:user_id, references(:users), primary_key: true)
 
       timestamps()
     end

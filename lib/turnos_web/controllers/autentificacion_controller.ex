@@ -19,12 +19,12 @@ defmodule TurnosWeb.AutentificacionController do
         {:ok, jwt, _full_claims} =
           Turnos.Guardian.encode_and_sign(usuario, %{})
 
-      conn =
-        conn
+      conn
         |> put_resp_header("authorization", "Bearer #{jwt}")
+        |> render("auth.json", user: usuario, token: jwt)
         #|> json(%{data: %{token: jwt}})
 
-      render(conn, "auth.json", user: usuario, token: jwt)
+
 
       # Handle our own error to keep it generic
       {:error, _reason} ->
