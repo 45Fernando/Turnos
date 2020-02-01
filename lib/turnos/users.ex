@@ -69,7 +69,7 @@ defmodule Turnos.Users do
   """
   def update_user(%User{} = user, attrs) do
     user
-    |> User.changeset(attrs)
+    |> User.update_changeset(attrs)
     |> Repo.update()
   end
 
@@ -116,7 +116,6 @@ defmodule Turnos.Users do
   def login_email_password(mail, password) do
     with  %User{} = user <- Repo.get_by(User, mail: mail) |> Repo.preload(:roles),
           true <- Argon2.verify_pass(password, user.password_hash) do
-      IO.inspect(user, label: "Usuario")
       {:ok, user}
     else
       _ ->

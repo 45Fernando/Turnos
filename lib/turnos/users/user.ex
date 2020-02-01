@@ -1,6 +1,8 @@
 defmodule Turnos.Users.User do
   use Ecto.Schema
   import Ecto.Changeset
+  import Ecto.Query, warn: false
+  alias Turnos.Repo
 
   schema "users" do
     field :lastname, :string
@@ -31,7 +33,7 @@ defmodule Turnos.Users.User do
  provincialRegistration)a
 
  @lista_validate_require ~w(name lastname dni mail address professionalAddress password
-   phoneNumber professionalPhoneNumber mobilephoneNumber profilePicture status birthDate cuil nationalRegistration
+   phoneNumber professionalPhoneNumber mobilePhoneNumber profilePicture status birthDate cuil nationalRegistration
   provincialRegistration)a
 
   @lista_create_cast ~w(name lastname mail password)a
@@ -44,6 +46,17 @@ defmodule Turnos.Users.User do
     |> validate_required(@lista_create_validate_require)
     |> unique_email()
     |> validate_password()
+    |> put_pass_hash()
+  end
+
+  def update_changeset(usuario, attrs) do
+    usuario
+    |> Repo.preload(:roles)
+    |> cast(attrs, @lista_cast)
+    |> validate_required([])#@lista_validate_require)
+    |> cast_assoc(:roles, with: &Turnos.Roles.Role.changeset/2)
+    |> put_assoc(:roles, load_roles(attrs))
+    |> unique_email()
     |> put_pass_hash()
   end
 
@@ -86,6 +99,15 @@ defmodule Turnos.Users.User do
         {:error, msg} -> [{:password, msg}]
       end
     end)
+  end
+
+  #Cargando los roles
+  def load_roles(params) do
+    IO.inspect(params, label: "parametros")
+    case params["role_ids"] || [] do
+      [] -> []
+      ids ->  Repo.all from r in Turnos.Roles.Role, where: r.id in ^ids
+    end
   end
 
   #Agregando para añadir roles

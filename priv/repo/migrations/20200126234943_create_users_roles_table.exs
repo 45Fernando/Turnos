@@ -7,7 +7,7 @@ defmodule Turnos.Repo.Migrations.CreateUsersRolesTable do
       add(:role_id, references(:roles), primary_key: true)
       add(:user_id, references(:users), primary_key: true)
 
-      timestamps()
+      #timestamps()
     end
 
     create(index(:users_roles, [:role_id]))
