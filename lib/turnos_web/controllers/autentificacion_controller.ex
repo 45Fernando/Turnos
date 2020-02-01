@@ -21,7 +21,7 @@ defmodule TurnosWeb.AutentificacionController do
 
       conn
         |> put_resp_header("authorization", "Bearer #{jwt}")
-        |> render("auth.json", user: usuario, token: jwt)
+        |> render("auth.json", user: usuario, token: jwt, roles: usuario.roles)
         #|> json(%{data: %{token: jwt}})
 
 

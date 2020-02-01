@@ -35,7 +35,7 @@ defmodule Turnos.Users do
       ** (Ecto.NoResultsError)
 
   """
-  def get_user!(id), do: Repo.get!(User, id)
+  def get_user!(id), do: Repo.get!(User, id) |> Repo.preload(:roles)
 
   @doc """
   Creates a usuario.
@@ -114,8 +114,9 @@ defmodule Turnos.Users do
   end
 
   def login_email_password(mail, password) do
-    with  %User{} = user <- Repo.get_by(User, mail: mail),
+    with  %User{} = user <- Repo.get_by(User, mail: mail) |> Repo.preload(:roles),
           true <- Argon2.verify_pass(password, user.password_hash) do
+      IO.inspect(user, label: "Usuario")
       {:ok, user}
     else
       _ ->

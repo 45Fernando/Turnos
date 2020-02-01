@@ -20,8 +20,10 @@ defmodule TurnosWeb.UserController do
     end
   end
 
+  @spec show(Plug.Conn.t(), map) :: Plug.Conn.t()
   def show(conn, %{"id" => id}) do
     user = Users.get_user!(id)
+    IO.inspect(user, label: "usuario")
     render(conn, "show.json", user: user)
   end
 
@@ -41,6 +43,12 @@ defmodule TurnosWeb.UserController do
 
     with {:ok, %User{}} <- Users.delete_user(user) do
       send_resp(conn, :no_content, "")
+    end
+  end
+
+  def update_user_roles(conn, params) do
+    with {:ok, %User{} = user} <- Users.upsert_user_roles(params.user, params.roles) do
+      render(conn, "show.json", user: user)
     end
   end
 end
