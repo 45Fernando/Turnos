@@ -23,7 +23,6 @@ defmodule TurnosWeb.UserController do
   @spec show(Plug.Conn.t(), map) :: Plug.Conn.t()
   def show(conn, %{"id" => id}) do
     user = Users.get_user!(id)
-    IO.inspect(user, label: "usuario")
     render(conn, "show.json", user: user)
   end
 

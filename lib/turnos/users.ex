@@ -35,7 +35,12 @@ defmodule Turnos.Users do
       ** (Ecto.NoResultsError)
 
   """
-  def get_user!(id), do: Repo.get!(User, id) |> Repo.preload(:roles)
+  def get_user!(id) do
+    Repo.get!(User, id)
+    |> Repo.preload(:roles)
+    |> Repo.preload(:medicalsinsurances)
+    |> Repo.preload(:offices)
+  end
 
   @doc """
   Creates a usuario.

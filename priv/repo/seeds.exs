@@ -13,6 +13,8 @@
 alias Turnos.Repo
 alias Turnos.Roles.Role
 alias Turnos.Users.User
+alias Turnos.MedicalsInsurances.MedicalInsurance
+alias Turnos.Offices.Office
 
 #Seed de Roles
 Repo.delete_all(Role)
@@ -111,10 +113,62 @@ Enum.each(users_data, fn(data) ->
   Repo.insert!(data)
 end)
 
-#Asociando roles
-roles_data = %{"role_ids" => ["1", "2", "3"]}
 
-Repo.get_by(User, mail: "rodrigocardozo@gmail.com")
-|> Turnos.Users.update_user(roles_data)
+#Obras Sociales
+obrassociales_data = [%MedicalInsurance{
+  cuit: "20789456221",
+  name: "OSUNSa",
+  businessName: "Obra Social de la UNSa",
+  status: true
+},
+%MedicalInsurance{
+  cuit: "20741258391",
+  name: "OSPE",
+  businessName: "Obra Social de Petroleros",
+  status: true
+},
+%MedicalInsurance{
+  cuit: "20789123641",
+  name: "Swiss Medical",
+  businessName: "Swiss Medical",
+  status: true
+}]
 
+Enum.each(obrassociales_data, fn(data) ->
+  Repo.insert!(data)
+end)
+
+#Consultorios
+consultorios_data = [
+  %Office{
+    name: "CEMID",
+    address: "Santa Fe 97",
+    status: true
+  },
+  %Office{
+    name: "Por + Salud",
+    address: "Santa Fe 270",
+    status: true
+  },
+  %Office{
+    name: "Mas Medicina Ambulatoria",
+    address: "Buenos Aires 196",
+    status: true
+  }
+]
+
+Enum.each(consultorios_data, fn(data) ->
+  Repo.insert!(data)
+end)
+#Consiguiendo el changeset de un usuario
+user = Repo.get_by(User, mail: "rodrigocardozo@gmail.com")
+
+#Asociando roles, obras sociales
+lista_data = %{"role_ids" => ["1", "2", "3"],
+              "medicalinsurance_ids" => ["1", "2"],
+              "office_ids" => ["1"]
+            }
+
+user
+|> Turnos.Users.update_user(lista_data)
 

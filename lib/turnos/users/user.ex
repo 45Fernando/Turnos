@@ -24,6 +24,8 @@ defmodule Turnos.Users.User do
     field :professionalPhoneNumber, :string
 
     many_to_many(:roles, Turnos.Roles.Role, join_through: "users_roles", on_replace: :delete)
+    many_to_many(:medicalsinsurances, Turnos.MedicalsInsurances.MedicalInsurance, join_through: "users_medicalsinsurances", on_replace: :delete)
+    many_to_many(:offices, Turnos.Offices.Office, join_through: "users_offices", on_replace: :delete)
 
     timestamps()
   end
@@ -53,12 +55,18 @@ defmodule Turnos.Users.User do
     IO.inspect(attrs, label: "parametros")
     usuario
     |> Repo.preload(:roles)
+    |> Repo.preload(:medicalsinsurances)
+    |> Repo.preload(:offices)
     |> cast(attrs, @lista_cast)
     |> validate_required([])#@lista_validate_require)
-    |> cast_assoc(:roles, with: &Turnos.Roles.Role.changeset/2)
-    |> put_assoc(:roles, load_roles(attrs))
     |> unique_email()
     |> put_pass_hash()
+    |> cast_assoc(:roles, with: &Turnos.Roles.Role.changeset/2)
+    |> put_assoc(:roles, load_roles(attrs))
+    |> cast_assoc(:medicalsinsurances, with: &Turnos.MedicalsInsurances.MedicalInsurance.changeset/2)
+    |> put_assoc(:medicalsinsurances, load_medicalsinsurances(attrs))
+    |> cast_assoc(:offices, with: &Turnos.Offices.Office.changeset/2)
+    |> put_assoc(:offices, load_offices(attrs))
   end
 
   @doc false
@@ -106,7 +114,21 @@ defmodule Turnos.Users.User do
   def load_roles(params) do
     case params["role_ids"] || [] do
       [] -> []
-      ids ->  Repo.all from r in Turnos.Roles.Role, where: r.id in ^ids
+      ids -> Repo.all from r in Turnos.Roles.Role, where: r.id in ^ids
+    end
+  end
+
+  def load_medicalsinsurances(params) do
+    case params["medicalinsurance_ids"] || [] do
+      [] -> []
+      ids -> Repo.all from m in Turnos.MedicalsInsurances.MedicalInsurance, where: m.id in ^ids
+    end
+  end
+
+  def load_offices(params) do
+    case params["office_ids"] || [] do
+      [] -> []
+      ids -> Repo.all from o in Turnos.Offices.Office, where: o.id in ^ids
     end
   end
 

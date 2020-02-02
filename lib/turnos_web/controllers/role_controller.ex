@@ -11,7 +11,7 @@ defmodule TurnosWeb.RoleController do
     render(conn, "index.json", roles: roles)
   end
 
-  def create(conn, %{"role" => role_params}) do
+  def create(conn, role_params) do
     with {:ok, %Role{} = role} <- Roles.create_role(role_params) do
       conn
       |> put_status(:created)

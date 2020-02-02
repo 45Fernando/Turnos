@@ -9,7 +9,9 @@ defmodule TurnosWeb.UserView do
   def render("show.json", %{user: user}) do
     %{data:
       render_one(user, UserView, "user.json"),
-      roles: render_many(user.roles, TurnosWeb.RoleView, "role.json")
+      roles: render_many(user.roles, TurnosWeb.RoleView, "role.json"),
+      medicalsinsurances: render_many(user.medicalsinsurances, TurnosWeb.MedicalInsuranceView, "medical_insurance.json"),
+      offices: render_many(user.offices, TurnosWeb.OfficeView, "office.json")
     }
   end
 
