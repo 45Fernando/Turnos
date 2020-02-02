@@ -25,10 +25,12 @@ defmodule TurnosWeb.RoleController do
     render(conn, "show.json", role: role)
   end
 
-  def update(conn, %{"id" => id, "role" => role_params}) do
+  def update(conn, params) do
+    id = params["id"]
     role = Roles.get_role!(id)
+    params = Map.delete(params, "id")
 
-    with {:ok, %Role{} = role} <- Roles.update_role(role, role_params) do
+    with {:ok, %Role{} = role} <- Roles.update_role(role, params) do
       render(conn, "show.json", role: role)
     end
   end

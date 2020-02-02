@@ -22,7 +22,7 @@ defmodule TurnosWeb.Router do
     #Todo de aca para abajo va a pasar por la autentificacion.
     pipe_through :authenticated
 
-    resources "/users", UserController, except: [:new, :create, :edit]
-    resources "/roles", RoleController, except: [:new, :edit]
+    resources "/users", UserController, except: [:new, :create, :edit, :delete]
+    resources "/roles", RoleController, except: [:new, :edit, :delete]
   end
 end

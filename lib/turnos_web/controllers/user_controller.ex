@@ -46,12 +46,4 @@ defmodule TurnosWeb.UserController do
     end
   end
 
-  def update_user_roles(conn, params) do
-    id = params["id"]
-    user = Users.get_user!(id)
-
-    with {:ok, %User{} = user} <- Users.upsert_user_roles(user, params.roles) do
-      render(conn, "show.json", user: user)
-    end
-  end
 end

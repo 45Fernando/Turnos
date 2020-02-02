@@ -50,6 +50,7 @@ defmodule Turnos.Users.User do
   end
 
   def update_changeset(usuario, attrs) do
+    IO.inspect(attrs, label: "parametros")
     usuario
     |> Repo.preload(:roles)
     |> cast(attrs, @lista_cast)
@@ -103,19 +104,10 @@ defmodule Turnos.Users.User do
 
   #Cargando los roles
   def load_roles(params) do
-    IO.inspect(params, label: "parametros")
     case params["role_ids"] || [] do
       [] -> []
       ids ->  Repo.all from r in Turnos.Roles.Role, where: r.id in ^ids
     end
   end
 
-  #Agregando para añadir roles
-  def changeset_update_roles(user, roles) do
-    user
-    #|> cast(@required_fields)
-    |> cast(%{}, [])
-    # associate roles to the user
-    |> put_assoc(:roles, roles)
-  end
 end

@@ -18,23 +18,16 @@ alias Turnos.Users.User
 Repo.delete_all(Role)
 
 #Roles
-Repo.insert!(%Role{
-  roleName: "admin"
-})
+roles_data = [%Role{ roleName: "admin"}, %Role{ roleName: "profesional"}, %Role{ roleName: "paciente"}]
 
-Repo.insert!(%Role{
-  roleName: "profesional"
-})
-
-Repo.insert!(%Role{
-  roleName: "paciente"
-})
+Enum.each(roles_data, fn(data) ->
+  Repo.insert!(data)
+end)
 
 # Seed de Users
 Repo.delete_all(User)
 
-# Doctores
-Repo.insert!(%User{
+users_data = [%User{
   lastname: "Perez",
   mobilePhoneNumber: "3875147852",
   password_hash: Argon2.add_hash("123456") |> Map.get(:password_hash),
@@ -51,9 +44,8 @@ Repo.insert!(%User{
   name: "Juan",
   phoneNumber: "3874283312",
   professionalPhoneNumber: "3874963852"
-})
-
-Repo.insert!(%User{
+},
+ %User{
   lastname: "Gutierrez",
   mobilePhoneNumber: "3875852963",
   password_hash: Argon2.add_hash("123456") |> Map.get(:password_hash),
@@ -70,10 +62,8 @@ Repo.insert!(%User{
   name: "Norma",
   phoneNumber: "3874283312",
   professionalPhoneNumber: "3874963852"
-})
-
-# Users
-Repo.insert!(%User{
+},
+%User{
   lastname: "Orquera",
   mobilePhoneNumber: "3875444666",
   password_hash: Argon2.add_hash("123456") |> Map.get(:password_hash),
@@ -86,9 +76,8 @@ Repo.insert!(%User{
   mail: "fernandoexequielorquera@gmail.com",
   name: "Fernando",
   phoneNumber: "3874283312"
-})
-
-Repo.insert!(%User{
+},
+%User{
   lastname: "Benavidez",
   mobilePhoneNumber: "3875777888",
   password_hash: Argon2.add_hash("123456") |> Map.get(:password_hash),
@@ -101,9 +90,8 @@ Repo.insert!(%User{
   mail: "josebenavidez@gmail.com",
   name: "Jose",
   phoneNumber: "3874666999"
-})
-
-Repo.insert!(%User{
+},
+%User{
   lastname: "Cardozo",
   mobilePhoneNumber: "3875777888",
   password_hash: Argon2.add_hash("123456") |> Map.get(:password_hash),
@@ -116,4 +104,17 @@ Repo.insert!(%User{
   mail: "rodrigocardozo@gmail.com",
   name: "Rodrigo",
   phoneNumber: "3876111555"
-})
+}]
+
+
+Enum.each(users_data, fn(data) ->
+  Repo.insert!(data)
+end)
+
+#Asociando roles
+roles_data = %{"role_ids" => ["1", "2", "3"]}
+
+Repo.get_by(User, mail: "rodrigocardozo@gmail.com")
+|> Turnos.Users.update_user(roles_data)
+
+
