@@ -30,43 +30,67 @@ defmodule Turnos.Users.User do
     timestamps()
   end
 
-  @lista_cast ~w(name lastname dni mail address professionalAddress password
+  @lista_cast ~w(name lastname dni mail address professionalAddress
   phoneNumber professionalPhoneNumber mobilePhoneNumber profilePicture status birthDate cuil nationalRegistration
- provincialRegistration)a
+  provincialRegistration)a
 
- @lista_validate_require ~w(name lastname dni mail address professionalAddress password
+  @lista_validate_require ~w(name lastname dni mail address professionalAddress
    phoneNumber professionalPhoneNumber mobilePhoneNumber profilePicture status birthDate cuil nationalRegistration
   provincialRegistration)a
 
   @lista_create_cast ~w(name lastname mail password)a
   @lista_create_validate_require ~w(name lastname mail password)a
 
+  @lista_change_password_cast ~w(password)a
+  @lista_change_password_validate_require ~w(password)a
 
   def create_changeset(usuario, attrs) do
     usuario
     |> cast(attrs, @lista_create_cast)
-    |> validate_required(@lista_create_validate_require)
+    |> validate_required([])#@lista_create_validate_require
     |> unique_email()
     |> validate_password()
     |> put_pass_hash()
   end
 
   def update_changeset(usuario, attrs) do
-    IO.inspect(attrs, label: "parametros")
     usuario
-    |> Repo.preload(:roles)
-    |> Repo.preload(:medicalsinsurances)
-    |> Repo.preload(:offices)
     |> cast(attrs, @lista_cast)
-    |> validate_required([])#@lista_validate_require)
+    |> validate_required(@lista_validate_require)
     |> unique_email()
     |> put_pass_hash()
-    |> cast_assoc(:roles, with: &Turnos.Roles.Role.changeset/2)
-    |> put_assoc(:roles, load_roles(attrs))
+  end
+
+  def update_changeset_password(usuario, attrs) do
+    usuario
+    |> cast(attrs, @lista_change_password_cast)
+    |> validate_required(@lista_change_password_validate_require)
+    |> unique_email()
+    |> put_pass_hash()
+  end
+
+  def update_changeset_mi(usuario, attrs) do
+    usuario
+    |> Repo.preload(:medicalsinsurances)
+    |> cast(attrs, [])
     |> cast_assoc(:medicalsinsurances, with: &Turnos.MedicalsInsurances.MedicalInsurance.changeset/2)
     |> put_assoc(:medicalsinsurances, load_medicalsinsurances(attrs))
+  end
+
+  def update_changeset_offices(usuario, attrs) do
+    usuario
+    |> Repo.preload(:offices)
+    |> cast(attrs, [])
     |> cast_assoc(:offices, with: &Turnos.Offices.Office.changeset/2)
     |> put_assoc(:offices, load_offices(attrs))
+  end
+
+  def update_changeset_roles(usuario, attrs) do
+    usuario
+    |> Repo.preload(:roles)
+    |> cast(attrs, [])
+    |> cast_assoc(:roles, with: &Turnos.Roles.Role.changeset/2)
+    |> put_assoc(:roles, load_roles(attrs))
   end
 
   @doc false

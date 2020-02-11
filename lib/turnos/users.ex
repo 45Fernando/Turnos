@@ -78,8 +78,32 @@ defmodule Turnos.Users do
     |> Repo.update()
   end
 
+  def update_password(%User{} = user, attrs) do
+    user
+    |> User.update_changeset_password(attrs)
+    |> Repo.update()
+  end
+
+  def update_user_mi(%User{} = user, attrs) do
+    user
+    |> User.update_changeset_mi(attrs)
+    |> Repo.update()
+  end
+
+  def update_user_offices(%User{} = user, attrs) do
+    user
+    |> User.update_changeset_offices(attrs)
+    |> Repo.update()
+  end
+
+  def update_user_roles(%User{} = user, attrs) do
+    user
+    |> User.update_changeset_roles(attrs)
+    |> Repo.update()
+  end
+
   @doc """
-  Deletes a Usuario.
+  Deletes a Usuario>
 
   ## Examples
 

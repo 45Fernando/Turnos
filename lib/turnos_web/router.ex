@@ -23,6 +23,13 @@ defmodule TurnosWeb.Router do
     pipe_through :authenticated
 
     resources "/users", UserController, except: [:new, :create, :edit, :delete]
+    put "/users/:id/updatepassword", UserController, :update_password
+    put "/users/:id/medicalsinsurances", UserController, :update_medicalsinsurances
+    get "/users/:id/medicalsinsurances", UserController, :show_medicalsinsurances
+    put "/users/:id/offices", UserController, :update_offices
+    get "/users/:id/offices", UserController, :show_offices
+    put "/users/:id/roles", UserController, :update_roles
+
     resources "/roles", RoleController, except: [:new, :edit, :delete]
     resources "/medicalsinsurances", MedicalInsuranceController, except: [:new, :edit, :delete]
     resources "/offices", OfficeController, except: [:new, :edit, :delete]
