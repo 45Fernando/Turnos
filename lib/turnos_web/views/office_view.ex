@@ -7,7 +7,11 @@ defmodule TurnosWeb.OfficeView do
   end
 
   def render("show.json", %{office: office}) do
-    %{data: render_one(office, OfficeView, "office.json")}
+    %{data:
+      render_one(office, OfficeView, "office.json"),
+      officesdays: render_many(office.officesdays, TurnosWeb.OfficesDaysView, "office_day.json")
+  }
+
   end
 
   def render("office.json", %{office: office}) do

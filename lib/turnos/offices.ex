@@ -35,7 +35,10 @@ defmodule Turnos.Offices do
       ** (Ecto.NoResultsError)
 
   """
-  def get_office!(id), do: Repo.get!(Office, id)
+  def get_office!(id) do
+    Repo.get!(Office, id)
+    |> Repo.preload(officesdays: [:days])
+  end
 
   @doc """
   Creates a office.

@@ -15,6 +15,7 @@ alias Turnos.Roles.Role
 alias Turnos.Users.User
 alias Turnos.MedicalsInsurances.MedicalInsurance
 alias Turnos.Offices.Office
+alias Turnos.Days.Day
 
 #Seed de Roles
 Repo.delete_all(Role)
@@ -160,15 +161,71 @@ consultorios_data = [
 Enum.each(consultorios_data, fn(data) ->
   Repo.insert!(data)
 end)
+
+#Dias
+dias_data = [
+  %Day{
+    name: "Lunes"
+  },
+  %Day{
+    name: "Martes"
+  },
+  %Day{
+    name: "Miercoles"
+  },
+  %Day{
+    name: "Jueves"
+  },
+  %Day{
+    name: "Viernes"
+  },
+  %Day{
+    name: "Sabado"
+  },
+  %Day{
+    name: "Domingo"
+  }
+]
+
+Enum.each(dias_data, fn(data) ->
+  Repo.insert!(data)
+end)
+
+
 #Consiguiendo el changeset de un usuario
 user = Repo.get_by(User, mail: "rodrigocardozo@gmail.com")
 
-#Asociando roles, obras sociales
-lista_data = %{"role_ids" => ["1", "2", "3"],
-              "medicalinsurance_ids" => ["1", "2"],
-              "office_ids" => ["1"]
-            }
+#Asociando roles
+lista_roles = %{"role_ids" => ["1", "2", "3"]}
 
 user
-|> Turnos.Users.update_user(lista_data)
+|> Turnos.Users.update_user_roles(lista_roles)
 
+#Asociando consultorios
+lista_mi = %{"medicalinsurance_ids" => ["1", "2"]}
+
+user
+|> Turnos.Users.update_user_mi(lista_mi)
+
+#Asociando oficinas
+lista_offices = %{"office_ids" => ["1"]}
+
+user
+|> Turnos.Users.update_user_offices(lista_offices)
+
+#Consiguiendo el changeset de un consultorio
+office = Repo.get_by(Office, id: 1)
+
+#Asociando dias y horarios a un consultorio
+lista_officesdays = %{"officesdays" => [
+  %{day_id: "1", timeFrom: "09:00:00", timeTo: "21:00:00"},
+  %{day_id: "2", timeFrom: "09:00:00", timeTo: "21:00:00"},
+  %{day_id: "3", timeFrom: "09:00:00", timeTo: "13:00:00"},
+  %{day_id: "3", timeFrom: "17:00:00", timeTo: "21:00:00"},
+  %{day_id: "4", timeFrom: "09:00:00", timeTo: "21:00:00"},
+  %{day_id: "5", timeFrom: "09:00:00", timeTo: "21:00:00"},
+  %{day_id: "6", timeFrom: "09:00:00", timeTo: "13:00:00"},
+  ]}
+
+office
+|> Turnos.Offices.update_office(lista_officesdays)

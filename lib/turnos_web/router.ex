@@ -33,5 +33,6 @@ defmodule TurnosWeb.Router do
     resources "/roles", RoleController, except: [:new, :edit, :delete]
     resources "/medicalsinsurances", MedicalInsuranceController, except: [:new, :edit, :delete]
     resources "/offices", OfficeController, except: [:new, :edit, :delete]
+    resources "/days", DayController, except: [:new, :edit, :delete]
   end
 end

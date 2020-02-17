@@ -47,7 +47,7 @@ defmodule Turnos.Users.User do
   def create_changeset(usuario, attrs) do
     usuario
     |> cast(attrs, @lista_create_cast)
-    |> validate_required([])#@lista_create_validate_require
+    |> validate_required(@lista_create_validate_require)#
     |> unique_email()
     |> validate_password()
     |> put_pass_hash()
