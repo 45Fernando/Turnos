@@ -25,7 +25,7 @@ defmodule Turnos.Users.User do
 
     many_to_many(:roles, Turnos.Roles.Role, join_through: "users_roles", on_replace: :delete)
     many_to_many(:medicalsinsurances, Turnos.MedicalsInsurances.MedicalInsurance, join_through: "users_medicalsinsurances", on_replace: :delete)
-    many_to_many(:offices, Turnos.Offices.Office, join_through: "users_offices", on_replace: :delete)
+    has_many(:usersoffices, Turnos.UsersOffices.UserOffice, foreign_key: :user_id, on_replace: :delete)
 
     timestamps()
   end
@@ -79,10 +79,9 @@ defmodule Turnos.Users.User do
 
   def update_changeset_offices(usuario, attrs) do
     usuario
-    |> Repo.preload(:offices)
+    |> Repo.preload(:usersoffices)
     |> cast(attrs, [])
-    |> cast_assoc(:offices, with: &Turnos.Offices.Office.changeset/2)
-    |> put_assoc(:offices, load_offices(attrs))
+    |> cast_assoc(:usersoffices, with: &Turnos.UsersOffices.UserOffice.changeset/2)
   end
 
   def update_changeset_roles(usuario, attrs) do

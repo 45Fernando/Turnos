@@ -39,7 +39,7 @@ defmodule Turnos.Users do
     Repo.get!(User, id)
     |> Repo.preload(:roles)
     |> Repo.preload(:medicalsinsurances)
-    |> Repo.preload(:offices)
+    |> Repo.preload(usersoffices: [:offices, :days])
   end
 
   @doc """

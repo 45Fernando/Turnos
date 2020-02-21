@@ -11,6 +11,7 @@ defmodule Turnos.Offices.Office do
 
     many_to_many(:users, Turnos.Users.User, join_through: "users_offices", on_replace: :delete)
     has_many(:officesdays, Turnos.OfficesDays.OfficeDay, foreign_key: :office_id, on_replace: :delete)
+    has_many(:usersoffices, Turnos.UsersOffices.UserOffice, foreign_key: :office_id, on_replace: :delete)
 
     timestamps()
   end

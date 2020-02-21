@@ -23,7 +23,7 @@ defmodule TurnosWeb.UserView do
   def render("show_offices.json", %{user: user}) do
     %{data:
         render_one(user, UserView, "user.json"),
-        offices: render_many(user.offices, TurnosWeb.OfficeView, "office.json")
+        usersoffices: render_many(user.usersoffices, TurnosWeb.UsersOfficesView, "user_office.json")
   }
   end
 

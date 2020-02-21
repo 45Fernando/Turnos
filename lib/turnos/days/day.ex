@@ -6,6 +6,7 @@ defmodule Turnos.Days.Day do
     field :name, :string
 
     has_many(:daysoffices, Turnos.OfficesDays.OfficeDay, foreign_key: :day_id, on_replace: :delete)
+    has_many(:usersoffices, Turnos.UsersOffices.UserOffice, foreign_key: :day_id, on_replace: :delete)
 
     timestamps()
   end

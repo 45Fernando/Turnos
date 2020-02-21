@@ -208,10 +208,18 @@ user
 |> Turnos.Users.update_user_mi(lista_mi)
 
 #Asociando oficinas
-lista_offices = %{"office_ids" => ["1"]}
+lista_usersoffices = %{"usersoffices" => [
+  %{office_id: "1", day_id: "1", timeFrom: "09:00:00", timeTo: "21:00:00"},
+  %{office_id: "1", day_id: "2", timeFrom: "09:00:00", timeTo: "21:00:00"},
+  %{office_id: "1", day_id: "3", timeFrom: "09:00:00", timeTo: "13:00:00"},
+  %{office_id: "2", day_id: "3", timeFrom: "17:00:00", timeTo: "21:00:00"},
+  %{office_id: "2", day_id: "4", timeFrom: "09:00:00", timeTo: "21:00:00"},
+  %{office_id: "2", day_id: "5", timeFrom: "09:00:00", timeTo: "21:00:00"},
+  %{office_id: "2", day_id: "6", timeFrom: "09:00:00", timeTo: "13:00:00"},
+  ]}
 
 user
-|> Turnos.Users.update_user_offices(lista_offices)
+|> Turnos.Users.update_user_offices(lista_usersoffices)
 
 #Consiguiendo el changeset de un consultorio
 office = Repo.get_by(Office, id: 1)
