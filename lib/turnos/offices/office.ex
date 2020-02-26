@@ -7,11 +7,10 @@ defmodule Turnos.Offices.Office do
   schema "offices" do
     field :address, :string
     field :name, :string
-    field :status, :boolean, default: false
+    field :status, :boolean, default: true
 
-    many_to_many(:users, Turnos.Users.User, join_through: "users_offices", on_replace: :delete)
-    has_many(:officesdays, Turnos.OfficesDays.OfficeDay, foreign_key: :office_id, on_replace: :delete)
-    has_many(:usersoffices, Turnos.UsersOffices.UserOffice, foreign_key: :office_id, on_replace: :delete)
+    has_many(:officesdays, Turnos.OfficesDays.OfficeDay, foreign_key: :office_id, on_replace: :raise)
+    has_many(:usersoffices, Turnos.UsersOffices.UserOffice, foreign_key: :office_id, on_replace: :raise)
 
     timestamps()
   end
@@ -19,9 +18,7 @@ defmodule Turnos.Offices.Office do
   @doc false
   def changeset(office, attrs) do
     office
-    |> Repo.preload(:officesdays)
     |> cast(attrs, [:name, :address, :status])
     |> validate_required([:name, :address, :status])
-    |> cast_assoc(:officesdays,  with: &Turnos.OfficesDays.OfficeDay.changeset/2)
   end
 end

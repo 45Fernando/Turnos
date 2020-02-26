@@ -7,6 +7,7 @@ defmodule Turnos.Offices do
   alias Turnos.Repo
 
   alias Turnos.Offices.Office
+  alias Turnos.OfficesDays.OfficeDay
 
   @doc """
   Returns the list of offices.
@@ -40,6 +41,10 @@ defmodule Turnos.Offices do
     |> Repo.preload(officesdays: [:days])
   end
 
+  def get_officedayid!(id) do
+    Repo.get!(OfficeDay, id)
+  end
+
   @doc """
   Creates a office.
 
@@ -55,6 +60,12 @@ defmodule Turnos.Offices do
   def create_office(attrs \\ %{}) do
     %Office{}
     |> Office.changeset(attrs)
+    |> Repo.insert()
+  end
+
+  def create_offices_days(attrs \\ %{}) do
+    %OfficeDay{}
+    |> OfficeDay.changeset(attrs)
     |> Repo.insert()
   end
 
@@ -76,6 +87,12 @@ defmodule Turnos.Offices do
     |> Repo.update()
   end
 
+  def update_offices_days(%OfficeDay{} = officeday, attrs) do
+    officeday
+    |> OfficeDay.changeset(attrs)
+    |> Repo.update()
+  end
+
   @doc """
   Deletes a Office.
 
@@ -90,6 +107,10 @@ defmodule Turnos.Offices do
   """
   def delete_office(%Office{} = office) do
     Repo.delete(office)
+  end
+
+  def delete_office_day(%OfficeDay{} = officeday) do
+    Repo.delete(officeday)
   end
 
   @doc """

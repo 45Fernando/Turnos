@@ -7,6 +7,7 @@ defmodule Turnos.Users do
   alias Turnos.Repo
 
   alias Turnos.Users.User
+  alias Turnos.UsersOffices.UserOffice
 
   @doc """
   Returns the list of users.
@@ -38,8 +39,25 @@ defmodule Turnos.Users do
   def get_user!(id) do
     Repo.get!(User, id)
     |> Repo.preload(:roles)
+  end
+
+  def get_usermi!(id) do
+    Repo.get!(User, id)
     |> Repo.preload(:medicalsinsurances)
+  end
+
+  def get_userspecialties!(id) do
+    Repo.get(User, id)
+    |> Repo.preload(:specialties)
+  end
+
+  def get_useroffice!(id) do
+    Repo.get!(User, id)
     |> Repo.preload(usersoffices: [:offices, :days])
+  end
+
+  def get_userofid!(id) do
+    Repo.get!(UserOffice, id)
   end
 
   @doc """
@@ -90,9 +108,22 @@ defmodule Turnos.Users do
     |> Repo.update()
   end
 
-  def update_user_offices(%User{} = user, attrs) do
+  def create_user_offices(attrs \\ %{}) do
+    %UserOffice{}
+    |> UserOffice.changeset(attrs)
+    |> Repo.insert()
+  end
+
+
+  def update_user_offices(%UserOffice{} = useroffice, attrs) do
+    useroffice
+    |> UserOffice.changeset(attrs)
+    |> Repo.update()
+  end
+
+  def update_user_specialties(%User{} = user, attrs) do
     user
-    |> User.update_changeset_offices(attrs)
+    |> User.update_changeset_specialties(attrs)
     |> Repo.update()
   end
 
@@ -116,6 +147,10 @@ defmodule Turnos.Users do
   """
   def delete_user(%User{} = user) do
     Repo.delete(user)
+  end
+
+  def delete_user_office(%UserOffice{} = useroffice) do
+    Repo.delete(useroffice)
   end
 
   @doc """

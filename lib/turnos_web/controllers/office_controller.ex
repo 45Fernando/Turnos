@@ -22,7 +22,10 @@ defmodule TurnosWeb.OfficeController do
 
   def show(conn, %{"id" => id}) do
     office = Offices.get_office!(id)
-    render(conn, "show.json", office: office)
+
+    conn
+    |> put_view(TurnosWeb.OfficeView)
+    |> render("show.json", office: office)
   end
 
   def update(conn, office_params) do

@@ -20,6 +20,13 @@ defmodule TurnosWeb.UserView do
   }
   end
 
+  def render("show_specialties.json", %{user: user}) do
+    %{data:
+        render_one(user, UserView, "user.json"),
+        specialties: render_many(user.specialties, TurnosWeb.SpecialtyView, "specialty.json")
+  }
+  end
+
   def render("show_offices.json", %{user: user}) do
     %{data:
         render_one(user, UserView, "user.json"),

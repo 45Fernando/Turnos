@@ -25,7 +25,8 @@ defmodule Turnos.Users.User do
 
     many_to_many(:roles, Turnos.Roles.Role, join_through: "users_roles", on_replace: :delete)
     many_to_many(:medicalsinsurances, Turnos.MedicalsInsurances.MedicalInsurance, join_through: "users_medicalsinsurances", on_replace: :delete)
-    has_many(:usersoffices, Turnos.UsersOffices.UserOffice, foreign_key: :user_id, on_replace: :delete)
+    many_to_many(:specialties, Turnos.Specialties.Specialty, join_through: "users_specialties", on_replace: :delete)
+    has_many(:usersoffices, Turnos.UsersOffices.UserOffice, foreign_key: :user_id, on_replace: :raise)
 
     timestamps()
   end
@@ -77,19 +78,20 @@ defmodule Turnos.Users.User do
     |> put_assoc(:medicalsinsurances, load_medicalsinsurances(attrs))
   end
 
-  def update_changeset_offices(usuario, attrs) do
-    usuario
-    |> Repo.preload(:usersoffices)
-    |> cast(attrs, [])
-    |> cast_assoc(:usersoffices, with: &Turnos.UsersOffices.UserOffice.changeset/2)
-  end
-
   def update_changeset_roles(usuario, attrs) do
     usuario
     |> Repo.preload(:roles)
     |> cast(attrs, [])
     |> cast_assoc(:roles, with: &Turnos.Roles.Role.changeset/2)
     |> put_assoc(:roles, load_roles(attrs))
+  end
+
+  def update_changeset_specialties(usuario, attrs) do
+    usuario
+    |> Repo.preload(:specialties)
+    |> cast(attrs, [])
+    |> cast_assoc(:specialties, with: &Turnos.Specialties.Specialty.changeset/2)
+    |> put_assoc(:specialties, load_specialties(attrs))
   end
 
   @doc false
@@ -152,6 +154,13 @@ defmodule Turnos.Users.User do
     case params["office_ids"] || [] do
       [] -> []
       ids -> Repo.all from o in Turnos.Offices.Office, where: o.id in ^ids
+    end
+  end
+
+  def load_specialties(attrs) do
+    case attrs["specialty_ids"] || [] do
+      [] -> []
+      ids -> Repo.all from s in Turnos.Specialties.Specialty, where: s.id in ^ids
     end
   end
 

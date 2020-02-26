@@ -16,6 +16,8 @@ alias Turnos.Users.User
 alias Turnos.MedicalsInsurances.MedicalInsurance
 alias Turnos.Offices.Office
 alias Turnos.Days.Day
+alias Turnos.UsersOffices.UserOffice
+alias Turnos.Specialties.Specialty
 
 #Seed de Roles
 Repo.delete_all(Role)
@@ -191,6 +193,31 @@ Enum.each(dias_data, fn(data) ->
   Repo.insert!(data)
 end)
 
+#Insertando especialidades
+especialidades_data = [
+  %Specialty{
+    name: "Ginecologia"
+  },
+  %Specialty{
+    name: "Dermatologia"
+  },
+  %Specialty{
+    name: "Cardiologia"
+  },
+  %Specialty{
+    name: "Oftalmologia"
+  },
+  %Specialty{
+    name: "Pediatria"
+  },
+  %Specialty{
+    name: "Infectologia"
+  }
+]
+
+Enum.each(especialidades_data, fn(data) ->
+  Repo.insert!(data)
+end)
 
 #Consiguiendo el changeset de un usuario
 user = Repo.get_by(User, mail: "rodrigocardozo@gmail.com")
@@ -201,6 +228,12 @@ lista_roles = %{"role_ids" => ["1", "2", "3"]}
 user
 |> Turnos.Users.update_user_roles(lista_roles)
 
+#Asociando especialidades
+lista_especialidades = %{"specialty_ids" => ["1", "2", "3"]}
+
+user
+|> Turnos.Users.update_user_specialties(lista_especialidades)
+
 #Asociando consultorios
 lista_mi = %{"medicalinsurance_ids" => ["1", "2"]}
 
@@ -208,32 +241,34 @@ user
 |> Turnos.Users.update_user_mi(lista_mi)
 
 #Asociando oficinas
-lista_usersoffices = %{"usersoffices" => [
-  %{office_id: "1", day_id: "1", timeFrom: "09:00:00", timeTo: "21:00:00"},
-  %{office_id: "1", day_id: "2", timeFrom: "09:00:00", timeTo: "21:00:00"},
-  %{office_id: "1", day_id: "3", timeFrom: "09:00:00", timeTo: "13:00:00"},
-  %{office_id: "2", day_id: "3", timeFrom: "17:00:00", timeTo: "21:00:00"},
-  %{office_id: "2", day_id: "4", timeFrom: "09:00:00", timeTo: "21:00:00"},
-  %{office_id: "2", day_id: "5", timeFrom: "09:00:00", timeTo: "21:00:00"},
-  %{office_id: "2", day_id: "6", timeFrom: "09:00:00", timeTo: "13:00:00"},
-  ]}
+lista_usersoffices = [
+    %{user_id: "5", office_id: "1", day_id: "1", timeFrom: "09:00:00", timeTo: "21:00:00"},
+    %{user_id: "5", office_id: "1", day_id: "2", timeFrom: "09:00:00", timeTo: "21:00:00"},
+    %{user_id: "5", office_id: "1", day_id: "3", timeFrom: "09:00:00", timeTo: "13:00:00"},
+    %{user_id: "5", office_id: "2", day_id: "3", timeFrom: "17:00:00", timeTo: "21:00:00"},
+    %{user_id: "5", office_id: "2", day_id: "4", timeFrom: "09:00:00", timeTo: "21:00:00"},
+    %{user_id: "5", office_id: "2", day_id: "5", timeFrom: "09:00:00", timeTo: "21:00:00"},
+    %{user_id: "5", office_id: "2", day_id: "6", timeFrom: "09:00:00", timeTo: "13:00:00"}
+  ]
 
-user
-|> Turnos.Users.update_user_offices(lista_usersoffices)
+Enum.each(lista_usersoffices, fn(data) ->
+    Turnos.Users.create_user_offices(data)
+end)
 
 #Consiguiendo el changeset de un consultorio
 office = Repo.get_by(Office, id: 1)
 
 #Asociando dias y horarios a un consultorio
-lista_officesdays = %{"officesdays" => [
-  %{day_id: "1", timeFrom: "09:00:00", timeTo: "21:00:00"},
-  %{day_id: "2", timeFrom: "09:00:00", timeTo: "21:00:00"},
-  %{day_id: "3", timeFrom: "09:00:00", timeTo: "13:00:00"},
-  %{day_id: "3", timeFrom: "17:00:00", timeTo: "21:00:00"},
-  %{day_id: "4", timeFrom: "09:00:00", timeTo: "21:00:00"},
-  %{day_id: "5", timeFrom: "09:00:00", timeTo: "21:00:00"},
-  %{day_id: "6", timeFrom: "09:00:00", timeTo: "13:00:00"},
-  ]}
+lista_officesdays = [
+  %{office_id: "1", day_id: "1", timeFrom: "09:00:00", timeTo: "21:00:00"},
+  %{office_id: "1", day_id: "2", timeFrom: "09:00:00", timeTo: "21:00:00"},
+  %{office_id: "1", day_id: "3", timeFrom: "09:00:00", timeTo: "13:00:00"},
+  %{office_id: "1", day_id: "3", timeFrom: "17:00:00", timeTo: "21:00:00"},
+  %{office_id: "1", day_id: "4", timeFrom: "09:00:00", timeTo: "21:00:00"},
+  %{office_id: "1", day_id: "5", timeFrom: "09:00:00", timeTo: "21:00:00"},
+  %{office_id: "1", day_id: "6", timeFrom: "09:00:00", timeTo: "13:00:00"},
+  ]
 
-office
-|> Turnos.Offices.update_office(lista_officesdays)
+Enum.each(lista_officesdays, fn(data) ->
+    Turnos.Offices.create_offices_days(data)
+end)
