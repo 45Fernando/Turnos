@@ -17,6 +17,7 @@ defmodule TurnosWeb.OfficesDaysView do
     %{id: officeday.id,
       day: render_one(officeday.days, TurnosWeb.DayView, "day.json"),
       timeFrom: officeday.timeFrom,
-      timeTo: officeday.timeTo}
+      timeTo: officeday.timeTo,
+      open: officeday.open}
   end
 end

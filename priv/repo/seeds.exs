@@ -260,13 +260,14 @@ office = Repo.get_by(Office, id: 1)
 
 #Asociando dias y horarios a un consultorio
 lista_officesdays = [
-  %{office_id: "1", day_id: "1", timeFrom: "09:00:00", timeTo: "21:00:00"},
-  %{office_id: "1", day_id: "2", timeFrom: "09:00:00", timeTo: "21:00:00"},
-  %{office_id: "1", day_id: "3", timeFrom: "09:00:00", timeTo: "13:00:00"},
-  %{office_id: "1", day_id: "3", timeFrom: "17:00:00", timeTo: "21:00:00"},
-  %{office_id: "1", day_id: "4", timeFrom: "09:00:00", timeTo: "21:00:00"},
-  %{office_id: "1", day_id: "5", timeFrom: "09:00:00", timeTo: "21:00:00"},
-  %{office_id: "1", day_id: "6", timeFrom: "09:00:00", timeTo: "13:00:00"},
+  %{office_id: "1", day_id: "1", timeFrom: "09:00:00", timeTo: "21:00:00", open: true},
+  %{office_id: "1", day_id: "2", timeFrom: "09:00:00", timeTo: "21:00:00", open: true},
+  %{office_id: "1", day_id: "3", timeFrom: "09:00:00", timeTo: "13:00:00", open: true},
+  %{office_id: "1", day_id: "3", timeFrom: "17:00:00", timeTo: "21:00:00", open: true},
+  %{office_id: "1", day_id: "4", timeFrom: "09:00:00", timeTo: "21:00:00", open: true},
+  %{office_id: "1", day_id: "5", timeFrom: "09:00:00", timeTo: "21:00:00", open: true},
+  %{office_id: "1", day_id: "6", timeFrom: "09:00:00", timeTo: "13:00:00", open: true},
+  %{office_id: "1", day_id: "7", timeFrom: "00:00:00", timeTo: "00:00:00", open: false},
   ]
 
 Enum.each(lista_officesdays, fn(data) ->

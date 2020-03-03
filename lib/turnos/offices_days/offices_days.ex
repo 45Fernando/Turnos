@@ -5,6 +5,7 @@ defmodule Turnos.OfficesDays.OfficeDay do
   schema "offices_days" do
     field :timeFrom, :time
     field :timeTo, :time
+    field :open, :boolean, default: false
 
     belongs_to(:offices, Turnos.Offices.Office, foreign_key: :office_id, on_replace: :raise)
     belongs_to(:days, Turnos.Days.Day, foreign_key: :day_id, on_replace: :raise)
@@ -15,8 +16,8 @@ defmodule Turnos.OfficesDays.OfficeDay do
   @doc false
   def changeset(officeday, attrs) do
     officeday
-    |> cast(attrs, [:office_id, :day_id, :timeFrom, :timeTo])
-    |> validate_required([:timeFrom, :timeTo])
+    |> cast(attrs, [:office_id, :day_id, :timeFrom, :timeTo, :open])
+    |> validate_required([:timeFrom, :timeTo, :open])
     |> assoc_constraint(:days)
     |> assoc_constraint(:offices)
   end

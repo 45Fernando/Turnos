@@ -7,6 +7,7 @@ defmodule Turnos.Repo.Migrations.CreateOfficesDaysTable do
       add :day_id, references(:days)
       add :timeFrom, :time
       add :timeTo, :time
+      add :open, :boolean, default: false
 
       timestamps()
     end
