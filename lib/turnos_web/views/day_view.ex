@@ -1,6 +1,6 @@
-defmodule TurnosWeb.DayView do
+defmodule TurnosWeb.Admin.DayView do
   use TurnosWeb, :view
-  alias TurnosWeb.DayView
+  alias TurnosWeb.Admin.DayView
 
   def render("index.json", %{days: days}) do
     %{data: render_many(days, DayView, "day.json")}

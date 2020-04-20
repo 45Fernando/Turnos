@@ -6,10 +6,6 @@ defmodule TurnosWeb.UserController do
 
   action_fallback TurnosWeb.FallbackController
 
-  def index(conn, _params) do
-    users = Users.list_users()
-    render(conn, "index.json", users: users)
-  end
 
   @spec create(any, :invalid | %{optional(:__struct__) => none, optional(atom | binary) => any}) ::
           any
@@ -17,7 +13,7 @@ defmodule TurnosWeb.UserController do
     with {:ok, %User{} = user} <- Users.create_user(params) do
       conn
       |> put_status(:created)
-      |> put_resp_header("location", Routes.user_path(conn, :show, user))
+      |> put_resp_header("location", Routes.admin_user_path(conn, :show, user))
       |> render("show.json", user: user)
     end
   end

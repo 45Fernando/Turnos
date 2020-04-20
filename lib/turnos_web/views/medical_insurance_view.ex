@@ -1,6 +1,6 @@
-defmodule TurnosWeb.MedicalInsuranceView do
+defmodule TurnosWeb.Admin.MedicalInsuranceView do
   use TurnosWeb, :view
-  alias TurnosWeb.MedicalInsuranceView
+  alias TurnosWeb.Admin.MedicalInsuranceView
 
   def render("index.json", %{medicalsinsurances: medicalsinsurances}) do
     %{data: render_many(medicalsinsurances, MedicalInsuranceView, "medical_insurance.json")}

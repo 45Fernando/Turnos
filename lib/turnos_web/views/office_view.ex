@@ -1,6 +1,6 @@
-defmodule TurnosWeb.OfficeView do
+defmodule TurnosWeb.Admin.OfficeView do
   use TurnosWeb, :view
-  alias TurnosWeb.OfficeView
+  alias TurnosWeb.Admin.OfficeView
 
   def render("index.json", %{offices: offices}) do
     %{data: render_many(offices, OfficeView, "office.json")}

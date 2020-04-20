@@ -1,4 +1,4 @@
-defmodule TurnosWeb.OfficeController do
+defmodule TurnosWeb.Admin.OfficeController do
   use TurnosWeb, :controller
 
   alias Turnos.Offices
@@ -15,7 +15,7 @@ defmodule TurnosWeb.OfficeController do
     with {:ok, %Office{} = office} <- Offices.create_office(office_params) do
       conn
       |> put_status(:created)
-      |> put_resp_header("location", Routes.office_path(conn, :show, office))
+      |> put_resp_header("location", Routes.admin_office_path(conn, :show, office))
       |> render("show.json", office: office)
     end
   end

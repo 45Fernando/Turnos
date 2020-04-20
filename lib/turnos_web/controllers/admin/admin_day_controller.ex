@@ -1,4 +1,4 @@
-defmodule TurnosWeb.DayController do
+defmodule TurnosWeb.Admin.DayController do
   use TurnosWeb, :controller
 
   alias Turnos.Days
@@ -15,7 +15,7 @@ defmodule TurnosWeb.DayController do
     with {:ok, %Day{} = day} <- Days.create_day(day_params) do
       conn
       |> put_status(:created)
-      |> put_resp_header("location", Routes.day_path(conn, :show, day))
+      |> put_resp_header("location", Routes.admin_day_path(conn, :show, day))
       |> render("show.json", day: day)
     end
   end

@@ -1,6 +1,6 @@
-defmodule TurnosWeb.SpecialtyView do
+defmodule TurnosWeb.Admin.SpecialtyView do
   use TurnosWeb, :view
-  alias TurnosWeb.SpecialtyView
+  alias TurnosWeb.Admin.SpecialtyView
 
   def render("index.json", %{specialties: specialties}) do
     %{data: render_many(specialties, SpecialtyView, "specialty.json")}

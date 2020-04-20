@@ -1,4 +1,4 @@
-defmodule TurnosWeb.MedicalInsuranceController do
+defmodule TurnosWeb.Admin.MedicalInsuranceController do
   use TurnosWeb, :controller
 
   alias Turnos.MedicalsInsurances
@@ -15,7 +15,7 @@ defmodule TurnosWeb.MedicalInsuranceController do
     with {:ok, %MedicalInsurance{} = medical_insurance} <- MedicalsInsurances.create_medical_insurance(medical_insurance_params) do
       conn
       |> put_status(:created)
-      |> put_resp_header("location", Routes.medical_insurance_path(conn, :show, medical_insurance))
+      |> put_resp_header("location", Routes.admin_medical_insurance_path(conn, :show, medical_insurance))
       |> render("show.json", medical_insurance: medical_insurance)
     end
   end

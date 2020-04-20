@@ -39,6 +39,7 @@ config :ueberauth, Ueberauth,
 
 #Configuracion de Guardian
 config :turnos, Turnos.Guardian,
+    hooks: GuardianDb,
     issuer: "Auth",
     secret_key: "YiCdBySVeRaFe3NYHp40ryepP+7eSaxsJ9WI1bvqQzFFiDcClp0RfY9t/DuKazD+",
 
@@ -51,6 +52,12 @@ config :turnos, Turnos.Guardian,
 config :turnos, TurnosWeb.Plugs.AuthAccessPipeline,
 module: Turnos.Guardian,
 error_handler: TurnosWeb.Plugs.AuthErrorHandler
+
+config :guardian, Guardian.DB,
+  repo: Turnos.Repo, # Add your repository module
+  schema_name: "guardian_tokens", # default
+  #token_types: ["refresh_token"], # store all token types if not set
+  sweep_interval: 120 # default: 60 minutes
 
 
 # Import environment specific config. This must remain at the bottom

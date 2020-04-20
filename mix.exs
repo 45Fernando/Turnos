@@ -20,7 +20,7 @@ defmodule Turnos.MixProject do
   def application do
     [
       mod: {Turnos.Application, []},
-      extra_applications: [:logger, :runtime_tools]
+      extra_applications: [:logger, :runtime_tools, :guardian_db]
     ]
   end
 
@@ -47,7 +47,8 @@ defmodule Turnos.MixProject do
       {:ueberauth, "~> 0.6.2"},
       {:ueberauth_identity, "~> 0.3.0"},
       {:guardian, "~> 2.0"},
-      {:cors_plug, "~> 2.0"}
+      {:cors_plug, "~> 2.0"},
+      {:guardian_db, "~> 2.0"}
     ]
   end
 

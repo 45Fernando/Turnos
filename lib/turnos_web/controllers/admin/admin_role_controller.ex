@@ -1,4 +1,4 @@
-defmodule TurnosWeb.RoleController do
+defmodule TurnosWeb.Admin.RoleController do
   use TurnosWeb, :controller
 
   alias Turnos.Roles
@@ -15,7 +15,7 @@ defmodule TurnosWeb.RoleController do
     with {:ok, %Role{} = role} <- Roles.create_role(role_params) do
       conn
       |> put_status(:created)
-      |> put_resp_header("location", Routes.role_path(conn, :show, role))
+      |> put_resp_header("location", Routes.admin_role_path(conn, :show, role))
       |> render("show.json", role: role)
     end
   end

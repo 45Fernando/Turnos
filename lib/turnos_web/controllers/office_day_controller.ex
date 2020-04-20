@@ -7,9 +7,13 @@ defmodule TurnosWeb.OfficeDayController do
   action_fallback TurnosWeb.FallbackController
 
 
+  @spec create_days(
+          any,
+          :invalid | %{optional(:__struct__) => none, optional(atom | binary) => any}
+        ) :: any
   def create_days(conn, params) do
     with {:ok, %OfficeDay{} = officeday} <- Offices.create_offices_days(params) do
-      TurnosWeb.OfficeController.show(conn, %{"id" => officeday.office_id})
+      TurnosWeb.Admin.OfficeController.show(conn, %{"id" => officeday.office_id})
     end
   end
 
@@ -19,7 +23,7 @@ defmodule TurnosWeb.OfficeDayController do
     params = Map.delete(params, "id")
 
     with {:ok, %OfficeDay{} = officeday} <- Offices.update_offices_days(officed, params) do
-      TurnosWeb.OfficeController.show(conn, %{"id" => officeday.office_id})
+      TurnosWeb.Admin.OfficeController.show(conn, %{"id" => officeday.office_id})
     end
   end
 

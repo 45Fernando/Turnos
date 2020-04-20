@@ -9,7 +9,7 @@ defmodule TurnosWeb.UserOfficeController do
 
   def create_offices(conn, params) do
     with {:ok, %UserOffice{} = useroffice} <- Users.create_user_offices(params) do
-      TurnosWeb.UserController.show_offices(conn, %{"user_id" => useroffice.user_id})
+      TurnosWeb.Admin.UserController.show_offices(conn, %{"user_id" => useroffice.user_id})
     end
   end
 
@@ -19,7 +19,7 @@ defmodule TurnosWeb.UserOfficeController do
     params = Map.delete(params, "id")
 
     with {:ok, %UserOffice{} = useroffice} <- Users.update_user_offices(useroff, params) do
-      TurnosWeb.UserController.show_offices(conn, %{"user_id" => useroffice.user_id})
+      TurnosWeb.Admin.UserController.show_offices(conn, %{"user_id" => useroffice.user_id})
     end
   end
 
