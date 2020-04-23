@@ -11,8 +11,7 @@ defmodule TurnosWeb.Admin.UserController do
     render(conn, "index.json", users: users)
   end
 
-  @spec create(any, :invalid | %{optional(:__struct__) => none, optional(atom | binary) => any}) ::
-          any
+
   def create(conn, params) do
     with {:ok, %User{} = user} <- Users.create_user(params) do
       conn
@@ -22,7 +21,6 @@ defmodule TurnosWeb.Admin.UserController do
     end
   end
 
-  @spec show(Plug.Conn.t(), map) :: Plug.Conn.t()
   def show(conn, %{"id" => id}) do
     user = Users.get_user!(id)
     render(conn, "show.json", user: user)

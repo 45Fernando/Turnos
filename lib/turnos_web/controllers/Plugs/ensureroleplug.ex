@@ -39,7 +39,7 @@ defmodule TurnosWeb.Plugs.EnsureRolePlug do
   defp maybe_halt(_any, conn) do
     conn
     |> put_status(401)
-    |> json(%{message: "Unauthorized access -Unauthorized roles "})
+    |> json(%{message: "Unauthorized access - Unauthorized roles "})
     |> halt()
   end
 

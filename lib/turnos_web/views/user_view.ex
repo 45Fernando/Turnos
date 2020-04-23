@@ -9,7 +9,8 @@ defmodule TurnosWeb.Admin.UserView do
   def render("show.json", %{user: user}) do
     %{data:
       render_one(user, UserView, "user.json"),
-      roles: render_many(user.roles, TurnosWeb.RoleView, "role.json")
+      roles: render_many(user.roles, TurnosWeb.Admin.RoleView, "role.json"),
+      country: render_one(user.countries, TurnosWeb.Admin.CountryView, "country.json")
     }
   end
 

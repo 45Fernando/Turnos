@@ -44,7 +44,7 @@ defmodule TurnosWeb.Router do
       get "/users/:user_id/offices/", Admin.UserController, :show_offices
       delete "/users/:user_id/offices/:id", UserOfficeController, :delete_office
 
-
+      resources "/countries", Admin.CountryController, except: [:new, :edit]
       resources "/roles", Admin.RoleController, except: [:new, :create, :edit, :delete]
       resources "/medicalsinsurances", Admin.MedicalInsuranceController, except: [:new, :edit, :delete]
 

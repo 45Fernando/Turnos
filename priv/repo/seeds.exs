@@ -18,6 +18,33 @@ alias Turnos.Offices.Office
 alias Turnos.Days.Day
 alias Turnos.UsersOffices.UserOffice
 alias Turnos.Specialties.Specialty
+alias Turnos.Countries.Country
+
+#Insertando paises
+Repo.delete_all(Country)
+
+paises_data = [
+  %Country{
+    name: "Argentina",
+    code: "AR"
+  },
+  %Country{
+    name: "Belgica",
+    code: "BE"
+  },
+  %Country{
+    name: "Canada",
+    code: "CA"
+  },
+  %Country{
+    name: "Francia",
+    code: "FR"
+  }
+]
+
+Enum.each(paises_data, fn(data) ->
+  Repo.insert!(data)
+end)
 
 #Seed de Roles
 Repo.delete_all(Role)
@@ -48,7 +75,8 @@ users_data = [%User{
   nationalRegistration: "5555",
   name: "Juan",
   phoneNumber: "3874283312",
-  professionalPhoneNumber: "3874963852"
+  professionalPhoneNumber: "3874963852",
+  countries_id: 1
 },
  %User{
   lastname: "Gutierrez",
@@ -66,7 +94,8 @@ users_data = [%User{
   nationalRegistration: "7365",
   name: "Norma",
   phoneNumber: "3874283312",
-  professionalPhoneNumber: "3874963852"
+  professionalPhoneNumber: "3874963852",
+  countries_id: 1
 },
 %User{
   lastname: "Orquera",
@@ -80,7 +109,8 @@ users_data = [%User{
   profilePicture: "url",
   mail: "fernandoexequielorquera@gmail.com",
   name: "Fernando",
-  phoneNumber: "3874283312"
+  phoneNumber: "3874283312",
+  countries_id: 1
 },
 %User{
   lastname: "Benavidez",
@@ -94,7 +124,8 @@ users_data = [%User{
   profilePicture: "url",
   mail: "josebenavidez@gmail.com",
   name: "Jose",
-  phoneNumber: "3874666999"
+  phoneNumber: "3874666999",
+  countries_id: 1
 },
 %User{
   lastname: "Cardozo",
@@ -108,7 +139,8 @@ users_data = [%User{
   profilePicture: "url",
   mail: "rodrigocardozo@gmail.com",
   name: "Rodrigo",
-  phoneNumber: "3876111555"
+  phoneNumber: "3876111555",
+  countries_id: 1
 }]
 
 
