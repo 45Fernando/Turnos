@@ -27,14 +27,14 @@ defmodule Turnos.Users.User do
     many_to_many(:medicalsinsurances, Turnos.MedicalsInsurances.MedicalInsurance, join_through: "users_medicalsinsurances", on_replace: :delete)
     many_to_many(:specialties, Turnos.Specialties.Specialty, join_through: "users_specialties", on_replace: :delete)
     has_many(:usersoffices, Turnos.UsersOffices.UserOffice, foreign_key: :user_id, on_replace: :raise)
-    belongs_to(:countries, Turnos.Countries.Country)
+    belongs_to(:countries, Turnos.Countries.Country, foreign_key: :countries_id)
 
     timestamps()
   end
 
   @lista_cast ~w(name lastname dni mail address professionalAddress
   phoneNumber professionalPhoneNumber mobilePhoneNumber profilePicture status birthDate cuil nationalRegistration
-  provincialRegistration)a
+  provincialRegistration countries_id)a
 
   @lista_validate_require ~w(name lastname dni mail address professionalAddress
    phoneNumber professionalPhoneNumber mobilePhoneNumber profilePicture status birthDate cuil nationalRegistration
@@ -50,7 +50,7 @@ defmodule Turnos.Users.User do
     usuario
     |> cast(attrs, @lista_create_cast)
     |> validate_required(@lista_create_validate_require)
-    |> foreign_key_constraint(attrs.countries_id)
+    |> foreign_key_constraint(:countries_id)
     |> unique_email()
     |> validate_password()
     |> put_pass_hash()
@@ -60,7 +60,7 @@ defmodule Turnos.Users.User do
     usuario
     |> cast(attrs, @lista_cast)
     |> validate_required(@lista_validate_require)
-    |> foreign_key_constraint(attrs.countries_id) #put_assoc(:country, attrs.countries_id)
+    |> foreign_key_constraint(:countries_id)
     |> unique_email()
     |> put_pass_hash()
   end

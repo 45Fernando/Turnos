@@ -8,7 +8,7 @@ defmodule Turnos.Countries.Country do
 
     timestamps()
 
-    has_many(:users, Turnos.Users.User)
+    has_many(:users, Turnos.Users.User, foreign_key: :countries_id)
   end
 
   @doc false

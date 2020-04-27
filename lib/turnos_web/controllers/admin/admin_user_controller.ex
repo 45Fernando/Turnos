@@ -40,6 +40,7 @@ defmodule TurnosWeb.Admin.UserController do
     {user, params} = get_user_params(params)
 
     with {:ok, %User{} = user} <- Users.update_user(user, params) do
+
       render(conn, "show.json", user: user)
     end
   end

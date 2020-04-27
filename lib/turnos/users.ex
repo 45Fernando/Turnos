@@ -95,7 +95,25 @@ defmodule Turnos.Users do
     user
     |> User.update_changeset(attrs)
     |> Repo.update()
+    |> case do
+      {:ok, user} -> {:ok, Repo.preload(user, :countries, force: true)}
+      error -> error
+    end
   end
+
+  @doc """
+  Como manejar el error en la funcion update, por si hay que cambiarlo mas adelante
+  defp update_child(child, params) do
+  updated_child =
+    child
+    |> Child.changeset(params)
+    |> Repo.update!()
+    |> Repo.preload(:parent, force: true)
+  rescue
+    error in Ecto.InvalidChangesetError -> {:error, error.changeset}
+    error in RuntimeError -> {:error, error.message}
+  end
+  """
 
   def update_password(%User{} = user, attrs) do
     user

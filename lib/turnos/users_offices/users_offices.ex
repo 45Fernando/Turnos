@@ -22,4 +22,5 @@ defmodule Turnos.UsersOffices.UserOffice do
     |> assoc_constraint(:offices)
     |> assoc_constraint(:users)
   end
+
 end
