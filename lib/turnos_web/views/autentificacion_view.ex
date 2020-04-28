@@ -1,6 +1,6 @@
 defmodule TurnosWeb.AutentificacionView do
   use TurnosWeb, :view
-  alias TurnosWeb.AutentificacionView
+  #alias TurnosWeb.AutentificacionView
 
   def render("auth.json", %{user: user, token: jwt, roles: roles}) do
     %{data: %{

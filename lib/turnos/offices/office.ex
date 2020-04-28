@@ -2,7 +2,7 @@ defmodule Turnos.Offices.Office do
   use Ecto.Schema
   import Ecto.Changeset
   import Ecto.Query, warn: false
-  alias Turnos.Repo
+  #alias Turnos.Repo
 
   schema "offices" do
     field :address, :string

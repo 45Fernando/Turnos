@@ -19,6 +19,7 @@ alias Turnos.Days.Day
 alias Turnos.UsersOffices.UserOffice
 alias Turnos.Specialties.Specialty
 alias Turnos.Countries.Country
+alias Turnos.Provinces.Province
 
 #Insertando paises
 Repo.delete_all(Country)
@@ -43,6 +44,34 @@ paises_data = [
 ]
 
 Enum.each(paises_data, fn(data) ->
+  Repo.insert!(data)
+end)
+
+#Insertando Provincias
+provincias_data = [
+  %Province{
+    name: "Salta",
+    code: "AR-A",
+    countries_id: 1
+  },
+  %Province{
+    name: "Buenos Aires",
+    code: "AR-B",
+    countries_id: 1
+  },
+  %Province{
+    name: "CABA",
+    code: "AR-C",
+    countries_id: 1
+  },
+  %Province{
+    name: "San Luis",
+    code: "AR-D",
+    countries_id: 1
+  }
+]
+
+Enum.each(provincias_data, fn(data) ->
   Repo.insert!(data)
 end)
 

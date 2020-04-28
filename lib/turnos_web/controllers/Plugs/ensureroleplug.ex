@@ -13,8 +13,8 @@ defmodule TurnosWeb.Plugs.EnsureRolePlug do
   import Plug.Conn #only: [halt: 1]
   import Phoenix.Controller, only: [json: 2]
 
-  alias TurnosWeb.Router.Helpers, as: Routes
-  alias Phoenix.Controller
+  #alias TurnosWeb.Router.Helpers, as: Routes
+  #alias Phoenix.Controller
   #alias Plug.Conn
   #alias Pow.Plug
 

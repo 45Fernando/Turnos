@@ -7,7 +7,10 @@ defmodule TurnosWeb.Admin.CountryView do
   end
 
   def render("show.json", %{country: country}) do
-    %{data: render_one(country, CountryView, "country.json")}
+    %{
+      data: render_one(country, CountryView, "country.json"),
+      provinces: render_many(country.provinces, TurnosWeb.Admin.ProvinceView, "province.json")
+    }
   end
 
   def render("country.json", %{country: country}) do

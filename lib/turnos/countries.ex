@@ -35,7 +35,10 @@ defmodule Turnos.Countries do
       ** (Ecto.NoResultsError)
 
   """
-  def get_country!(id), do: Repo.get!(Country, id)
+  def get_country!(id) do
+    Repo.get!(Country, id)
+    |> Repo.preload(:provinces)
+  end
 
   @doc """
   Creates a country.

@@ -25,8 +25,9 @@ defmodule TurnosWeb.Admin.CountryController do
     render(conn, "show.json", country: country)
   end
 
-  def update(conn, %{"id" => id, "country" => country_params}) do
-    country = Countries.get_country!(id)
+  def update(conn, country_params) do
+    country = Countries.get_country!(country_params["id"])
+    country_params = Map.delete(country_params, "id")
 
     with {:ok, %Country{} = country} <- Countries.update_country(country, country_params) do
       render(conn, "show.json", country: country)
