@@ -1,5 +1,6 @@
 defmodule Turnos.Users.User do
   use Ecto.Schema
+  use Waffle.Ecto.Schema
   import Ecto.Changeset
   import Ecto.Query, warn: false
   alias Turnos.Repo
@@ -22,19 +23,21 @@ defmodule Turnos.Users.User do
     field :name, :string
     field :phoneNumber, :string
     field :professionalPhoneNumber, :string
+    field :avatar, TurnosWeb.Uploaders.Avatar.Type
 
     many_to_many(:roles, Turnos.Roles.Role, join_through: "users_roles", on_replace: :delete)
     many_to_many(:medicalsinsurances, Turnos.MedicalsInsurances.MedicalInsurance, join_through: "users_medicalsinsurances", on_replace: :delete)
     many_to_many(:specialties, Turnos.Specialties.Specialty, join_through: "users_specialties", on_replace: :delete)
     has_many(:usersoffices, Turnos.UsersOffices.UserOffice, foreign_key: :user_id, on_replace: :raise)
     belongs_to(:countries, Turnos.Countries.Country, foreign_key: :countries_id)
+    belongs_to(:provinces, Turnos.Provinces.Province, foreign_key: :province_id)
 
     timestamps()
   end
 
   @lista_cast ~w(name lastname dni mail address professionalAddress
   phoneNumber professionalPhoneNumber mobilePhoneNumber profilePicture status birthDate cuil nationalRegistration
-  provincialRegistration countries_id)a
+  provincialRegistration countries_id province_id)a
 
   @lista_validate_require ~w(name lastname dni mail address professionalAddress
    phoneNumber professionalPhoneNumber mobilePhoneNumber profilePicture status birthDate cuil nationalRegistration
@@ -51,16 +54,20 @@ defmodule Turnos.Users.User do
     |> cast(attrs, @lista_create_cast)
     |> validate_required(@lista_create_validate_require)
     |> foreign_key_constraint(:countries_id)
+    |> foreign_key_constraint(:province_id) #TODO controlar si la provincia que viene pertenece al pais que viene
     |> unique_email()
     |> validate_password()
     |> put_pass_hash()
   end
 
   def update_changeset(usuario, attrs) do
+    IO.inspect(attrs, label: "ATRIBUTOS USUARIO")
     usuario
     |> cast(attrs, @lista_cast)
-    |> validate_required(@lista_validate_require)
+    |> validate_required([])#@lista_validate_require
+    |> cast_attachments(attrs, [:avatar])
     |> foreign_key_constraint(:countries_id)
+    |> foreign_key_constraint(:province_id)
     |> unique_email()
     |> put_pass_hash()
   end
@@ -165,6 +172,13 @@ defmodule Turnos.Users.User do
       [] -> []
       ids -> Repo.all from s in Turnos.Specialties.Specialty, where: s.id in ^ids
     end
+  end
+
+  # decode base64 string to binary
+  defp sanitize_params(%{"avatar64" => avatar64} = params) do
+    params
+    |> Map.put("avatar", Base.decode64!(avatar64))
+    |> Map.delete("avatar64")
   end
 
 end

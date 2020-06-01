@@ -48,7 +48,9 @@ defmodule Turnos.MixProject do
       {:ueberauth_identity, "~> 0.3.0"},
       {:guardian, "~> 2.0"},
       {:cors_plug, "~> 2.0"},
-      {:guardian_db, "~> 2.0"}
+      {:guardian_db, "~> 2.0"},
+      {:waffle, "~> 1.1.0", override: true},
+      {:waffle_ecto, "~> 0.0.8"}
     ]
   end
 

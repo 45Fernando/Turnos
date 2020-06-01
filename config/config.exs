@@ -59,6 +59,11 @@ config :guardian, Guardian.DB,
   #token_types: ["refresh_token"], # store all token types if not set
   sweep_interval: 120 # default: 60 minutes
 
+config :waffle,
+storage: Waffle.Storage.Local, # or Waffle.Storage.S3
+storage_dir_prefix: "priv/waffle/private",
+#bucket: {:system, "AWS_S3_BUCKET"}, # if using S3
+asset_host: "http://static.example.com" # or {:system, "ASSET_HOST"}
 
 # Import environment specific config. This must remain at the bottom
 # of this file so it overrides the configuration defined above.

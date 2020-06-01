@@ -75,6 +75,7 @@ Enum.each(provincias_data, fn(data) ->
   Repo.insert!(data)
 end)
 
+
 #Seed de Roles
 Repo.delete_all(Role)
 
@@ -105,7 +106,8 @@ users_data = [%User{
   name: "Juan",
   phoneNumber: "3874283312",
   professionalPhoneNumber: "3874963852",
-  countries_id: 1
+  countries_id: 1,
+  province_id: 3
 },
  %User{
   lastname: "Gutierrez",
@@ -124,7 +126,8 @@ users_data = [%User{
   name: "Norma",
   phoneNumber: "3874283312",
   professionalPhoneNumber: "3874963852",
-  countries_id: 1
+  countries_id: 1,
+  province_id: 2
 },
 %User{
   lastname: "Orquera",
@@ -139,7 +142,8 @@ users_data = [%User{
   mail: "fernandoexequielorquera@gmail.com",
   name: "Fernando",
   phoneNumber: "3874283312",
-  countries_id: 1
+  countries_id: 1,
+  province_id: 1
 },
 %User{
   lastname: "Benavidez",
@@ -154,7 +158,8 @@ users_data = [%User{
   mail: "josebenavidez@gmail.com",
   name: "Jose",
   phoneNumber: "3874666999",
-  countries_id: 1
+  countries_id: 1,
+  province_id: 1
 },
 %User{
   lastname: "Cardozo",
@@ -169,7 +174,8 @@ users_data = [%User{
   mail: "rodrigocardozo@gmail.com",
   name: "Rodrigo",
   phoneNumber: "3876111555",
-  countries_id: 1
+  countries_id: 1,
+  province_id: 1
 }]
 
 

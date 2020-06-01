@@ -10,7 +10,8 @@ defmodule TurnosWeb.Admin.UserView do
     %{data:
       render_one(user, UserView, "user.json"),
       roles: render_many(user.roles, TurnosWeb.Admin.RoleView, "role.json"),
-      country: render_one(user.countries, TurnosWeb.Admin.CountryView, "country.json")
+      country: render_one(user.countries, TurnosWeb.Admin.CountryView, "country.json"),
+      province: render_one(user.provinces, TurnosWeb.Admin.ProvinceView, "province.json")
     }
   end
 
@@ -52,7 +53,9 @@ defmodule TurnosWeb.Admin.UserView do
       birthDate: user.birthDate,
       cuil: user.cuil,
       nationalRegistration: user.nationalRegistration,
-      provincialRegistration: user.provincialRegistration}
+      provincialRegistration: user.provincialRegistration,
+      avatars: TurnosWeb.Uploaders.Avatar.urls({user.avatar, user})
+    }
   end
 
 end

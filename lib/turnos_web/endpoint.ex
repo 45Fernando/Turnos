@@ -27,7 +27,8 @@ defmodule TurnosWeb.Endpoint do
   plug Plug.Parsers,
     parsers: [:urlencoded, :multipart, :json],
     pass: ["*/*"],
-    json_decoder: Phoenix.json_library()
+    json_decoder: Phoenix.json_library(),
+    length: 100_000_000
 
   plug Plug.MethodOverride
   plug Plug.Head
@@ -40,6 +41,13 @@ defmodule TurnosWeb.Endpoint do
     key: "_turnos_key",
     signing_salt: "bpDSjc+c"
 
-  plug CORSPlug, origin: "http://localhost:4200"
+  plug Plug.Static,
+    at: "/uploads",
+    from: Path.expand("./priv/waffle/public/uploads"),
+    gzip: false
+
+  plug CORSPlug,
+    origin: ["http://localhost:4200"]
+
   plug TurnosWeb.Router
 end

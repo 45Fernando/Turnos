@@ -40,6 +40,7 @@ defmodule Turnos.Users do
     Repo.get!(User, id)
     |> Repo.preload(:roles)
     |> Repo.preload(:countries)
+    |> Repo.preload(:provinces)
   end
 
   def get_usermi!(id) do

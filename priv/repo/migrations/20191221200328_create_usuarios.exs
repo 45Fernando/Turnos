@@ -19,6 +19,7 @@ defmodule Turnos.Repo.Migrations.CreateUsers do
       add :cuil, :string
       add :nationalRegistration, :string
       add :provincialRegistration, :string
+      add :avatar, :string
 
       timestamps()
     end
