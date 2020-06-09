@@ -54,6 +54,7 @@ defmodule TurnosWeb.Admin.UserView do
       cuil: user.cuil,
       nationalRegistration: user.nationalRegistration,
       provincialRegistration: user.provincialRegistration,
+      location: user.location,
       avatars: TurnosWeb.Uploaders.Avatar.urls({user.avatar, user})
     }
   end

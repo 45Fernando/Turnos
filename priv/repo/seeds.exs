@@ -107,7 +107,8 @@ users_data = [%User{
   phoneNumber: "3874283312",
   professionalPhoneNumber: "3874963852",
   countries_id: 1,
-  province_id: 3
+  province_id: 3,
+  location: "Salta"
 },
  %User{
   lastname: "Gutierrez",
@@ -127,7 +128,8 @@ users_data = [%User{
   phoneNumber: "3874283312",
   professionalPhoneNumber: "3874963852",
   countries_id: 1,
-  province_id: 2
+  province_id: 2,
+  location: "Salta"
 },
 %User{
   lastname: "Orquera",
@@ -143,7 +145,8 @@ users_data = [%User{
   name: "Fernando",
   phoneNumber: "3874283312",
   countries_id: 1,
-  province_id: 1
+  province_id: 1,
+  location: "Salta"
 },
 %User{
   lastname: "Benavidez",
@@ -159,7 +162,8 @@ users_data = [%User{
   name: "Jose",
   phoneNumber: "3874666999",
   countries_id: 1,
-  province_id: 1
+  province_id: 1,
+  location: "Salta"
 },
 %User{
   lastname: "Cardozo",
@@ -175,7 +179,8 @@ users_data = [%User{
   name: "Rodrigo",
   phoneNumber: "3876111555",
   countries_id: 1,
-  province_id: 1
+  province_id: 1,
+  location: "Salta"
 }]
 
 

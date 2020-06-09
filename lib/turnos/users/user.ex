@@ -23,6 +23,7 @@ defmodule Turnos.Users.User do
     field :name, :string
     field :phoneNumber, :string
     field :professionalPhoneNumber, :string
+    field :location, :string
     field :avatar, TurnosWeb.Uploaders.Avatar.Type
 
     many_to_many(:roles, Turnos.Roles.Role, join_through: "users_roles", on_replace: :delete)
@@ -37,11 +38,11 @@ defmodule Turnos.Users.User do
 
   @lista_cast ~w(name lastname dni mail address professionalAddress
   phoneNumber professionalPhoneNumber mobilePhoneNumber profilePicture status birthDate cuil nationalRegistration
-  provincialRegistration countries_id province_id)a
+  provincialRegistration countries_id province_id location)a
 
   @lista_validate_require ~w(name lastname dni mail address professionalAddress
    phoneNumber professionalPhoneNumber mobilePhoneNumber profilePicture status birthDate cuil nationalRegistration
-  provincialRegistration)a
+  provincialRegistration location)a
 
   @lista_create_cast ~w(name lastname mail password countries_id)a
   @lista_create_validate_require ~w(name lastname mail password)a

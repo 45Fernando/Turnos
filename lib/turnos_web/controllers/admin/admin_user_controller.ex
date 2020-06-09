@@ -23,7 +23,6 @@ defmodule TurnosWeb.Admin.UserController do
 
   def show(conn, %{"id" => id}) do
     user = Users.get_user!(id)
-    IO.inspect(user, label: "USUARIO")
     render(conn, "show.json", user: user)
   end
 
