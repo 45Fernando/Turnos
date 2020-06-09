@@ -23,6 +23,7 @@ defmodule TurnosWeb.Admin.UserController do
 
   def show(conn, %{"id" => id}) do
     user = Users.get_user!(id)
+    IO.inspect(user, label: "USUARIO")
     render(conn, "show.json", user: user)
   end
 
@@ -38,6 +39,12 @@ defmodule TurnosWeb.Admin.UserController do
 
   def update(conn, params) do
     {user, params} = get_user_params(params)
+
+    #Chequeo si tiene o no un avatar subido, si tiene borro el archivo
+    #del almacenamiento para guardar el nuevo archivo.
+    if user.avatar != nil do
+      :ok = TurnosWeb.Uploaders.Avatar.delete({user.avatar, user})
+    end
 
     with {:ok, %User{} = user} <- Users.update_user(user, params) do
       render(conn, "show.json", user: user)

@@ -61,9 +61,9 @@ config :guardian, Guardian.DB,
 
 config :waffle,
 storage: Waffle.Storage.Local, # or Waffle.Storage.S3
-storage_dir_prefix: "priv/waffle/private",
+storage_dir_prefix: "priv/waffle/public",
 #bucket: {:system, "AWS_S3_BUCKET"}, # if using S3
-asset_host: "http://static.example.com" # or {:system, "ASSET_HOST"}
+asset_host: "http://localhost:4000" # or {:system, "ASSET_HOST"}
 
 # Import environment specific config. This must remain at the bottom
 # of this file so it overrides the configuration defined above.

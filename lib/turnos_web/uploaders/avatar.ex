@@ -28,9 +28,13 @@ defmodule TurnosWeb.Uploaders.Avatar do
   end
 
   # To retain the original filename, but prefix the version and user id:
-  def filename(version, {file, scope}) do
-    file_name = Path.basename(file.file_name, Path.extname(file.file_name))
-    "#{scope.id}_#{version}_#{file_name}"
+  #def filename(version, {file, scope}) do
+  #  file_name = Path.basename(file.file_name, Path.extname(file.file_name))
+  #  "#{scope.id}_#{version}_#{file_name}"
+  #end
+
+  def filename(version, {_file, scope}) do
+    "#{scope.id}_#{version}"
   end
 
   # Override the persisted filenames:

@@ -61,7 +61,6 @@ defmodule Turnos.Users.User do
   end
 
   def update_changeset(usuario, attrs) do
-    IO.inspect(attrs, label: "ATRIBUTOS USUARIO")
     usuario
     |> cast(attrs, @lista_cast)
     |> validate_required([])#@lista_validate_require
