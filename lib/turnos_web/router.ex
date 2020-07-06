@@ -58,6 +58,8 @@ defmodule TurnosWeb.Router do
 
       resources "/days", Admin.DayController, except: [:new, :create, :edit, :update, :delete]
       resources "/specialties", Admin.SpecialtyController, except: [:new, :edit, :delete]
+
+      get "/tokens", Admin.GuardianTokenController, :index
     end
 
   end
