@@ -90,6 +90,21 @@ defmodule TurnosWeb.UserController do
     end
   end
 
+
+  #Buscar si existe un mail registrado o no
+  def search_by_mail(conn, %{"mail" => mail}) do
+    user = Users.get_user_by_mail(mail)
+
+    message = if user != nil do
+                "Not Available"
+              else
+                "Available"
+              end
+
+    render(conn, "mail.json", message: message)
+  end
+
+  #Funciones de ayuda
   defp get_user_params(params) do
     id = params["id"]
     user = Users.get_user!(id)

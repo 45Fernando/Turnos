@@ -21,6 +21,7 @@ defmodule TurnosWeb.Router do
     end
 
     post "/users", Admin.UserController, :create
+    get "/users/:mail", UserController, :search_by_mail
     #Todo de aca para abajo va a pasar por la autentificacion.
     pipe_through :authenticated
 

@@ -62,6 +62,11 @@ defmodule Turnos.Users do
     Repo.get!(UserOffice, id)
   end
 
+  #Buscar un usuario por mail
+  def get_user_by_mail(mail) do
+    Repo.get_by(User, mail: mail)
+  end
+
   @doc """
   Creates a usuario.
 
