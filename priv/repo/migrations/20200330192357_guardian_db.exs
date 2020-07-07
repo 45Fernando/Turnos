@@ -7,7 +7,8 @@ defmodule Turnos.Repo.Migrations.GuardianDb do
       add :aud, :string, primary_key: true
       add :typ, :string
       add :iss, :string
-      add :sub, :string #aca se guarda el id del usuario
+      #add :sub, :string #aca se guarda el id del usuario
+      add :sub, references(:users)#, column: :id, type: :string)
       add :exp, :bigint
       add :jwt, :text   #aca se guarda el token generado
       add :claims, :map

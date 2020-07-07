@@ -19,6 +19,7 @@ defmodule Turnos.GuardianTokens do
   """
   def list_tokens do
     Repo.all(GuardianToken)
+    |> Repo.preload(:users)
   end
 
   @doc """

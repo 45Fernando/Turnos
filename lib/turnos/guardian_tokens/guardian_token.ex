@@ -8,10 +8,12 @@ defmodule Turnos.GuardianTokens.GuardianToken do
     field :aud, :string, primary_key: true
     field :typ, :string
     field :iss, :string
-    field :sub, :string #aca se guarda el id del usuario
+    #field :sub, :string #aca se guarda el id del usuario
     field :exp, :integer
     field :jwt, :string  #aca se guarda el token generado
     field :claims, :map
+
+    belongs_to(:users, Turnos.Users.User, foreign_key: :sub)
 
     timestamps()
   end

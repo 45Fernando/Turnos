@@ -32,6 +32,7 @@ defmodule Turnos.Users.User do
     has_many(:usersoffices, Turnos.UsersOffices.UserOffice, foreign_key: :user_id, on_replace: :raise)
     belongs_to(:countries, Turnos.Countries.Country, foreign_key: :countries_id)
     belongs_to(:provinces, Turnos.Provinces.Province, foreign_key: :province_id)
+    has_many(:guardian_tokens, Turnos.GuardianTokens.GuardianToken, foreign_key: :sub)
 
     timestamps()
   end

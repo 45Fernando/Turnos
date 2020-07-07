@@ -19,7 +19,8 @@ defmodule TurnosWeb.Admin.GuardianTokenView do
       sub: guardian_token.sub,
       exp: guardian_token.exp,
       jwt: guardian_token.jwt,
-      claims: guardian_token.claims
+      claims: guardian_token.claims,
+      user: render_one(guardian_token.users, TurnosWeb.Admin.UserView, "user.json")
     }
   end
 end
