@@ -1,6 +1,6 @@
 defmodule TurnosWeb.UserView do
   use TurnosWeb, :view
-  alias TurnosWeb.UserView
+  #alias TurnosWeb.UserView
 
   @doc """
   def render("index.json", %{users: users}) do

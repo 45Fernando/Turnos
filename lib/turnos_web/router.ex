@@ -60,6 +60,7 @@ defmodule TurnosWeb.Router do
       resources "/specialties", Admin.SpecialtyController, except: [:new, :edit, :delete]
 
       get "/tokens", Admin.GuardianTokenController, :index
+      delete "/tokens", AutentificacionController, :revoke
     end
 
   end

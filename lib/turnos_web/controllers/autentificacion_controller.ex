@@ -37,7 +37,7 @@ defmodule TurnosWeb.AutentificacionController do
     conn
     |> Turnos.Guardian.Plug.sign_out()
     |> put_status(:no_content)
-    |> render("delete.json")
+    |> json(%{message: "sign out"})
   end
 
   def refresh(conn, _params) do
@@ -57,4 +57,11 @@ defmodule TurnosWeb.AutentificacionController do
     end
   end
 
+  def revoke(conn, params) do
+    {:ok, _claims} = Turnos.Guardian.revoke(params["token"])
+
+    conn
+    |> put_status(:ok)
+    |> json(%{message: "token revoked"})
+  end
 end
