@@ -37,7 +37,6 @@ defmodule Turnos.Provinces do
   """
   def get_province!(id) do
     Repo.get!(Province, id)
-    |> Repo.preload(:locations)
   end
 
   @doc """

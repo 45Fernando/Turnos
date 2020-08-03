@@ -10,7 +10,6 @@ defmodule Turnos.Provinces.Province do
 
     belongs_to(:countries, Turnos.Countries.Country, foreign_key: :countries_id)
     has_many(:users, Turnos.Users.User, foreign_key: :province_id)
-    has_many(:locations, Turnos.Locations.Location, foreign_key: :province_id)
   end
 
   @doc false
