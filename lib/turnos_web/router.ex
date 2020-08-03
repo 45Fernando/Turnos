@@ -47,7 +47,6 @@ defmodule TurnosWeb.Router do
 
       resources "/countries", Admin.CountryController, except: [:new, :edit]
       resources "/provinces", Admin.ProvinceController, except: [:new, :edit]
-      resources "/locations", Admin.LocationController, except: [:new, :edit]
       resources "/roles", Admin.RoleController, except: [:new, :create, :edit, :delete]
       resources "/medicalsinsurances", Admin.MedicalInsuranceController, except: [:new, :edit, :delete]
 
