@@ -296,6 +296,8 @@ end)
 #Consiguiendo el changeset de un usuario
 user = Repo.get_by(User, mail: "rodrigocardozo@gmail.com")
 user2 = Repo.get_by(User, mail: "josebenavidez@gmail.com")
+user3 = Repo.get_by(User, mail: "juanperez@gmail.com")
+
 #Asociando roles
 lista_roles = %{"role_ids" => ["1", "2", "3"]}
 
@@ -304,6 +306,9 @@ user
 
 user2
 |> Turnos.Users.update_user_roles(lista_roles)
+
+user3
+|> Turnos.Users.update_user_roles(%{"role_ids" => ["2"]})
 
 #Asociando especialidades
 lista_especialidades = %{"specialty_ids" => ["1", "2", "3"]}

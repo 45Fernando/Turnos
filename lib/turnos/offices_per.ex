@@ -21,6 +21,11 @@ defmodule Turnos.OfficesPer do
     Repo.all(OfficePer)
   end
 
+  def users_offices_per(user_id)do
+    user_id
+    |> Turnos.Users.get_user!()
+    |> Ecto.assoc(:offices_per)
+  end
   @doc """
   Gets a single office.
 

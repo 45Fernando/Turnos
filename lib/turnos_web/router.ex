@@ -32,7 +32,10 @@ defmodule TurnosWeb.Router do
     pipe_through :admin
 
     scope "/admin", as: :admin do
-      resources "/users", Admin.UserController, except: [:new, :create, :edit, :delete]
+      resources "/users", Admin.UserController, except: [:new, :create, :edit, :delete] do
+        resources "/offices_per", Admin.OfficePerController, except: [:new, :edit]
+      end
+
       put "/users/:id/updatepassword", Admin.UserController, :update_password#TODO duda si tiene que tener su admin
       put "/users/:id/medicalsinsurances", Admin.UserController, :update_medicalsinsurances
       get "/users/:id/medicalsinsurances", Admin.UserController, :show_medicalsinsurances
@@ -40,17 +43,12 @@ defmodule TurnosWeb.Router do
       put "/users/:id/specialties", Admin.UserController, :update_specialties
       get "/users/:id/specialties", Admin.UserController, :show_specialties
 
-      post "/users/:user_id/offices", UserOfficeController, :create_offices
-      put "/users/:user_id/offices/:id", UserOfficeController, :update_offices
-      get "/users/:user_id/offices/", Admin.UserController, :show_offices
-      delete "/users/:user_id/offices/:id", UserOfficeController, :delete_office
-
       resources "/countries", Admin.CountryController, except: [:new, :edit]
       resources "/provinces", Admin.ProvinceController, except: [:new, :edit]
       resources "/roles", Admin.RoleController, except: [:new, :create, :edit, :delete]
       resources "/medicalsinsurances", Admin.MedicalInsuranceController, except: [:new, :edit, :delete]
 
-      resources "/offices_per", Admin.OfficePerController, except: [:new, :edit, :delete]
+
 
       resources "/days", Admin.DayController, except: [:new, :create, :edit, :update, :delete]
       resources "/specialties", Admin.SpecialtyController, except: [:new, :edit, :delete]

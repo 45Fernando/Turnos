@@ -20,7 +20,8 @@ defmodule TurnosWeb.Admin.OfficePerView do
       status: office_per.status,
       phone: office_per.phone,
       lat: office_per.lat,
-      long: office_per.long
+      long: office_per.long,
+      user_id: office_per.user_id
     }
   end
 end
