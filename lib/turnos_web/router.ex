@@ -50,10 +50,7 @@ defmodule TurnosWeb.Router do
       resources "/roles", Admin.RoleController, except: [:new, :create, :edit, :delete]
       resources "/medicalsinsurances", Admin.MedicalInsuranceController, except: [:new, :edit, :delete]
 
-      resources "/offices", Admin.OfficeController, except: [:new, :edit, :delete]
-      post "/offices/:office_id/days", OfficeDayController, :create_days
-      put "/offices/:office_id/days/:id", OfficeDayController, :update_days
-      delete "/offices/:office_id/days/:id", OfficeDayController, :delete_days
+      resources "/offices_per", Admin.OfficePerController, except: [:new, :edit, :delete]
 
       resources "/days", Admin.DayController, except: [:new, :create, :edit, :update, :delete]
       resources "/specialties", Admin.SpecialtyController, except: [:new, :edit, :delete]

@@ -1,4 +1,4 @@
-defmodule Turnos.Offices do
+defmodule Turnos.OfficesPer do
   @moduledoc """
   The Offices context.
   """
@@ -6,8 +6,7 @@ defmodule Turnos.Offices do
   import Ecto.Query, warn: false
   alias Turnos.Repo
 
-  alias Turnos.Offices.Office
-  alias Turnos.OfficesDays.OfficeDay
+  alias Turnos.OfficesPer.OfficePer
 
   @doc """
   Returns the list of offices.
@@ -18,8 +17,8 @@ defmodule Turnos.Offices do
       [%Office{}, ...]
 
   """
-  def list_offices do
-    Repo.all(Office)
+  def list_offices_per do
+    Repo.all(OfficePer)
   end
 
   @doc """
@@ -36,14 +35,10 @@ defmodule Turnos.Offices do
       ** (Ecto.NoResultsError)
 
   """
-  def get_office!(id) do
-    Repo.get!(Office, id)
-    |> Repo.preload(officesdays: [:days])
+  def get_office_per!(id) do
+    Repo.get!(OfficePer, id)
   end
 
-  def get_officedayid!(id) do
-    Repo.get!(OfficeDay, id)
-  end
 
   @doc """
   Creates a office.
@@ -57,17 +52,12 @@ defmodule Turnos.Offices do
       {:error, %Ecto.Changeset{}}
 
   """
-  def create_office(attrs \\ %{}) do
-    %Office{}
-    |> Office.changeset(attrs)
+  def create_office_per(attrs \\ %{}) do
+    %OfficePer{}
+    |> OfficePer.changeset(attrs)
     |> Repo.insert()
   end
 
-  def create_offices_days(attrs \\ %{}) do
-    %OfficeDay{}
-    |> OfficeDay.changeset(attrs)
-    |> Repo.insert()
-  end
 
   @doc """
   Updates a office.
@@ -81,17 +71,13 @@ defmodule Turnos.Offices do
       {:error, %Ecto.Changeset{}}
 
   """
-  def update_office(%Office{} = office, attrs) do
-    office
-    |> Office.changeset(attrs)
+  def update_office_per(%OfficePer{} = office_per, attrs) do
+    office_per
+    |> OfficePer.changeset(attrs)
     |> Repo.update()
   end
 
-  def update_offices_days(%OfficeDay{} = officeday, attrs) do
-    officeday
-    |> OfficeDay.changeset(attrs)
-    |> Repo.update()
-  end
+
 
   @doc """
   Deletes a Office.
@@ -105,13 +91,11 @@ defmodule Turnos.Offices do
       {:error, %Ecto.Changeset{}}
 
   """
-  def delete_office(%Office{} = office) do
-    Repo.delete(office)
+  def delete_office_per(%OfficePer{} = office_per) do
+    Repo.delete(office_per)
   end
 
-  def delete_office_day(%OfficeDay{} = officeday) do
-    Repo.delete(officeday)
-  end
+
 
   @doc """
   Returns an `%Ecto.Changeset{}` for tracking office changes.
@@ -122,7 +106,7 @@ defmodule Turnos.Offices do
       %Ecto.Changeset{source: %Office{}}
 
   """
-  def change_office(%Office{} = office) do
-    Office.changeset(office, %{})
+  def change_office_per(%OfficePer{} = office_per) do
+    OfficePer.changeset(office_per, %{})
   end
 end

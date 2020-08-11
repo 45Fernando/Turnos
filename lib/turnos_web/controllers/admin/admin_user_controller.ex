@@ -75,7 +75,7 @@ defmodule TurnosWeb.Admin.UserController do
   end
 
   def show_offices(conn, %{"user_id" => id}) do
-    user = Users.get_useroffice!(id)
+    user = Users.get_useroffice_per!(id)
 
     conn
     |> put_view(TurnosWeb.UserView)

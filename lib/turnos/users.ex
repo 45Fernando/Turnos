@@ -53,9 +53,9 @@ defmodule Turnos.Users do
     |> Repo.preload(:specialties)
   end
 
-  def get_useroffice!(id) do
+  def get_useroffice_per!(id) do
     Repo.get!(User, id)
-    |> Repo.preload(usersoffices: [:offices, :days])
+    |> Repo.preload(:offices_per)
   end
 
   def get_userofid!(id) do

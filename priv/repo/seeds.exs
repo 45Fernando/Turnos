@@ -14,9 +14,8 @@ alias Turnos.Repo
 alias Turnos.Roles.Role
 alias Turnos.Users.User
 alias Turnos.MedicalsInsurances.MedicalInsurance
-alias Turnos.Offices.Office
+alias Turnos.OfficesPer.OfficePer
 alias Turnos.Days.Day
-alias Turnos.UsersOffices.UserOffice
 alias Turnos.Specialties.Specialty
 alias Turnos.Countries.Country
 alias Turnos.Provinces.Province
@@ -214,25 +213,28 @@ Enum.each(obrassociales_data, fn(data) ->
 end)
 
 #Consultorios
-consultorios_data = [
-  %Office{
+consultorios_per_data = [
+  %OfficePer{
     name: "CEMID",
     address: "Santa Fe 97",
-    status: true
+    status: true,
+    user_id: 1
   },
-  %Office{
+  %OfficePer{
     name: "Por + Salud",
     address: "Santa Fe 270",
-    status: true
+    status: true,
+    user_id: 1
   },
-  %Office{
+  %OfficePer{
     name: "Mas Medicina Ambulatoria",
     address: "Buenos Aires 196",
-    status: true
+    status: true,
+    user_id: 2
   }
 ]
 
-Enum.each(consultorios_data, fn(data) ->
+Enum.each(consultorios_per_data, fn(data) ->
   Repo.insert!(data)
 end)
 
@@ -314,37 +316,3 @@ lista_mi = %{"medicalinsurance_ids" => ["1", "2"]}
 
 user
 |> Turnos.Users.update_user_mi(lista_mi)
-
-#Asociando oficinas
-lista_usersoffices = [
-    %{user_id: "5", office_id: "1", day_id: "1", timeFrom: "09:00:00", timeTo: "21:00:00"},
-    %{user_id: "5", office_id: "1", day_id: "2", timeFrom: "09:00:00", timeTo: "21:00:00"},
-    %{user_id: "5", office_id: "1", day_id: "3", timeFrom: "09:00:00", timeTo: "13:00:00"},
-    %{user_id: "5", office_id: "2", day_id: "3", timeFrom: "17:00:00", timeTo: "21:00:00"},
-    %{user_id: "5", office_id: "2", day_id: "4", timeFrom: "09:00:00", timeTo: "21:00:00"},
-    %{user_id: "5", office_id: "2", day_id: "5", timeFrom: "09:00:00", timeTo: "21:00:00"},
-    %{user_id: "5", office_id: "2", day_id: "6", timeFrom: "09:00:00", timeTo: "13:00:00"}
-  ]
-
-Enum.each(lista_usersoffices, fn(data) ->
-    Turnos.Users.create_user_offices(data)
-end)
-
-#Consiguiendo el changeset de un consultorio
-office = Repo.get_by(Office, id: 1)
-
-#Asociando dias y horarios a un consultorio
-lista_officesdays = [
-  %{office_id: "1", day_id: "1", timeFrom: "09:00:00", timeTo: "21:00:00", open: true},
-  %{office_id: "1", day_id: "2", timeFrom: "09:00:00", timeTo: "21:00:00", open: true},
-  %{office_id: "1", day_id: "3", timeFrom: "09:00:00", timeTo: "13:00:00", open: true},
-  %{office_id: "1", day_id: "3", timeFrom: "17:00:00", timeTo: "21:00:00", open: true},
-  %{office_id: "1", day_id: "4", timeFrom: "09:00:00", timeTo: "21:00:00", open: true},
-  %{office_id: "1", day_id: "5", timeFrom: "09:00:00", timeTo: "21:00:00", open: true},
-  %{office_id: "1", day_id: "6", timeFrom: "09:00:00", timeTo: "13:00:00", open: true},
-  %{office_id: "1", day_id: "7", timeFrom: "00:00:00", timeTo: "00:00:00", open: false},
-  ]
-
-Enum.each(lista_officesdays, fn(data) ->
-    Turnos.Offices.create_offices_days(data)
-end)

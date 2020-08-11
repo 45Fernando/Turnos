@@ -29,7 +29,7 @@ defmodule Turnos.Users.User do
     many_to_many(:roles, Turnos.Roles.Role, join_through: "users_roles", on_replace: :delete)
     many_to_many(:medicalsinsurances, Turnos.MedicalsInsurances.MedicalInsurance, join_through: "users_medicalsinsurances", on_replace: :delete)
     many_to_many(:specialties, Turnos.Specialties.Specialty, join_through: "users_specialties", on_replace: :delete)
-    has_many(:usersoffices, Turnos.UsersOffices.UserOffice, foreign_key: :user_id, on_replace: :raise)
+    has_many(:offices_per, Turnos.OfficesPer.OfficePer, foreign_key: :user_id)
     belongs_to(:countries, Turnos.Countries.Country, foreign_key: :countries_id)
     belongs_to(:provinces, Turnos.Provinces.Province, foreign_key: :province_id)
     has_many(:guardian_tokens, Turnos.GuardianTokens.GuardianToken, foreign_key: :sub)
@@ -161,12 +161,6 @@ defmodule Turnos.Users.User do
     end
   end
 
-  def load_offices(params) do
-    case params["office_ids"] || [] do
-      [] -> []
-      ids -> Repo.all from o in Turnos.Offices.Office, where: o.id in ^ids
-    end
-  end
 
   def load_specialties(attrs) do
     case attrs["specialty_ids"] || [] do
