@@ -22,11 +22,16 @@ defmodule TurnosWeb.Router do
 
     post "/users", Admin.UserController, :create
     get "/users/:mail", UserController, :search_by_mail
+
     #Todo de aca para abajo va a pasar por la autentificacion.
     pipe_through :authenticated
 
     delete "/identity/callback", AutentificacionController, :delete
     post "/identity/callback", AutentificacionController, :refresh
+
+    #Todas estas son rutas del usuario
+
+    #Todas estas son rutas del profesional
 
     #Todas estas son rutas de admin
     pipe_through :admin
@@ -48,7 +53,7 @@ defmodule TurnosWeb.Router do
       resources "/roles", Admin.RoleController, except: [:new, :create, :edit, :delete]
       resources "/medicalsinsurances", Admin.MedicalInsuranceController, except: [:new, :edit, :delete]
 
-
+      resources "/offices", Admin.OfficeController, except: [:new, :edit]
 
       resources "/days", Admin.DayController, except: [:new, :create, :edit, :update, :delete]
       resources "/specialties", Admin.SpecialtyController, except: [:new, :edit, :delete]

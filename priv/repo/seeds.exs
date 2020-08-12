@@ -15,6 +15,7 @@ alias Turnos.Roles.Role
 alias Turnos.Users.User
 alias Turnos.MedicalsInsurances.MedicalInsurance
 alias Turnos.OfficesPer.OfficePer
+alias Turnos.Offices.Office
 alias Turnos.Days.Day
 alias Turnos.Specialties.Specialty
 alias Turnos.Countries.Country
@@ -212,29 +213,55 @@ Enum.each(obrassociales_data, fn(data) ->
   Repo.insert!(data)
 end)
 
-#Consultorios
+#Consultorios personalizados
 consultorios_per_data = [
   %OfficePer{
-    name: "CEMID",
-    address: "Santa Fe 97",
+    name: "Casa",
+    address: "La Rioja 97",
     status: true,
     user_id: 1
   },
   %OfficePer{
-    name: "Por + Salud",
-    address: "Santa Fe 270",
+    name: "Integral",
+    address: "Alvarado 1258",
     status: true,
     user_id: 1
   },
   %OfficePer{
-    name: "Mas Medicina Ambulatoria",
-    address: "Buenos Aires 196",
+    name: "Casa",
+    address: "Magnolias 196",
     status: true,
     user_id: 2
   }
 ]
 
 Enum.each(consultorios_per_data, fn(data) ->
+  Repo.insert!(data)
+end)
+
+#Consultorios Tabulados
+consultorios = [
+  %Office{
+    name: "CEMID",
+    address: "Santa Fe 97",
+    status: true,
+    phone: "11111"
+  },
+  %Office{
+    name: "Por + Salud",
+    address: "Santa Fe 270",
+    status: true,
+    phone: "22222"
+  },
+  %Office{
+    name: "Mas Medicina Ambulatoria",
+    address: "Buenos Aires 196",
+    status: true,
+    phone: "33333"
+  }
+]
+
+Enum.each(consultorios, fn(data) ->
   Repo.insert!(data)
 end)
 

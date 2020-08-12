@@ -133,19 +133,6 @@ defmodule Turnos.Users do
     |> Repo.update()
   end
 
-  def create_user_offices(attrs \\ %{}) do
-    %UserOffice{}
-    |> UserOffice.changeset(attrs)
-    |> Repo.insert()
-  end
-
-
-  def update_user_offices(%UserOffice{} = useroffice, attrs) do
-    useroffice
-    |> UserOffice.changeset(attrs)
-    |> Repo.update()
-  end
-
   def update_user_specialties(%User{} = user, attrs) do
     user
     |> User.update_changeset_specialties(attrs)
@@ -172,10 +159,6 @@ defmodule Turnos.Users do
   """
   def delete_user(%User{} = user) do
     Repo.delete(user)
-  end
-
-  def delete_user_office(%UserOffice{} = useroffice) do
-    Repo.delete(useroffice)
   end
 
   @doc """

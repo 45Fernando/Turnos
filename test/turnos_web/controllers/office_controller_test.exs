@@ -6,15 +6,21 @@ defmodule TurnosWeb.OfficeControllerTest do
 
   @create_attrs %{
     address: "some address",
+    lat: "some lat",
+    long: "some long",
     name: "some name",
+    phone: "some phone",
     status: true
   }
   @update_attrs %{
     address: "some updated address",
+    lat: "some updated lat",
+    long: "some updated long",
     name: "some updated name",
+    phone: "some updated phone",
     status: false
   }
-  @invalid_attrs %{address: nil, name: nil, status: nil}
+  @invalid_attrs %{address: nil, lat: nil, long: nil, name: nil, phone: nil, status: nil}
 
   def fixture(:office) do
     {:ok, office} = Offices.create_office(@create_attrs)
@@ -42,7 +48,10 @@ defmodule TurnosWeb.OfficeControllerTest do
       assert %{
                "id" => id,
                "address" => "some address",
+               "lat" => "some lat",
+               "long" => "some long",
                "name" => "some name",
+               "phone" => "some phone",
                "status" => true
              } = json_response(conn, 200)["data"]
     end
@@ -65,7 +74,10 @@ defmodule TurnosWeb.OfficeControllerTest do
       assert %{
                "id" => id,
                "address" => "some updated address",
+               "lat" => "some updated lat",
+               "long" => "some updated long",
                "name" => "some updated name",
+               "phone" => "some updated phone",
                "status" => false
              } = json_response(conn, 200)["data"]
     end
