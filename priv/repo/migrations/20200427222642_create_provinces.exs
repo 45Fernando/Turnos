@@ -5,7 +5,7 @@ defmodule Turnos.Repo.Migrations.CreateProvinces do
     create table(:provinces) do
       add :name, :string
       add :code, :string
-      add :countries_id, references :countries
+      add :country_id, references :countries
 
       timestamps()
     end

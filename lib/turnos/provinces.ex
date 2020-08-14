@@ -39,6 +39,13 @@ defmodule Turnos.Provinces do
     Repo.get!(Province, id)
   end
 
+
+  def provinces_by_country(country_id)do
+    country_id
+    |> Turnos.Countries.get_country!()
+    |> Ecto.assoc(:provinces)
+  end
+
   @doc """
   Creates a province.
 

@@ -48,8 +48,10 @@ defmodule TurnosWeb.Router do
       put "/users/:id/specialties", Admin.UserController, :update_specialties
       get "/users/:id/specialties", Admin.UserController, :show_specialties
 
-      resources "/countries", Admin.CountryController, except: [:new, :edit]
-      resources "/provinces", Admin.ProvinceController, except: [:new, :edit]
+      resources "/countries", Admin.CountryController, except: [:new, :edit] do
+        resources "/provinces", Admin.ProvinceController, except: [:new, :edit]
+      end
+
       resources "/roles", Admin.RoleController, except: [:new, :create, :edit, :delete]
       resources "/medicalsinsurances", Admin.MedicalInsuranceController, except: [:new, :edit, :delete]
 

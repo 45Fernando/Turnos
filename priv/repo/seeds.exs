@@ -52,22 +52,22 @@ provincias_data = [
   %Province{
     name: "Salta",
     code: "AR-A",
-    countries_id: 1
+    country_id: 1
   },
   %Province{
     name: "Buenos Aires",
     code: "AR-B",
-    countries_id: 1
+    country_id: 1
   },
   %Province{
     name: "CABA",
     code: "AR-C",
-    countries_id: 1
+    country_id: 1
   },
   %Province{
     name: "San Luis",
     code: "AR-D",
-    countries_id: 1
+    country_id: 1
   }
 ]
 
