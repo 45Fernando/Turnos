@@ -33,6 +33,7 @@ defmodule Turnos.Users.User do
     belongs_to(:countries, Turnos.Countries.Country, foreign_key: :countries_id)
     belongs_to(:provinces, Turnos.Provinces.Province, foreign_key: :province_id)
     has_many(:guardian_tokens, Turnos.GuardianTokens.GuardianToken, foreign_key: :sub)
+    has_many(:configs, Turnos.Configs.Config, foreign_key: :user_id)
 
     timestamps()
   end
@@ -50,6 +51,7 @@ defmodule Turnos.Users.User do
 
   @lista_change_password_cast ~w(password)a
   @lista_change_password_validate_require ~w(password)a
+
 
   def create_changeset(usuario, attrs) do
     usuario

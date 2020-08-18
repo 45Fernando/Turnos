@@ -5,6 +5,10 @@ defmodule TurnosWeb.Router do
     plug :accepts, ["json"]
   end
 
+  pipeline :proffesional do
+    plug TurnosWeb.Plugs.EnsureRolePlug, [:proffesional]
+  end
+
   pipeline :admin do
     plug TurnosWeb.Plugs.EnsureRolePlug, [:admin]
   end
@@ -32,6 +36,11 @@ defmodule TurnosWeb.Router do
     #Todas estas son rutas del usuario
 
     #Todas estas son rutas del profesional
+    pipe_through :proffesional
+
+    scope "/professional", as: :professional do
+      resources "/config", Professional.ConfigController, except: [:new, :edit]
+    end
 
     #Todas estas son rutas de admin
     pipe_through :admin
