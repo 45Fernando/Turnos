@@ -8,12 +8,16 @@ defmodule TurnosWeb.Admin.MedicalInsuranceController do
 
   def index(conn, _params) do
     medicalsinsurances = MedicalsInsurances.list_medicalsinsurances()
-    render(conn, "index.json", medicalsinsurances: medicalsinsurances)
+
+    conn
+    |> put_view(TurnosWeb.MedicalInsuranceView)
+    |> render("index.json", medicalsinsurances: medicalsinsurances)
   end
 
   def create(conn, medical_insurance_params) do
     with {:ok, %MedicalInsurance{} = medical_insurance} <- MedicalsInsurances.create_medical_insurance(medical_insurance_params) do
       conn
+      |> put_view(TurnosWeb.MedicalInsuranceView)
       |> put_status(:created)
       |> put_resp_header("location", Routes.admin_medical_insurance_path(conn, :show, medical_insurance))
       |> render("show.json", medical_insurance: medical_insurance)
@@ -22,7 +26,10 @@ defmodule TurnosWeb.Admin.MedicalInsuranceController do
 
   def show(conn, %{"id" => id}) do
     medical_insurance = MedicalsInsurances.get_medical_insurance!(id)
-    render(conn, "show.json", medical_insurance: medical_insurance)
+
+    conn
+    |> put_view(TurnosWeb.MedicalInsuranceView)
+    |> render("show.json", medical_insurance: medical_insurance)
   end
 
   def update(conn, medical_insurance_params) do
@@ -31,7 +38,9 @@ defmodule TurnosWeb.Admin.MedicalInsuranceController do
     medical_insurance_params = Map.delete(medical_insurance_params, "id")
 
     with {:ok, %MedicalInsurance{} = medical_insurance} <- MedicalsInsurances.update_medical_insurance(medical_insurance, medical_insurance_params) do
-      render(conn, "show.json", medical_insurance: medical_insurance)
+      conn
+      |> put_view(TurnosWeb.MedicalInsuranceView)
+      |> render("show.json", medical_insurance: medical_insurance)
     end
   end
 

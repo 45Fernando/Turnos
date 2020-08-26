@@ -1,6 +1,6 @@
-defmodule TurnosWeb.Admin.ProvinceView do
+defmodule TurnosWeb.ProvinceView do
   use TurnosWeb, :view
-  alias TurnosWeb.Admin.ProvinceView
+  alias TurnosWeb.ProvinceView
 
   def render("index.json", %{provinces: provinces}) do
     %{data: render_many(provinces, ProvinceView, "province.json")}

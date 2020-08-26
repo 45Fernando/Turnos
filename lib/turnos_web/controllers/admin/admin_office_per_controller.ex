@@ -29,7 +29,7 @@ defmodule TurnosWeb.Admin.OfficePerController do
     office_per = Repo.get!(Turnos.OfficesPer.users_offices_per(params["user_id"]), params["id"])
 
     conn
-    |> put_view(TurnosWeb.Admin.OfficePerView)
+    |> put_view(TurnosWeb.OfficePerView)
     |> render("show.json", office_per: office_per)
   end
 

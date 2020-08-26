@@ -1,14 +1,14 @@
-defmodule TurnosWeb.Professinal.Config do
+defmodule TurnosWeb.ConfigView do
   use TurnosWeb, :view
-  alias TurnosWeb.Professinal.Config
+  alias TurnosWeb.ConfigView
 
   def render("index.json", %{configs: configs}) do
-    %{data: render_many(configs, Config, "config.json")}
+    %{data: render_many(configs, ConfigView, "config.json")}
   end
 
   def render("show.json", %{config: config}) do
     %{data:
-      render_one(config, Config, "config.json")
+      render_one(config, ConfigView, "config.json")
     }
 
   end

@@ -1,6 +1,6 @@
-defmodule TurnosWeb.Admin.GuardianTokenView do
+defmodule TurnosWeb.GuardianTokenView do
   use TurnosWeb, :view
-  alias TurnosWeb.Admin.GuardianTokenView
+  alias TurnosWeb.GuardianTokenView
 
   def render("index.json", %{guardian_tokens: guardian_tokens}) do
     %{data: render_many(guardian_tokens, GuardianTokenView, "guardian_token.json")}
@@ -20,7 +20,7 @@ defmodule TurnosWeb.Admin.GuardianTokenView do
       exp: guardian_token.exp,
       jwt: guardian_token.jwt,
       claims: guardian_token.claims,
-      user: render_one(guardian_token.users, TurnosWeb.Admin.UserView, "user.json")
+      user: render_one(guardian_token.users, TurnosWeb.UserView, "user.json")
     }
   end
 end

@@ -39,7 +39,9 @@ defmodule TurnosWeb.Router do
     pipe_through :proffesional
 
     scope "/professional", as: :professional do
-      resources "/config", Professional.ConfigController, except: [:new, :edit]
+      resources "/users", Professional.UserController, except: [:index, :new, :create, :edit, :delete] do
+        resources "/config", Professional.ConfigController, except: [:new, :edit]
+      end
     end
 
     #Todas estas son rutas de admin

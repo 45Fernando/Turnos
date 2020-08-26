@@ -1,6 +1,6 @@
-defmodule TurnosWeb.Admin.UserView do
+defmodule TurnosWeb.UserView do
   use TurnosWeb, :view
-  alias TurnosWeb.Admin.UserView
+  alias TurnosWeb.UserView
 
   def render("index.json", %{users: users}) do
     %{data: render_many(users, UserView, "user.json")}
@@ -9,9 +9,9 @@ defmodule TurnosWeb.Admin.UserView do
   def render("show.json", %{user: user}) do
     %{data:
       render_one(user, UserView, "user.json"),
-      roles: render_many(user.roles, TurnosWeb.Admin.RoleView, "role.json"),
-      country: render_one(user.countries, TurnosWeb.Admin.CountryView, "country.json"),
-      province: render_one(user.provinces, TurnosWeb.Admin.ProvinceView, "province.json")
+      roles: render_many(user.roles, TurnosWeb.RoleView, "role.json"),
+      country: render_one(user.countries, TurnosWeb.CountryView, "country.json"),
+      province: render_one(user.provinces, TurnosWeb.ProvinceView, "province.json")
     }
   end
 
@@ -44,7 +44,6 @@ defmodule TurnosWeb.Admin.UserView do
       mail: user.mail,
       address: user.address,
       professionalAddress: user.professionalAddress,
-      #password_hash: user.password_hash,
       phoneNumber: user.phoneNumber,
       professionalPhoneNumber: user.professionalPhoneNumber,
       mobilePhoneNumber: user.mobilePhoneNumber,

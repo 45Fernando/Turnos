@@ -1,6 +1,6 @@
-defmodule TurnosWeb.Admin.CountryView do
+defmodule TurnosWeb.CountryView do
   use TurnosWeb, :view
-  alias TurnosWeb.Admin.CountryView
+  alias TurnosWeb.CountryView
 
   def render("index.json", %{countries: countries}) do
     %{data: render_many(countries, CountryView, "country.json")}
@@ -9,7 +9,7 @@ defmodule TurnosWeb.Admin.CountryView do
   def render("show.json", %{country: country}) do
     %{
       data: render_one(country, CountryView, "country.json"),
-      provinces: render_many(country.provinces, TurnosWeb.Admin.ProvinceView, "province.json")
+      provinces: render_many(country.provinces, TurnosWeb.ProvinceView, "province.json")
     }
   end
 

@@ -1,4 +1,4 @@
-defmodule TurnosWeb.Admin.UserController do
+defmodule TurnosWeb.Professional.UserController do
   use TurnosWeb, :controller
 
   alias Turnos.Users
@@ -6,24 +6,6 @@ defmodule TurnosWeb.Admin.UserController do
 
   action_fallback TurnosWeb.FallbackController
 
-  def index(conn, _params) do
-    users = Users.list_users()
-
-    conn
-    |> put_view(TurnosWeb.UserView)
-    |> render("index.json", users: users)
-  end
-
-
-  def create(conn, params) do
-    with {:ok, %User{} = user} <- Users.create_user(params) do
-      conn
-      |> put_view(TurnosWeb.UserView)
-      |> put_status(:created)
-      |> put_resp_header("location", Routes.admin_user_path(conn, :show, user))
-      |> render("show.json", user: user)
-    end
-  end
 
   def show(conn, %{"id" => id}) do
     user = Users.get_user!(id)
@@ -103,23 +85,6 @@ defmodule TurnosWeb.Admin.UserController do
     |> render("show_offices.json", user: user)
   end
 
-  def update_roles(conn, params) do
-    {user, params} = get_user_params(params)
-
-    with {:ok, %User{} = user} <- Users.update_user_roles(user, params) do
-      conn
-      |> put_view(TurnosWeb.UserView)
-      |> render("show.json", user: user)
-    end
-  end
-
-  def delete(conn, %{"id" => id}) do
-    user = Users.get_user!(id)
-
-    with {:ok, %User{}} <- Users.delete_user(user) do
-      send_resp(conn, :no_content, "")
-    end
-  end
 
   defp get_user_params(params) do
     id = params["id"]
