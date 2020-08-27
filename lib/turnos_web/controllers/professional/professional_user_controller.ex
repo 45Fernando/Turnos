@@ -3,36 +3,42 @@ defmodule TurnosWeb.Professional.UserController do
 
   alias Turnos.Users
   alias Turnos.Users.User
+  alias Turnos.Repo
 
   action_fallback TurnosWeb.FallbackController
 
 
-  def show(conn, %{"id" => id}) do
-    user = Users.get_user!(id)
+  def show(conn, _params) do
+    user = Guardian.Plug.current_resource(conn)
 
     conn
     |> put_view(TurnosWeb.UserView)
     |> render("show.json", user: user)
   end
 
-  def show_medicalsinsurances(conn, %{"id" => id}) do
-    user = Users.get_usermi!(id)
+  def show_medicalsinsurances(conn, _params) do
+    user = Guardian.Plug.current_resource(conn)
+
+    medicals_insurances = Turnos.MedicalsInsurances.get_medicals_insurance_by_user(user.id) |> Repo.all
 
     conn
-    |> put_view(TurnosWeb.UserView)
-    |> render("show_mi.json", user: user)
+    |> put_view(TurnosWeb.MedicalInsuranceView)
+    |> render("index.json", medicals_insurances: medicals_insurances)
   end
 
-  def show_specialties(conn, %{"id" => id}) do
-    user = Users.get_userspecialties!(id)
+  def show_specialties(conn, _params) do
+    user = Guardian.Plug.current_resource(conn)
+
+    specialties = Turnos.Specialties.get_specialties_user(user.id) |> Repo.all
 
     conn
-    |> put_view(TurnosWeb.UserView)
-    |> render("show_specialties.json", user: user)
+    |> put_view(TurnosWeb.SpecialtyView)
+    |> render("index.json", specialties: specialties)
   end
 
   def update(conn, params) do
-    {user, params} = get_user_params(params)
+    user = Guardian.Plug.current_resource(conn)
+    params = Map.delete(params, "id")
 
     #Chequeo si tiene o no un avatar subido, si tiene borro el archivo
     #del almacenamiento para guardar el nuevo archivo.
@@ -48,7 +54,8 @@ defmodule TurnosWeb.Professional.UserController do
   end
 
   def update_password(conn, params) do
-    {user, params} = get_user_params(params)
+    user = Guardian.Plug.current_resource(conn)
+    params = Map.delete(params, "id")
 
     with {:ok, %User{} = user} <- Users.update_password(user, params) do
       conn
@@ -58,56 +65,32 @@ defmodule TurnosWeb.Professional.UserController do
   end
 
   def update_medicalsinsurances(conn, params) do
-    {user, params} = get_usermi_params(params)
-
-    with {:ok, %User{} = user} <- Users.update_user_mi(user, params) do
+    params = Map.delete(params, "id")
+    user_with_medicals_insurances =
       conn
-      |> put_view(TurnosWeb.UserView)
-      |> render("show_mi.json", user: user)
+      |> Guardian.Plug.current_resource()
+      |> Users.get_usermi!()
+
+
+    with {:ok, %User{} = user} <- Users.update_user_mi(user_with_medicals_insurances, params) do
+      conn
+      |> put_view(TurnosWeb.MedicalInsuranceView)
+      |> render("index.json", medicals_insurances: user.medicalsinsurances)
     end
   end
 
   def update_specialties(conn, params) do
-    {user, params} = get_userspecialties_params(params)
-
-    with {:ok, %User{} = user} <- Users.update_user_specialties(user, params) do
+    params = Map.delete(params, "id")
+    user_with_specialties =
       conn
-      |> put_view(TurnosWeb.UserView)
-      |> render("show_specialties.json", user: user)
+      |> Guardian.Plug.current_resource()
+      |> Users.get_userspecialties!()
+
+    with {:ok, %User{} = user} <- Users.update_user_specialties(user_with_specialties, params) do
+      conn
+      |> put_view(TurnosWeb.SpecialtyView)
+      |> render("index.json", specialties: user.specialties)
     end
-  end
-
-  def show_offices(conn, %{"user_id" => id}) do
-    user = Users.get_useroffice_per!(id)
-
-    conn
-    |> put_view(TurnosWeb.UserView)
-    |> render("show_offices.json", user: user)
-  end
-
-
-  defp get_user_params(params) do
-    id = params["id"]
-    user = Users.get_user!(id)
-    params = Map.delete(params, "id")
-
-    {user, params}
-  end
-
-  defp get_usermi_params(params) do
-    id = params["id"]
-    user = Users.get_usermi!(id)
-    params = Map.delete(params, "id")
-
-    {user, params}
-  end
-
-  def get_userspecialties_params(params) do
-    id = params["id"]
-    user = Users.get_userspecialties!(id)
-    params = Map.delete(params, "id")
-
-    {user, params}
   end
 
 end

@@ -8,7 +8,7 @@ defmodule TurnosWeb.AutentificacionView do
       name: user.name,
       lastname: user.lastname,
       token: jwt,
-      roles: render_many(roles, TurnosWeb.Admin.RoleView, "role.json") #TODO VER SI CAMBIAR ADMIN.CONTROLLER O NO
+      roles: render_many(roles, TurnosWeb.RoleView, "role.json") #TODO VER SI CAMBIAR ADMIN.CONTROLLER O NO
     }}
   end
 

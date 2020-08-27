@@ -34,19 +34,19 @@ defmodule TurnosWeb.Admin.UserController do
   end
 
   def show_medicalsinsurances(conn, %{"id" => id}) do
-    user = Users.get_usermi!(id)
+    medicals_insurances = Turnos.MedicalsInsurances.get_medicals_insurance_by_user(id)
 
     conn
-    |> put_view(TurnosWeb.UserView)
-    |> render("show_mi.json", user: user)
+    |> put_view(TurnosWeb.MedicalInsuranceView)
+    |> render("index.json", medicals_insurances: medicals_insurances)
   end
 
   def show_specialties(conn, %{"id" => id}) do
-    user = Users.get_userspecialties!(id)
+    specialties = Turnos.Specialties.get_specialties_user(id)
 
     conn
-    |> put_view(TurnosWeb.UserView)
-    |> render("show_specialties.json", user: user)
+    |> put_view(TurnosWeb.SpecialtyView)
+    |> render("index.json", specialties: specialties)
   end
 
   def update(conn, params) do
@@ -80,8 +80,8 @@ defmodule TurnosWeb.Admin.UserController do
 
     with {:ok, %User{} = user} <- Users.update_user_mi(user, params) do
       conn
-      |> put_view(TurnosWeb.UserView)
-      |> render("show_mi.json", user: user)
+      |> put_view(TurnosWeb.MedicalInsuranceView)
+      |> render("index.json", medicals_insurances: user.medicalsinsurances)
     end
   end
 
@@ -90,17 +90,17 @@ defmodule TurnosWeb.Admin.UserController do
 
     with {:ok, %User{} = user} <- Users.update_user_specialties(user, params) do
       conn
-      |> put_view(TurnosWeb.UserView)
-      |> render("show_specialties.json", user: user)
+      |> put_view(TurnosWeb.SpecialtyView)
+      |> render("index.json", specialties: user.specialties)
     end
   end
 
-  def show_offices(conn, %{"user_id" => id}) do
-    user = Users.get_useroffice_per!(id)
+  def show_roles(conn, %{"id" => id}) do
+    roles = Turnos.Roles.get_roles_by_user(id)
 
     conn
-    |> put_view(TurnosWeb.UserView)
-    |> render("show_offices.json", user: user)
+    |> put_view(TurnosWeb.RoleView)
+    |> render("index", roles: roles)
   end
 
   def update_roles(conn, params) do
@@ -108,8 +108,8 @@ defmodule TurnosWeb.Admin.UserController do
 
     with {:ok, %User{} = user} <- Users.update_user_roles(user, params) do
       conn
-      |> put_view(TurnosWeb.UserView)
-      |> render("show.json", user: user)
+      |> put_view(TurnosWeb.RoleView)
+      |> render("show.json", roles: user.roles)
     end
   end
 

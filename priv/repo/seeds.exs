@@ -348,3 +348,12 @@ lista_mi = %{"medicalinsurance_ids" => ["1", "2"]}
 
 user
 |> Turnos.Users.update_user_mi(lista_mi)
+
+
+config_data = [
+  %Config{
+    user_id: 1,
+    day_id: 1,
+    office_per_id: 1
+  }
+]

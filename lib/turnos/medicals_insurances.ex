@@ -37,6 +37,12 @@ defmodule Turnos.MedicalsInsurances do
   """
   def get_medical_insurance!(id), do: Repo.get!(MedicalInsurance, id)
 
+  def get_medicals_insurance_by_user(user_id) do
+    user_id
+    |> Turnos.Users.get_user!()
+    |> Ecto.assoc(:medicals_insurance)
+  end
+
   @doc """
   Creates a medical_insurance.
 

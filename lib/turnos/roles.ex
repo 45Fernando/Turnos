@@ -37,6 +37,12 @@ defmodule Turnos.Roles do
   """
   def get_role!(id), do: Repo.get!(Role, id)
 
+  def get_roles_by_user(user_id) do
+    user_id
+    |> Turnos.Users.get_user!()
+    |> Ecto.assoc(:roles)
+  end
+
   @doc """
   Creates a role.
 
@@ -73,6 +79,7 @@ defmodule Turnos.Roles do
     |> Repo.update()
   end
 
+  @spec delete_role(Turnos.Roles.Role.t()) :: any
   @doc """
   Deletes a Role.
 

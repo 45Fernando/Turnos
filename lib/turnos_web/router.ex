@@ -5,8 +5,12 @@ defmodule TurnosWeb.Router do
     plug :accepts, ["json"]
   end
 
+  pipeline :paciente do
+    plug TurnosWeb.Plugs.EnsureRolePlug, [:paciente]
+  end
+
   pipeline :proffesional do
-    plug TurnosWeb.Plugs.EnsureRolePlug, [:proffesional]
+    plug TurnosWeb.Plugs.EnsureRolePlug, [:profesional]
   end
 
   pipeline :admin do
@@ -33,8 +37,12 @@ defmodule TurnosWeb.Router do
     delete "/identity/callback", AutentificacionController, :delete
     post "/identity/callback", AutentificacionController, :refresh
 
-    #Todas estas son rutas del usuario
+    resources "/countries", Admin.CountryController, only: [:index] do
+      resources "/provinces", Admin.ProvinceController, only: [:index]
+    end
 
+    #Todas estas son rutas del usuario
+    pipe_through :paciente
     #Todas estas son rutas del profesional
     pipe_through :proffesional
 
@@ -52,15 +60,19 @@ defmodule TurnosWeb.Router do
         resources "/offices_per", Admin.OfficePerController, except: [:new, :edit]
       end
 
-      put "/users/:id/updatepassword", Admin.UserController, :update_password#TODO duda si tiene que tener su admin
-      put "/users/:id/medicalsinsurances", Admin.UserController, :update_medicalsinsurances
-      get "/users/:id/medicalsinsurances", Admin.UserController, :show_medicalsinsurances
-      put "/users/:id/roles", Admin.UserController, :update_roles
-      put "/users/:id/specialties", Admin.UserController, :update_specialties
-      get "/users/:id/specialties", Admin.UserController, :show_specialties
+      put "/users/:user_id/updatepassword", Admin.UserController, :update_password
 
-      resources "/countries", Admin.CountryController, except: [:new, :edit] do
-        resources "/provinces", Admin.ProvinceController, except: [:new, :edit]
+      put "/users/:user_id/medicalsinsurances", Admin.UserController, :update_medicalsinsurances
+      get "/users/:user_id/medicalsinsurances", Admin.UserController, :show_medicalsinsurances
+
+      put "/users/:user_id/roles", Admin.UserController, :update_roles
+      get "/users/:user_id/roles", Admin.UserController, :show_roles
+
+      put "/users/:user_id/specialties", Admin.UserController, :update_specialties
+      get "/users/:user_id/specialties", Admin.UserController, :show_specialties
+
+      resources "/countries", Admin.CountryController, except: [:new, :edit, :index] do
+        resources "/provinces", Admin.ProvinceController, except: [:new, :edit, :index]
       end
 
       resources "/roles", Admin.RoleController, except: [:new, :create, :edit, :delete]

@@ -37,6 +37,12 @@ defmodule Turnos.Specialties do
   """
   def get_specialty!(id), do: Repo.get!(Specialty, id)
 
+  def get_specialties_user(user_id) do
+    user_id
+    |> Turnos.Users.get_user!()
+    |> Ecto.assoc(:specialties)
+  end
+
   @doc """
   Creates a specialty.
 
