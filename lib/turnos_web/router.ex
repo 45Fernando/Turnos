@@ -28,7 +28,7 @@ defmodule TurnosWeb.Router do
       post "/identity/callback", AutentificacionController, :identity_callback
     end
 
-    post "/users", Admin.UserController, :create
+    resources "/users", Admin.UserController, only: [:create]
     get "/users/:mail", Paciente.UserController, :search_by_mail
 
     #Todo de aca para abajo va a pasar por la autentificacion.
@@ -44,7 +44,10 @@ defmodule TurnosWeb.Router do
     #Todas estas son rutas del usuario
     pipe_through :paciente
 
-    resources "/users", Paciente.UserController, only: [:show, :update]
+    scope "/paciente", as: :paciente do
+      resources "/users", Paciente.UserController, except: [:index, :new, :create, :edit, :delete]
+    end
+
 
     #Todas estas son rutas del profesional
     pipe_through :proffesional
