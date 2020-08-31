@@ -42,9 +42,16 @@ defmodule Turnos.Users.User do
   phoneNumber professionalPhoneNumber mobilePhoneNumber profilePicture status birthDate cuil nationalRegistration
   provincialRegistration countries_id province_id location)a
 
+  @lista_cast_paciente ~w(name lastname dni mail address
+  phoneNumber mobilePhoneNumber profilePicture birthDate
+  countries_id province_id location)a
+
   @lista_validate_require ~w(name lastname dni mail address professionalAddress
    phoneNumber professionalPhoneNumber mobilePhoneNumber profilePicture status birthDate cuil nationalRegistration
-  provincialRegistration location)a
+  provincialRegistration countries_id province_id location)a
+
+  @lista_require_paciente ~w(name lastname dni mail
+  mobilePhoneNumber countries_id province_id location)a
 
   @lista_create_cast ~w(name lastname mail password countries_id)a
   @lista_create_validate_require ~w(name lastname mail password)a
@@ -69,6 +76,16 @@ defmodule Turnos.Users.User do
     |> cast(attrs, @lista_cast)
     |> validate_required([])#@lista_validate_require
     |> cast_attachments(attrs, [:avatar])
+    |> foreign_key_constraint(:countries_id)
+    |> foreign_key_constraint(:province_id)
+    |> unique_email()
+    |> put_pass_hash()
+  end
+
+  def update_paciente_changeset(user, attrs) do
+    user
+    |> cast(attrs, @lista_cast_paciente)
+    |> validate_required(@lista_require_paciente)
     |> foreign_key_constraint(:countries_id)
     |> foreign_key_constraint(:province_id)
     |> unique_email()

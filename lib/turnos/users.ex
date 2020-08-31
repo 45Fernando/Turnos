@@ -85,6 +85,7 @@ defmodule Turnos.Users do
     |> Repo.insert()
   end
 
+
   @doc """
   Updates a usuario.
 
@@ -102,6 +103,16 @@ defmodule Turnos.Users do
     |> User.update_changeset(attrs)
     |> Repo.update()
     |> case do
+      {:ok, user} -> {:ok, Repo.preload(user, :countries, force: true)}
+      error -> error
+    end
+  end
+
+  def update_user_paciente(%User{} = user, attrs) do
+    user
+    |> User.update_paciente_changeset(attrs)
+    |> Repo.update()
+    |> case  do
       {:ok, user} -> {:ok, Repo.preload(user, :countries, force: true)}
       error -> error
     end

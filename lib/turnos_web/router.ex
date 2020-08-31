@@ -29,7 +29,7 @@ defmodule TurnosWeb.Router do
     end
 
     post "/users", Admin.UserController, :create
-    get "/users/:mail", UserController, :search_by_mail
+    get "/users/:mail", Paciente.UserController, :search_by_mail
 
     #Todo de aca para abajo va a pasar por la autentificacion.
     pipe_through :authenticated
@@ -43,6 +43,9 @@ defmodule TurnosWeb.Router do
 
     #Todas estas son rutas del usuario
     pipe_through :paciente
+
+    resources "/users", Paciente.UserController, only: [:show, :update]
+
     #Todas estas son rutas del profesional
     pipe_through :proffesional
 
