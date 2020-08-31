@@ -21,7 +21,7 @@ defmodule Turnos.OfficesPer do
     Repo.all(OfficePer)
   end
 
-  def users_offices_per(user_id)do
+  def get_offices_per_by_user(user_id)do
     user_id
     |> Turnos.Users.get_user!()
     |> Ecto.assoc(:offices_per)

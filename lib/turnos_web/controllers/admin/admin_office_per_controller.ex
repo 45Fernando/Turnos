@@ -10,7 +10,7 @@ defmodule TurnosWeb.Admin.OfficePerController do
 
   def index(conn, params) do
     offices_per =
-      Turnos.OfficesPer.users_offices_per(params["user_id"])
+      Turnos.OfficesPer.get_offices_per_by_user(params["user_id"])
       |> Repo.all
 
     render(conn, "index.json", offices_per: offices_per)
@@ -26,7 +26,7 @@ defmodule TurnosWeb.Admin.OfficePerController do
   end
 
   def show(conn, params) do
-    office_per = Repo.get!(Turnos.OfficesPer.users_offices_per(params["user_id"]), params["id"])
+    office_per = Repo.get!(Turnos.OfficesPer.get_offices_per_by_user(params["user_id"]), params["id"])
 
     conn
     |> put_view(TurnosWeb.OfficePerView)
@@ -34,7 +34,7 @@ defmodule TurnosWeb.Admin.OfficePerController do
   end
 
   def update(conn, params) do
-    office_per = Repo.get!(Turnos.OfficesPer.users_offices_per(params["user_id"]), params["id"])
+    office_per = Repo.get!(Turnos.OfficesPer.get_offices_per_by_user(params["user_id"]), params["id"])
     params = Map.delete(params, "id")
 
     with {:ok, %OfficePer{} = office_per} <- OfficesPer.update_office_per(office_per, params) do
@@ -43,7 +43,7 @@ defmodule TurnosWeb.Admin.OfficePerController do
   end
 
   def delete(conn, params) do
-    office_per = Repo.get!(Turnos.OfficesPer.users_offices_per(params["user_id"]), params["id"])
+    office_per = Repo.get!(Turnos.OfficesPer.get_offices_per_by_user(params["user_id"]), params["id"])
 
     with {:ok, %OfficePer{}} <- OfficesPer.delete_office_per(office_per) do
       send_resp(conn, :no_content, "")

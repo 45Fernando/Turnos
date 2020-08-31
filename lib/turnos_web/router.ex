@@ -49,6 +49,7 @@ defmodule TurnosWeb.Router do
     scope "/professional", as: :professional do
       resources "/users", Professional.UserController, except: [:index, :new, :create, :edit, :delete] do
         resources "/config", Professional.ConfigController, except: [:new, :edit]
+        resources "/offices_per", Professional.OfficePerController, only: [:index, :create, :show, :update, :delete]
       end
     end
 
