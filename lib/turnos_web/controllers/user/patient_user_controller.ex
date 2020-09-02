@@ -1,17 +1,36 @@
-defmodule TurnosWeb.Paciente.UserController do
+defmodule TurnosWeb.Patient.UserController do
   use TurnosWeb, :controller
 
   alias Turnos.Users
   alias Turnos.Users.User
+  alias Turnos.Repo
 
   action_fallback TurnosWeb.FallbackController
 
+  #Muestra el perfil de un paciente
   def show(conn, _params) do
     user = conn |> Guardian.Plug.current_resource()
 
     conn
     |> put_view(TurnosWeb.UserView)
     |> render("show.json", user: user)
+  end
+
+  #Muestra el listado de profesionales
+  def index_professionals(conn, _params) do
+    professionals = Users.list_professionals() |> Repo.all()
+
+    conn
+    |> put_view(TurnosWeb.UserView)
+    |> render("index_professional.json", professionals: professionals)
+  end
+
+  def show_professionals(conn, params) do
+    professional = Users.list_professionals() |> Repo.get!(params["id"])
+
+    conn
+    |> put_view(TurnosWeb.UserView)
+    |> render("show_professional.json", professional: professional)
   end
 
   def update(conn, params) do

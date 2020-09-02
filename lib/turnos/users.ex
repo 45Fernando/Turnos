@@ -22,6 +22,11 @@ defmodule Turnos.Users do
     Repo.all(User)
   end
 
+  def list_professionals do
+    User
+    |> where(role_id: 2)
+  end
+
   @doc """
   Gets a single usuario.
 

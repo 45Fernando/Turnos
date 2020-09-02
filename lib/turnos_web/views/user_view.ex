@@ -26,7 +26,6 @@ defmodule TurnosWeb.UserView do
       phoneNumber: user.phoneNumber,
       professionalPhoneNumber: user.professionalPhoneNumber,
       mobilePhoneNumber: user.mobilePhoneNumber,
-      profilePicture: user.profilePicture,
       status: user.status,
       birthDate: user.birthDate,
       cuil: user.cuil,
@@ -34,6 +33,35 @@ defmodule TurnosWeb.UserView do
       provincialRegistration: user.provincialRegistration,
       location: user.location,
       avatars: TurnosWeb.Uploaders.Avatar.urls({user.avatar, user})
+    }
+  end
+
+  #Para mostrar el profesional desde el lado del paciente
+  def render("index_professional.json", %{professionals: professionals}) do
+    %{data: render_many(professionals, UserView, "professional.json")}
+  end
+
+  def render("show_professional.json", %{professional: professional}) do
+    %{data:
+      render_one(professional, UserView, "professional.json"),
+      roles: render_many(professional.roles, TurnosWeb.RoleView, "role.json"),
+      country: render_one(professional.countries, TurnosWeb.CountryView, "country.json"),
+      province: render_one(professional.provinces, TurnosWeb.ProvinceView, "province.json")
+    }
+  end
+
+  def render("professional.json", %{professional: professional}) do
+    %{id: professional.id,
+      name: professional.name,
+      lastname: professional.lastname,
+      mail: professional.mail,
+      professionalAddress: professional.professionalAddress,
+      professionalPhoneNumber: professional.professionalPhoneNumber,
+      status: professional.status,
+      nationalRegistration: professional.nationalRegistration,
+      provincialRegistration: professional.provincialRegistration,
+      location: professional.location,
+      avatars: TurnosWeb.Uploaders.Avatar.urls({professional.avatar, professional})
     }
   end
 

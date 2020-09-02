@@ -37,6 +37,7 @@ defmodule TurnosWeb.Router do
     delete "/identity/callback", AutentificacionController, :delete
     post "/identity/callback", AutentificacionController, :refresh
 
+
     resources "/countries", Admin.CountryController, only: [:index] do
       resources "/provinces", Admin.ProvinceController, only: [:index]
     end
@@ -44,10 +45,14 @@ defmodule TurnosWeb.Router do
     #Todas estas son rutas del usuario
     pipe_through :paciente
 
-    scope "/paciente", as: :paciente do
-      resources "/users", Paciente.UserController, except: [:index, :new, :create, :edit, :delete]
+    scope "/patient", as: :patient do
+      resources "/users", Patient.UserController, except: [:index, :new, :create, :edit, :delete]
+      get "/professionals", Patient.UserController, :index_professionals
+      get "/professionals/:id", Patient.UserController, :show_professionals
     end
 
+    #TODO organizar lo de los turnos
+    resources "/appointments", AppointmentController, except: [:new, :edit]
 
     #Todas estas son rutas del profesional
     pipe_through :proffesional
