@@ -38,12 +38,12 @@ defmodule TurnosWeb.UserView do
 
   #Para mostrar el profesional desde el lado del paciente
   def render("index_professional.json", %{professionals: professionals}) do
-    %{data: render_many(professionals, UserView, "professional.json")}
+    %{data: render_many(professionals, UserView, "professional.json", as: :professional)}
   end
 
   def render("show_professional.json", %{professional: professional}) do
     %{data:
-      render_one(professional, UserView, "professional.json"),
+      render_one(professional, UserView, "professional.json", as: :professional),
       roles: render_many(professional.roles, TurnosWeb.RoleView, "role.json"),
       country: render_one(professional.countries, TurnosWeb.CountryView, "country.json"),
       province: render_one(professional.provinces, TurnosWeb.ProvinceView, "province.json")

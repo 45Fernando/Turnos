@@ -23,8 +23,11 @@ defmodule Turnos.Users do
   end
 
   def list_professionals do
-    User
-    |> where(role_id: 2)
+    Turnos.Roles.Role
+    |> where(roleName: "profesional")
+    |> join(:inner, [r], ur in "users_roles", on: r.id == ur.role_id)
+    |> join(:inner, [r, ur], u in User, on: ur.user_id == u.id)
+    |> select([r, ur, u], u)
   end
 
   @doc """

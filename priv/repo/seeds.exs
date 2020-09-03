@@ -181,6 +181,48 @@ users_data = [%User{
   countries_id: 1,
   province_id: 1,
   location: "Salta"
+},
+%User{
+  lastname: "Trump",
+  mobilePhoneNumber: "3875147485",
+  password_hash: Argon2.add_hash("123456") |> Map.get(:password_hash),
+  cuil: "20206667771",
+  address: "Parque Belgrano Manzana 7 687",
+  professionalAddress: "Avenida Belgrano 478",
+  dni: "20666777",
+  status: true,
+  birthDate: ~D[1980-07-22],
+  profilePicture: "url",
+  mail: "donaldtrump@gmail.com",
+  provincialRegistration: "159",
+  nationalRegistration: "1258",
+  name: "Donald",
+  phoneNumber: "3874283312",
+  professionalPhoneNumber: "3874963852",
+  countries_id: 1,
+  province_id: 3,
+  location: "Salta"
+},
+%User{
+  lastname: "Messi",
+  mobilePhoneNumber: "3875147852",
+  password_hash: Argon2.add_hash("123456") |> Map.get(:password_hash),
+  cuil: "20205557771",
+  address: "Parque Belgrano Manzana 7 687",
+  professionalAddress: "Avenida Belgrano 478",
+  dni: "20555777",
+  status: true,
+  birthDate: ~D[1980-07-22],
+  profilePicture: "url",
+  mail: "lionelmessi@gmail.com",
+  provincialRegistration: "741",
+  nationalRegistration: "5574",
+  name: "Lionel",
+  phoneNumber: "3874283312",
+  professionalPhoneNumber: "3874963852",
+  countries_id: 1,
+  province_id: 3,
+  location: "Salta"
 }]
 
 
@@ -324,6 +366,9 @@ end)
 user = Repo.get_by(User, mail: "rodrigocardozo@gmail.com")
 user2 = Repo.get_by(User, mail: "josebenavidez@gmail.com")
 user3 = Repo.get_by(User, mail: "juanperez@gmail.com")
+user4 = Repo.get_by(User, mail: "donaldtrump@gmail.com")
+user5 = Repo.get_by(User, mail: "lionelmessi@gmail.com")
+
 
 #Asociando roles
 lista_roles = %{"role_ids" => ["1", "2", "3"]}
@@ -336,6 +381,13 @@ user2
 
 user3
 |> Turnos.Users.update_user_roles(%{"role_ids" => ["2"]})
+
+user4
+|> Turnos.Users.update_user_roles(%{"role_ids" => ["2"]})
+
+user5
+|> Turnos.Users.update_user_roles(%{"role_ids" => ["2"]})
+
 
 #Asociando especialidades
 lista_especialidades = %{"specialty_ids" => ["1", "2", "3"]}
@@ -350,10 +402,10 @@ user
 |> Turnos.Users.update_user_mi(lista_mi)
 
 
-config_data = [
-  %Config{
-    user_id: 1,
-    day_id: 1,
-    office_per_id: 1
-  }
-]
+#config_data = [
+#  %Config{
+#    user_id: 1,
+#    day_id: 1,
+#    office_per_id: 1
+#  }
+#]

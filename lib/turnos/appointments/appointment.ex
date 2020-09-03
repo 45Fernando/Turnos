@@ -9,7 +9,7 @@ defmodule Turnos.Appointments.Appointment do
     field :time_start, :time
 
     belongs_to(:appointments_patient, Turnos.Users.User, foreign_key: :patient_id)
-    belongs_to(:appointments_professional, Turnos.Users.User, foreign_key: :profesional_id)
+    belongs_to(:appointments_professional, Turnos.Users.User, foreign_key: :professional_id)
 
     timestamps()
   end

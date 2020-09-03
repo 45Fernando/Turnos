@@ -29,7 +29,7 @@ defmodule TurnosWeb.Router do
     end
 
     resources "/users", Admin.UserController, only: [:create]
-    get "/users/:mail", Paciente.UserController, :search_by_mail
+    get "/users/:mail", Patient.UserController, :search_by_mail
 
     #Todo de aca para abajo va a pasar por la autentificacion.
     pipe_through :authenticated

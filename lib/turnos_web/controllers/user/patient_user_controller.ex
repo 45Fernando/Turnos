@@ -20,17 +20,28 @@ defmodule TurnosWeb.Patient.UserController do
   def index_professionals(conn, _params) do
     professionals = Users.list_professionals() |> Repo.all()
 
+    IO.inspect(professionals, label: "PROFESIONALES")
+
     conn
     |> put_view(TurnosWeb.UserView)
     |> render("index_professional.json", professionals: professionals)
   end
 
   def show_professionals(conn, params) do
-    professional = Users.list_professionals() |> Repo.get!(params["id"])
+    professional = Users.get_user!(params["id"])
 
-    conn
-    |> put_view(TurnosWeb.UserView)
-    |> render("show_professional.json", professional: professional)
+    IO.inspect(professional.roles, label: "ROLES")
+
+    if Enum.any?(professional.roles, fn(x) -> x.roleName == "profesional" end) do
+      conn
+      |> put_view(TurnosWeb.UserView)
+      |> render("show_professional.json", professional: professional)
+    else
+      conn
+      |> put_status(404)
+      |> Phoenix.Controller.render(TurnosWeb.ErrorView, :"404")
+      |> halt()
+    end
   end
 
   def update(conn, params) do
