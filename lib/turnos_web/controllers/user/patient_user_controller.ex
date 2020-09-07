@@ -30,8 +30,6 @@ defmodule TurnosWeb.Patient.UserController do
   def show_professionals(conn, params) do
     professional = Users.get_user!(params["id"])
 
-    IO.inspect(professional.roles, label: "ROLES")
-
     if Enum.any?(professional.roles, fn(x) -> x.roleName == "profesional" end) do
       conn
       |> put_view(TurnosWeb.UserView)
@@ -62,6 +60,7 @@ defmodule TurnosWeb.Patient.UserController do
   end
 
   #Buscar si existe un mail registrado o no
+  #Preguntar si deberia valida que es una direccion de mail
   def search_by_mail(conn, %{"mail" => mail}) do
     user = Users.get_user_by_mail(mail)
 
@@ -71,7 +70,9 @@ defmodule TurnosWeb.Patient.UserController do
                 "Available"
               end
 
-    render(conn, "mail.json", message: message)
+    conn
+    |> put_view(TurnosWeb.UserView)
+    |> render("mail.json", message: message)
   end
 
 end

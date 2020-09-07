@@ -65,4 +65,10 @@ defmodule TurnosWeb.UserView do
     }
   end
 
+  def render("mail.json", %{message: message}) do
+    %{
+        message: message
+      }
+  end
+
 end
