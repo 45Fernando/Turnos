@@ -3,6 +3,7 @@ defmodule TurnosWeb.Admin.CountryController do
 
   alias Turnos.Countries
   alias Turnos.Countries.Country
+  alias Turnos.Repo
 
   action_fallback TurnosWeb.FallbackController
 
@@ -16,6 +17,8 @@ defmodule TurnosWeb.Admin.CountryController do
 
   def create(conn, country_params) do
     with {:ok, %Country{} = country} <- Countries.create_country(country_params) do
+      country = country |> Repo.preload(:provinces)
+
       conn
       |> put_view(TurnosWeb.CountryView)
       |> put_status(:created)
