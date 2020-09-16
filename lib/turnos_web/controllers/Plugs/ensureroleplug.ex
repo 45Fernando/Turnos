@@ -31,7 +31,6 @@ defmodule TurnosWeb.Plugs.EnsureRolePlug do
   defp has_role?(nil, _roles), do: false
   defp has_role?(user, roles) do
     userRoles = extract_roles(user)
-
     Enum.any?(roles, fn x -> Atom.to_string(x) in userRoles end)
   end
 

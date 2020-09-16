@@ -50,7 +50,8 @@ defmodule Turnos.MixProject do
       {:cors_plug, "~> 2.0"},
       {:guardian_db, "~> 2.0"},
       {:waffle, "~> 1.1.0", override: true},
-      {:waffle_ecto, "~> 0.0.8"}
+      {:waffle_ecto, "~> 0.0.8"},
+      {:tzdata, "~> 1.0.1"}
     ]
   end
 

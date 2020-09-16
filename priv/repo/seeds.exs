@@ -20,6 +20,7 @@ alias Turnos.Days.Day
 alias Turnos.Specialties.Specialty
 alias Turnos.Countries.Country
 alias Turnos.Provinces.Province
+alias Turnos.ConfigHeaders.ConfigHeader
 
 #Insertando paises
 Repo.delete_all(Country)
@@ -400,3 +401,13 @@ lista_mi = %{"medicalinsurance_ids" => ["1", "2"]}
 
 user
 |> Turnos.Users.update_user_mi(lista_mi)
+
+
+#Agregando una configuracion de un profesional
+
+config = %ConfigHeader{
+  user_id: 1,
+  generate_every_days: 30
+}
+
+Repo.insert!(config)

@@ -43,9 +43,9 @@ defmodule TurnosWeb.Router do
     end
 
     #Todas estas son rutas del usuario
-    pipe_through :paciente
-
     scope "/patient", as: :patient do
+      pipe_through :paciente
+
       resources "/users", Patient.UserController, except: [:index, :new, :create, :edit, :delete]
       get "/professionals", Patient.UserController, :index_professionals
       get "/professionals/:id", Patient.UserController, :show_professionals
@@ -55,19 +55,21 @@ defmodule TurnosWeb.Router do
     resources "/appointments", AppointmentController, except: [:new, :edit]
 
     #Todas estas son rutas del profesional
-    pipe_through :proffesional
-
     scope "/professional", as: :professional do
+      pipe_through :proffesional
+
       resources "/users", Professional.UserController, except: [:index, :new, :create, :edit, :delete] do
-        resources "/config", Professional.ConfigController, except: [:new, :edit]
+        resources "/config", Professional.ConfigHeaderController, only: [:create]#except: [:new, :edit, :show, :update, :delete]
+        get "/config", Professional.ConfigHeaderController, :show
+        put "/config", Professional.ConfigHeaderController, :update
         resources "/offices_per", Professional.OfficePerController, only: [:index, :create, :show, :update, :delete]
       end
     end
 
     #Todas estas son rutas de admin
-    pipe_through :admin
-
     scope "/admin", as: :admin do
+      pipe_through :admin
+
       resources "/users", Admin.UserController, except: [:new, :create, :edit, :delete] do
         resources "/offices_per", Admin.OfficePerController, except: [:new, :edit]
       end

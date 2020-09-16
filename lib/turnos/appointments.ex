@@ -38,12 +38,19 @@ defmodule Turnos.Appointments do
   def get_appointment!(id), do: Repo.get!(Appointment, id)
 
   def get_appointment_by_users(user_id) do
-    today = Date.utc_today()
+    today = DateTime.now("America/Argentina")
 
     user_id
     |> Turnos.Users.get_user!()
     |> Ecto.assoc(:appointments_patient)
     |> where([a], a.appointment_date >= ^today)
+  end
+
+  def get_appointment_by_users(user_id, from_date, to_date) do
+    user_id
+    |> Turnos.Users.get_user!()
+    |> Ecto.assoc(:appointments_patient)
+    |> where([a], a.appointment_date >= ^from_date and a.appointment_date <= ^ to_date)
   end
 
   @doc """

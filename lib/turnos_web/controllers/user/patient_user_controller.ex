@@ -20,8 +20,6 @@ defmodule TurnosWeb.Patient.UserController do
   def index_professionals(conn, _params) do
     professionals = Users.list_professionals() |> Repo.all()
 
-    IO.inspect(professionals, label: "PROFESIONALES")
-
     conn
     |> put_view(TurnosWeb.UserView)
     |> render("index_professional.json", professionals: professionals)

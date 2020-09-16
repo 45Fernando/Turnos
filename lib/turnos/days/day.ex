@@ -5,7 +5,7 @@ defmodule Turnos.Days.Day do
   schema "days" do
     field :name, :string
 
-    has_many(:configs, Turnos.Configs.Config, foreign_key: :day_id)
+    #has_many(:configs, Turnos.Configs.Config, foreign_key: :day_id)
 
     timestamps()
   end

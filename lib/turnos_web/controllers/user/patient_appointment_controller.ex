@@ -9,8 +9,13 @@ defmodule TurnosWeb.Patient.AppointmentController do
   #Muestra los turnos proximos del paciente, con fecha mayor o igual
   #a la actual
   def index(conn, _params) do
-    appointments = Appointments.list_appointments()
-    render(conn, "index.json", appointments: appointments)
+    user = conn |> Guardian.Plug.current_resource()
+
+    appointments = Appointments.get_appointment_by_users(user.id)
+
+    conn
+    |> put_view(TurnosWeb.AppointmentView)
+    |> render("index.json", appointments: appointments)
   end
 
   #Muestra los turnos disponibles relacionados a un profesional.

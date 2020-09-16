@@ -3,7 +3,7 @@ defmodule Turnos.Appointments.Appointment do
   import Ecto.Changeset
 
   schema "appointments" do
-    field :appointment_date, :date
+    field :appointment_date, :utc_datetime
     field :availability, :boolean, default: false
     field :time_end, :time
     field :time_start, :time

@@ -65,6 +65,8 @@ storage_dir_prefix: "priv/waffle/public",
 #bucket: {:system, "AWS_S3_BUCKET"}, # if using S3
 asset_host: "http://localhost:4000" # or {:system, "ASSET_HOST"}
 
+config :elixir, :time_zone_database, Tzdata.TimeZoneDatabase
+
 # Import environment specific config. This must remain at the bottom
 # of this file so it overrides the configuration defined above.
 import_config "#{Mix.env()}.exs"

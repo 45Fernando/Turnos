@@ -33,7 +33,7 @@ defmodule Turnos.Users.User do
     belongs_to(:countries, Turnos.Countries.Country, foreign_key: :countries_id)
     belongs_to(:provinces, Turnos.Provinces.Province, foreign_key: :province_id)
     has_many(:guardian_tokens, Turnos.GuardianTokens.GuardianToken, foreign_key: :sub)
-    has_many(:configs, Turnos.Configs.Config, foreign_key: :user_id)
+    has_one(:config_header, Turnos.ConfigHeaders.ConfigHeader, foreign_key: :user_id)
     has_many(:appointments_patient, Turnos.Appointments.Appointment, foreign_key: :patient_id)
     has_many(:appointments_professional, Turnos.Appointments.Appointment, foreign_key: :professional_id)
 
