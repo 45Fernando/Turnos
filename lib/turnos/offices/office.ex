@@ -10,7 +10,7 @@ defmodule Turnos.Offices.Office do
     field :phone, :string
     field :status, :boolean, default: true
 
-    #has_many(:configs, Turnos.Configs.Config, foreign_key: :office_id)
+    has_many(:config_details, Turnos.ConfigDetails.ConfigDetail, foreign_key: :office_id)
 
     timestamps()
   end

@@ -62,8 +62,11 @@ defmodule TurnosWeb.Router do
         resources "/config", Professional.ConfigHeaderController, only: [:create]#except: [:new, :edit, :show, :update, :delete]
         get "/config", Professional.ConfigHeaderController, :show
         put "/config", Professional.ConfigHeaderController, :update
+        resources "/config/config_details", Professional.ConfigDetailController, except: [:new, :edit]
         resources "/offices_per", Professional.OfficePerController, only: [:index, :create, :show, :update, :delete]
       end
+
+
     end
 
     #Todas estas son rutas de admin

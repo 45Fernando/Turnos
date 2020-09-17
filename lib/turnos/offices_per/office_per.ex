@@ -13,7 +13,7 @@ defmodule Turnos.OfficesPer.OfficePer do
     field :long, :string
 
     belongs_to :users, Turnos.Users.User, foreign_key: :user_id
-    #has_many(:configs, Turnos.Configs.Config, foreign_key: :office_per_id)
+    has_many(:config_details, Turnos.ConfigDetails.ConfigDetail, foreign_key: :office_per_id)
 
     timestamps()
   end

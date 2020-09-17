@@ -21,6 +21,7 @@ alias Turnos.Specialties.Specialty
 alias Turnos.Countries.Country
 alias Turnos.Provinces.Province
 alias Turnos.ConfigHeaders.ConfigHeader
+alias Turnos.ConfigDetails.ConfigDetail
 
 #Insertando paises
 Repo.delete_all(Country)
@@ -405,9 +406,52 @@ user
 
 #Agregando una configuracion de un profesional
 
-config = %ConfigHeader{
+config_header = %ConfigHeader{
   user_id: 1,
   generate_every_days: 30
 }
 
-Repo.insert!(config)
+Repo.insert!(config_header)
+
+
+config_details = [
+  %ConfigDetail{
+    config_header_id: 1,
+    day_id: 1,
+    office_per_id: 1,
+    minutes_interval: 20,
+    start_time: ~T[17:00:00],
+    end_time: ~T[21:00:00]
+  },
+  %ConfigDetail{
+    config_header_id: 1,
+    day_id: 2,
+    office_id: 1,
+    minutes_interval: 30,
+    start_time: ~T[09:00:00],
+    end_time: ~T[13:00:00]
+  },
+  %ConfigDetail{
+    config_header_id: 1,
+    day_id: 4,
+    office_per_id: 2,
+    minutes_interval: 15,
+    start_time: ~T[15:00:00],
+    end_time: ~T[20:00:00],
+    overturn: true,
+    quantity_persons_overturn: 4
+  },
+  %ConfigDetail{
+    config_header_id: 1,
+    day_id: 5,
+    office_id: 2,
+    minutes_interval: 15,
+    start_time: ~T[15:00:00],
+    end_time: ~T[20:00:00],
+    quantity_persons_per_day: 10
+  }
+]
+
+Enum.each(config_details, fn(data) ->
+  Repo.insert!(data)
+end)

@@ -9,15 +9,6 @@ defmodule Turnos.Repo.Migrations.CreateConfigHeadersTable do
       add :lastdate, :utc_datetime
 
       timestamps()
-      #add :day_id, references(:days)
-      #add :office_per_id, references(:offices_per)
-      #add :office_id, references(:offices)
-      #add :minutes_interval, :integer, null: false
-      #add :time_start, :time, null: false
-      #add :time_end, :time, null: false
-      #add :overturn, :boolean, default: false
-      #add :quantity_persons_overturn, :integer, default: 0
-      #add :quantity_persons_per_day, :integer, default: 0
 
     end
   end
