@@ -62,6 +62,14 @@ defmodule Turnos.ConfigDetails do
     %ConfigDetail{}
     |> ConfigDetail.changeset(attrs)
     |> Repo.insert()
+    |> case do
+      {:ok, config_detail} -> {:ok, config_detail
+                                     |> Repo.preload(:days)
+                                     |> Repo.preload(:offices_per)
+                                     |> Repo.preload(:offices)
+                                    }
+      error -> error
+    end
   end
 
   @doc """

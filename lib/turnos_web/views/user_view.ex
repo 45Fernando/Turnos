@@ -8,10 +8,7 @@ defmodule TurnosWeb.UserView do
 
   def render("show.json", %{user: user}) do
     %{data:
-      render_one(user, UserView, "user.json"),
-      roles: render_many(user.roles, TurnosWeb.RoleView, "role.json"),
-      country: render_one(user.countries, TurnosWeb.CountryView, "country.json"),
-      province: render_one(user.provinces, TurnosWeb.ProvinceView, "province.json")
+      render_one(user, UserView, "user.json")
     }
   end
 
@@ -32,7 +29,10 @@ defmodule TurnosWeb.UserView do
       nationalRegistration: user.nationalRegistration,
       provincialRegistration: user.provincialRegistration,
       location: user.location,
-      avatars: TurnosWeb.Uploaders.Avatar.urls({user.avatar, user})
+      avatars: TurnosWeb.Uploaders.Avatar.urls({user.avatar, user}),
+      roles: render_many(user.roles, TurnosWeb.RoleView, "role.json"),
+      country: render_one(user.countries, TurnosWeb.CountryView, "country.json"),
+      province: render_one(user.provinces, TurnosWeb.ProvinceView, "province.json")
     }
   end
 
@@ -43,10 +43,7 @@ defmodule TurnosWeb.UserView do
 
   def render("show_professional.json", %{professional: professional}) do
     %{data:
-      render_one(professional, UserView, "professional.json", as: :professional),
-      roles: render_many(professional.roles, TurnosWeb.RoleView, "role.json"),
-      country: render_one(professional.countries, TurnosWeb.CountryView, "country.json"),
-      province: render_one(professional.provinces, TurnosWeb.ProvinceView, "province.json")
+      render_one(professional, UserView, "professional.json", as: :professional)
     }
   end
 
@@ -61,7 +58,10 @@ defmodule TurnosWeb.UserView do
       nationalRegistration: professional.nationalRegistration,
       provincialRegistration: professional.provincialRegistration,
       location: professional.location,
-      avatars: TurnosWeb.Uploaders.Avatar.urls({professional.avatar, professional})
+      avatars: TurnosWeb.Uploaders.Avatar.urls({professional.avatar, professional}),
+      roles: render_many(professional.roles, TurnosWeb.RoleView, "role.json"),
+      country: render_one(professional.countries, TurnosWeb.CountryView, "country.json"),
+      province: render_one(professional.provinces, TurnosWeb.ProvinceView, "province.json")
     }
   end
 

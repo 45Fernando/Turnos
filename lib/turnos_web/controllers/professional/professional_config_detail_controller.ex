@@ -24,7 +24,8 @@ defmodule TurnosWeb.Professional.ConfigDetailController do
 
     config_detail_params = config_detail_params
                             |> Map.delete("user_id")
-                            |> Map.update!("config_header_id", fn(_data)  -> config_header.id end)
+                            |> Map.put("config_header_id", config_header.id )
+
 
     with {:ok, %ConfigDetail{} = config_detail} <- ConfigDetails.create_config_detail(config_detail_params) do
       conn
@@ -43,6 +44,7 @@ defmodule TurnosWeb.Professional.ConfigDetailController do
     conn
     |> put_view(TurnosWeb.ConfigDetailView)
     |> render("show.json", config_detail: config_detail)
+
   end
 
   def update(conn, params) do
@@ -63,6 +65,8 @@ defmodule TurnosWeb.Professional.ConfigDetailController do
     user = conn |> Guardian.Plug.current_resource()
 
     params = Map.delete(params, "user_id")
+
+    IO.inspect(params, label: "PARAMETROS")
 
     config_detail = user.id |> ConfigDetails.get_config_details_by_user() |> Repo.get!(params["id"])
 

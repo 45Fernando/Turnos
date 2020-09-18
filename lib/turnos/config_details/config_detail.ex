@@ -21,7 +21,7 @@ defmodule Turnos.ConfigDetails.ConfigDetail do
   @doc false
   def changeset(config_detail, attrs) do
     config_detail
-    |> cast(attrs, [:minutes_interval, :start_time, :end_time, :overturn, :quantity_persons_overturn, :quantity_persons_per_day, :day_id, :office_id, :office_per_id])
+    |> cast(attrs, [:minutes_interval, :start_time, :end_time, :overturn, :quantity_persons_overturn, :quantity_persons_per_day, :config_header_id, :day_id, :office_id, :office_per_id])
     |> validate_required([:minutes_interval, :start_time, :end_time, :overturn])
     |> foreign_key_constraint(:day_id)
     |> foreign_key_constraint(:office_id)
