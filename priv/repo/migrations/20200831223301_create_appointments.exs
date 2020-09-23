@@ -8,7 +8,7 @@ defmodule Turnos.Repo.Migrations.CreateAppointments do
       add :appointment_date, :utc_datetime
       add :start_time, :time
       add :end_time, :time
-      add :availability, :boolean, default: false, null: false
+      add :availability, :boolean, default: true, null: false
       add :overturn, :boolean, default: false, null: false
 
       timestamps()

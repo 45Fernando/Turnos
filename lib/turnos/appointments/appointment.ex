@@ -4,7 +4,7 @@ defmodule Turnos.Appointments.Appointment do
 
   schema "appointments" do
     field :appointment_date, :utc_datetime
-    field :availability, :boolean, default: false
+    field :availability, :boolean, default: true
     field :end_time, :time
     field :start_time, :time
     field :overturn, :boolean, default: false

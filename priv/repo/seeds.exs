@@ -433,6 +433,14 @@ config_details = [
   },
   %ConfigDetail{
     config_header_id: 1,
+    day_id: 3,
+    office_id: 1,
+    minutes_interval: 30,
+    start_time: ~T[09:00:00],
+    end_time: ~T[13:00:00]
+  },
+  %ConfigDetail{
+    config_header_id: 1,
     day_id: 4,
     office_per_id: 2,
     minutes_interval: 15,

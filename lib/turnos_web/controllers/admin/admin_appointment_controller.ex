@@ -1,4 +1,4 @@
-defmodule TurnosWeb.AppointmentController do
+defmodule TurnosWeb.Admin.AppointmentController do
   use TurnosWeb, :controller
 
   alias Turnos.Appointments

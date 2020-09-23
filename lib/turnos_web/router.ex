@@ -52,7 +52,7 @@ defmodule TurnosWeb.Router do
     end
 
     #TODO organizar lo de los turnos
-    resources "/appointments", AppointmentController, except: [:new, :edit]
+    #resources "/appointments", AppointmentController, except: [:new, :edit]
 
     #Todas estas son rutas del profesional
     scope "/professional", as: :professional do
@@ -64,6 +64,8 @@ defmodule TurnosWeb.Router do
         put "/config", Professional.ConfigHeaderController, :update
         resources "/config/config_details", Professional.ConfigDetailController, except: [:new, :edit]
         resources "/offices_per", Professional.OfficePerController, only: [:index, :create, :show, :update, :delete]
+        get "/appointments", Professional.AppointmentController, :index_by_professional
+        post "/appointments/generate", Professional.AppointmentController, :generate_appointments
       end
 
 
