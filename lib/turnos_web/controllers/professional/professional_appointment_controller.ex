@@ -48,16 +48,26 @@ defmodule TurnosWeb.Professional.AppointmentController do
             |> index_by_professional(user)
           end
       end
+    else
+      case generate_till_date(config_header.generate_up_to, config_details, today, user.id) do
+        {:ok, lastdate} ->
+          lastdate = lastdate |> DateTime.shift_zone!("Etc/UTC")
+
+          with {:ok, %ConfigHeader{} = _config_header} <- Turnos.ConfigHeaders.update_config(config_header, %{"lastdate" => lastdate}) do
+            conn
+            |> index_by_professional(user)
+          end
+      end
     end
   end
 
+
+  #Para generar los turnos cada ciertos dias
   defp generate(generate_every_days, config_details, date, acc, user_id ) when acc < generate_every_days do
     day_of_week = Date.day_of_week(date)
 
     if day_of_week != 6 or day_of_week != 7 do
       list_of_details = search_days_in_details(day_of_week, config_details)
-
-      IO.inspect(list_of_details, label: "DETALLE")
 
       list_of_details
       |> Enum.each(fn(detail) -> generate_by_detail(detail, date, user_id)  end)
@@ -71,18 +81,35 @@ defmodule TurnosWeb.Professional.AppointmentController do
       {:ok, date}
   end
 
+  #Para generar los turnos hasta cierta fecha
+  defp generate_till_date(generate_up_to, config_details, date, user_id ) do
+
+    if DateTime.compare(generate_up_to, date) == :gt do
+      day_of_week = Date.day_of_week(date)
+
+      if day_of_week != 6 or day_of_week != 7 do
+        list_of_details = search_days_in_details(day_of_week, config_details)
+
+        list_of_details
+        |> Enum.each(fn(detail) -> generate_by_detail(detail, date, user_id)  end)
+      end
+
+      date = DateTime.add(date, 86400)
+      generate_till_date(generate_up_to, config_details, date, user_id)
+    else
+      {:ok, date}
+    end
+  end
+  #------------------------------------------
+
   defp generate_by_detail(detail, date, user_id) do
     generate_by_detail(detail.start_time, detail.end_time, detail.minutes_interval, date, user_id)
   end
 
   defp generate_by_detail(start_time, end_time, minutes_interval, date, user_id) do
     if Time.compare(start_time, end_time) == :lt do
-      start_time = start_time
-                   |> Time.truncate(:second)
-
       end_appointment = start_time
                         |> Time.add(minutes_interval * 60, :second)
-                        |> Time.truncate(:second)
 
       insert_appointment(start_time, end_appointment, date, user_id)
 
@@ -105,7 +132,6 @@ defmodule TurnosWeb.Professional.AppointmentController do
   defp insert_appointment(start_time, end_time, appointment_date, professional_id) do
     appointment_date = appointment_date
                        |> DateTime.shift_zone!("Etc/UTC")
-                       |> DateTime.truncate(:second)
 
     appointment = %Appointment{appointment_date: appointment_date, start_time: start_time, end_time: end_time, professional_id: professional_id}
 

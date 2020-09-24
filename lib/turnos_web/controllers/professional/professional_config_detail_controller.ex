@@ -66,8 +66,6 @@ defmodule TurnosWeb.Professional.ConfigDetailController do
 
     params = Map.delete(params, "user_id")
 
-    IO.inspect(params, label: "PARAMETROS")
-
     config_detail = user.id |> ConfigDetails.get_config_details_by_user() |> Repo.get!(params["id"])
 
     with {:ok, %ConfigDetail{}} <- ConfigDetails.delete_config_detail(config_detail) do

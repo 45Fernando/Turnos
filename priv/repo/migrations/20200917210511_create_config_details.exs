@@ -4,8 +4,8 @@ defmodule Turnos.Repo.Migrations.CreateConfigDetails do
   def change do
     create table(:config_details) do
       add :minutes_interval, :integer, null: false
-      add :start_time, :time, null: false
-      add :end_time, :time, null: false
+      add :start_time, :time_usec, null: false
+      add :end_time, :time_usec, null: false
       add :overturn, :boolean, default: false, null: false
       add :quantity_persons_overturn, :integer, default: 0
       add :quantity_persons_per_day, :integer, default: 0

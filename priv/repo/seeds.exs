@@ -406,46 +406,54 @@ user
 
 #Agregando una configuracion de un profesional
 
-config_header = %ConfigHeader{
-  user_id: 1,
-  generate_every_days: 30
-}
+config_headers = [
+  %ConfigHeader{
+    user_id: 1,
+    generate_every_days: 30,
+    generate_up_to: DateTime.now!("Etc/UTC") |> DateTime.add(86400 * 15)
+  },
+  %ConfigHeader{
+    user_id: 6,
+    generate_every_days: 15,
+  }
+]
 
-Repo.insert!(config_header)
+Enum.each(config_headers, fn (config_header) -> Repo.insert!(config_header) end)
 
 
+#Agregando detalles de configuracion
 config_details = [
   %ConfigDetail{
     config_header_id: 1,
     day_id: 1,
     office_per_id: 1,
     minutes_interval: 20,
-    start_time: ~T[17:00:00],
-    end_time: ~T[21:00:00]
+    start_time: ~T[17:00:00.000000],
+    end_time: ~T[21:00:00.000000]
   },
   %ConfigDetail{
-    config_header_id: 1,
+    config_header_id: 2,
     day_id: 2,
     office_id: 1,
     minutes_interval: 30,
-    start_time: ~T[09:00:00],
-    end_time: ~T[13:00:00]
+    start_time: ~T[09:00:00.000000],
+    end_time: ~T[13:00:00.000000]
   },
   %ConfigDetail{
     config_header_id: 1,
     day_id: 3,
     office_id: 1,
     minutes_interval: 30,
-    start_time: ~T[09:00:00],
-    end_time: ~T[13:00:00]
+    start_time: ~T[09:00:00.000000],
+    end_time: ~T[13:00:00.000000]
   },
   %ConfigDetail{
-    config_header_id: 1,
+    config_header_id: 2,
     day_id: 4,
     office_per_id: 2,
     minutes_interval: 15,
-    start_time: ~T[15:00:00],
-    end_time: ~T[20:00:00],
+    start_time: ~T[15:00:00.000000],
+    end_time: ~T[20:00:00.000000],
     overturn: true,
     quantity_persons_overturn: 4
   },
@@ -454,8 +462,8 @@ config_details = [
     day_id: 5,
     office_id: 2,
     minutes_interval: 15,
-    start_time: ~T[15:00:00],
-    end_time: ~T[20:00:00],
+    start_time: ~T[15:00:00.000000],
+    end_time: ~T[20:00:00.000000],
     quantity_persons_per_day: 10
   }
 ]

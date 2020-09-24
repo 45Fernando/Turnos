@@ -3,10 +3,10 @@ defmodule Turnos.Appointments.Appointment do
   import Ecto.Changeset
 
   schema "appointments" do
-    field :appointment_date, :utc_datetime
+    field :appointment_date, :utc_datetime_usec
     field :availability, :boolean, default: true
-    field :end_time, :time
-    field :start_time, :time
+    field :end_time, :time_usec
+    field :start_time, :time_usec
     field :overturn, :boolean, default: false
 
     belongs_to(:appointments_patient, Turnos.Users.User, foreign_key: :patient_id)

@@ -5,8 +5,8 @@ defmodule Turnos.ConfigHeaders.ConfigHeader do
   schema "config_headers" do
 
     field :generate_every_days, :integer, default: 30
-    field :generate_up_to, :date
-    field :lastdate, :utc_datetime
+    field :generate_up_to, :utc_datetime_usec
+    field :lastdate, :utc_datetime_usec
 
     belongs_to(:users, Turnos.Users.User, foreign_key: :user_id)
     has_many(:config_details, Turnos.ConfigDetails.ConfigDetail, foreign_key: :config_header_id)
