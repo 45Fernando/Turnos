@@ -47,7 +47,7 @@ defmodule Turnos.Appointments do
     |> order_by(asc: :appointment_date)
   end
 
-  def get_appointment_by_professional(user_id) do
+  def get_appointments_by_professional(user_id) do
     today = DateTime.now!("Etc/UTC")
 
     user_id
@@ -57,11 +57,22 @@ defmodule Turnos.Appointments do
     |> order_by(asc: :appointment_date)
   end
 
+  def get_available_appointments_by_professional(user_id) do
+    today = DateTime.now!("Etc/UTC")
+
+    user_id
+    |> Turnos.Users.get_user!()
+    |> Ecto.assoc(:appointments_professional)
+    |> where([a], a.appointment_date >= ^today)
+    |> where([a], a.availability == true)
+    |> order_by(asc: :appointment_date)
+  end
+
   def get_appointment_by_users(user_id, from_date, to_date) do
     user_id
     |> Turnos.Users.get_user!()
     |> Ecto.assoc(:appointments_patient)
-    |> where([a], a.appointment_date >= ^from_date and a.appointment_date <= ^ to_date)
+    |> where([a], a.appointment_date >= ^from_date and a.appointment_date <= ^to_date)
   end
 
   @doc """

@@ -23,11 +23,25 @@ defmodule Turnos.Appointments.Appointment do
     |> foreign_key_constraint(:patient_id)
   end
 
-  #TODO revisar si falta cambiar algo
+  # TODO revisar si falta cambiar algo
   def changeset_professional(appointment, attrs) do
     appointment
-    |> cast(attrs, [:appointment_date, :start_time, :end_time, :availability, :profesional_id, :overturn])
-    |> validate_required([:appointment_date, :start_time, :end_time, :availability, :profesional_id, :overturn])
+    |> cast(attrs, [
+      :appointment_date,
+      :start_time,
+      :end_time,
+      :availability,
+      :profesional_id,
+      :overturn
+    ])
+    |> validate_required([
+      :appointment_date,
+      :start_time,
+      :end_time,
+      :availability,
+      :profesional_id,
+      :overturn
+    ])
     |> foreign_key_constraint(:professional_id)
   end
 end

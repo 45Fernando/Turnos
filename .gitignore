@@ -28,3 +28,4 @@ turnos-*.tar
 /priv/static/
 .elixir_ls/
 /waffle
+.vscode/

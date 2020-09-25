@@ -31,47 +31,54 @@ defmodule TurnosWeb.Router do
     resources "/users", Admin.UserController, only: [:create]
     get "/users/:mail", Patient.UserController, :search_by_mail
 
-    #Todo de aca para abajo va a pasar por la autentificacion.
+    # Todo de aca para abajo va a pasar por la autentificacion.
     pipe_through :authenticated
 
     delete "/identity/callback", AutentificacionController, :delete
     post "/identity/callback", AutentificacionController, :refresh
 
-
     resources "/countries", Admin.CountryController, only: [:index] do
       resources "/provinces", Admin.ProvinceController, only: [:index]
     end
 
-    #Todas estas son rutas del usuario
+    # Todas estas son rutas del usuario
     scope "/patient", as: :patient do
       pipe_through :paciente
 
-      resources "/users", Patient.UserController, except: [:index, :new, :create, :edit, :delete]
+      resources "/", Patient.UserController, except: [:index, :new, :create, :edit, :delete] do
+        resources "/appointments", Patient.AppointmentController, only: [:index, :show]
+        put "/appointments", Patient.AppointmentController, :update_patient_appointment
+      end
+
       get "/professionals", Patient.UserController, :index_professionals
       get "/professionals/:id", Patient.UserController, :show_professionals
+
+      get "/professionals/:professional_id/appointments",
+          Patient.AppointmentController,
+          :index_by_professional
     end
 
-    #TODO organizar lo de los turnos
-    #resources "/appointments", AppointmentController, except: [:new, :edit]
-
-    #Todas estas son rutas del profesional
+    # Todas estas son rutas del profesional
     scope "/professional", as: :professional do
       pipe_through :proffesional
 
-      resources "/users", Professional.UserController, except: [:index, :new, :create, :edit, :delete] do
-        resources "/config", Professional.ConfigHeaderController, only: [:create]#except: [:new, :edit, :show, :update, :delete]
+      resources "/", Professional.UserController, except: [:index, :new, :create, :edit, :delete] do
+        resources "/config", Professional.ConfigHeaderController, only: [:create]
         get "/config", Professional.ConfigHeaderController, :show
         put "/config", Professional.ConfigHeaderController, :update
-        resources "/config/config_details", Professional.ConfigDetailController, except: [:new, :edit]
-        resources "/offices_per", Professional.OfficePerController, only: [:index, :create, :show, :update, :delete]
+
+        resources "/config/config_details", Professional.ConfigDetailController,
+          except: [:new, :edit]
+
+        resources "/offices_per", Professional.OfficePerController,
+          only: [:index, :create, :show, :update, :delete]
+
         get "/appointments", Professional.AppointmentController, :index_by_professional
         post "/appointments/generate", Professional.AppointmentController, :generate_appointments
       end
-
-
     end
 
-    #Todas estas son rutas de admin
+    # Todas estas son rutas de admin
     scope "/admin", as: :admin do
       pipe_through :admin
 
@@ -95,7 +102,9 @@ defmodule TurnosWeb.Router do
       end
 
       resources "/roles", Admin.RoleController, except: [:new, :create, :edit, :delete]
-      resources "/medicalsinsurances", Admin.MedicalInsuranceController, except: [:new, :edit, :delete]
+
+      resources "/medicalsinsurances", Admin.MedicalInsuranceController,
+        except: [:new, :edit, :delete]
 
       resources "/offices", Admin.OfficeController, except: [:new, :edit]
 
@@ -105,6 +114,5 @@ defmodule TurnosWeb.Router do
       get "/tokens", Admin.GuardianTokenController, :index
       delete "/tokens", AutentificacionController, :revoke
     end
-
   end
 end

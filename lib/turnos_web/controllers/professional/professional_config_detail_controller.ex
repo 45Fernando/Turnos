@@ -72,4 +72,5 @@ defmodule TurnosWeb.Professional.ConfigDetailController do
       send_resp(conn, :no_content, "")
     end
   end
+
 end
