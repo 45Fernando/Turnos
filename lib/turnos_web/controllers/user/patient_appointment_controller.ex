@@ -12,7 +12,7 @@ defmodule TurnosWeb.Patient.AppointmentController do
   def index(conn, _params) do
     user = conn |> Guardian.Plug.current_resource()
 
-    appointments = Appointments.get_appointment_by_users(user.id) |> Repo.all()
+    appointments = Appointments.get_appointments_by_users(user.id) |> Repo.all()
 
     conn
     |> put_view(TurnosWeb.AppointmentView)
@@ -35,7 +35,7 @@ defmodule TurnosWeb.Patient.AppointmentController do
   def show(conn, params) do
     user = conn |> Guardian.Plug.current_resource()
 
-    appointment = user.id |> Appointments.get_appointment_by_users() |> Repo.get!(params["id"])
+    appointment = user.id |> Appointments.get_appointments_by_users() |> Repo.get!(params["id"])
 
     conn
     |> put_view(TurnosWeb.AppointmentView)
@@ -48,7 +48,10 @@ defmodule TurnosWeb.Patient.AppointmentController do
 
     params = params |> Map.delete("user_id") |> Map.put("patient_id", user.id)
 
-    appointment = user.id |> Appointments.get_appointment_by_users() |> Repo.get!(params["id"])
+    appointment =
+      params["professional_id"]
+      |> Appointments.get_available_appointments_by_professional()
+      |> Repo.get!(params["id"])
 
     with {:ok, %Appointment{} = appointment} <-
            Appointments.update_patient_appointment(appointment, params) do

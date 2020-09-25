@@ -37,7 +37,7 @@ defmodule Turnos.Appointments do
   """
   def get_appointment!(id), do: Repo.get!(Appointment, id)
 
-  def get_appointment_by_users(user_id) do
+  def get_appointments_by_users(user_id) do
     today = DateTime.now!("Etc/UTC")
 
     user_id
@@ -68,7 +68,7 @@ defmodule Turnos.Appointments do
     |> order_by(asc: :appointment_date)
   end
 
-  def get_appointment_by_users(user_id, from_date, to_date) do
+  def get_appointments_by_users(user_id, from_date, to_date) do
     user_id
     |> Turnos.Users.get_user!()
     |> Ecto.assoc(:appointments_patient)

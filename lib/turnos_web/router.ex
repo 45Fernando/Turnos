@@ -47,7 +47,10 @@ defmodule TurnosWeb.Router do
 
       resources "/", Patient.UserController, except: [:index, :new, :create, :edit, :delete] do
         resources "/appointments", Patient.AppointmentController, only: [:index, :show]
-        put "/appointments", Patient.AppointmentController, :update_patient_appointment
+
+        put "/professionals/:professional_id/appointments/:id",
+            Patient.AppointmentController,
+            :update_patient_appointment
       end
 
       get "/professionals", Patient.UserController, :index_professionals
