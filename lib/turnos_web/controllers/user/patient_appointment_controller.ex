@@ -35,7 +35,13 @@ defmodule TurnosWeb.Patient.AppointmentController do
   def show(conn, params) do
     user = conn |> Guardian.Plug.current_resource()
 
-    appointment = user.id |> Appointments.get_appointments_by_users() |> Repo.get!(params["id"])
+    appointment =
+      user.id
+      |> Appointments.get_appointments_by_users()
+      |> Repo.get!(params["id"])
+      |> Repo.preload(appointments_professional: [:countries, :provinces])
+
+    IO.inspect(appointment, label: "TURNO")
 
     conn
     |> put_view(TurnosWeb.AppointmentView)
