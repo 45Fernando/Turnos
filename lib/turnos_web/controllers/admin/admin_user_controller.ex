@@ -3,17 +3,17 @@ defmodule TurnosWeb.Admin.UserController do
 
   alias Turnos.Users
   alias Turnos.Users.User
+  alias Turnos.Repo
 
   action_fallback TurnosWeb.FallbackController
 
   def index(conn, _params) do
-    users = Users.list_users()
+    users = Users.list_users() |> Repo.preload([:roles, :countries, :provinces])
 
     conn
     |> put_view(TurnosWeb.UserView)
     |> render("index.json", users: users)
   end
-
 
   def create(conn, params) do
     with {:ok, %User{} = user} <- Users.create_user(params) do
@@ -52,8 +52,8 @@ defmodule TurnosWeb.Admin.UserController do
   def update(conn, params) do
     {user, params} = get_user_params(params)
 
-    #Chequeo si tiene o no un avatar subido, si tiene borro el archivo
-    #del almacenamiento para guardar el nuevo archivo.
+    # Chequeo si tiene o no un avatar subido, si tiene borro el archivo
+    # del almacenamiento para guardar el nuevo archivo.
     if user.avatar != nil do
       :ok = TurnosWeb.Uploaders.Avatar.delete({user.avatar, user})
     end
@@ -144,5 +144,4 @@ defmodule TurnosWeb.Admin.UserController do
 
     {user, params}
   end
-
 end
