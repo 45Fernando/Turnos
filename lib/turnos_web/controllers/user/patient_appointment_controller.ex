@@ -41,15 +41,21 @@ defmodule TurnosWeb.Patient.AppointmentController do
       |> Repo.get!(params["id"])
       |> Repo.preload(appointments_professional: [:countries, :provinces])
 
-    IO.inspect(appointment, label: "TURNO")
-
     conn
     |> put_view(TurnosWeb.AppointmentView)
     |> render("show.json", appointment: appointment)
   end
 
   # Para modificar la disponibilidad del turno.
-  def update_patient_appointment(conn, params) do
+  def update_patiet_problem(conn, params) do
+    if !params["availability"] do
+      pick_patient_appointment(conn, params)
+    else
+      cancel_patient_appointment(conn, params)
+    end
+  end
+
+  defp pick_patient_appointment(conn, params) do
     user = conn |> Guardian.Plug.current_resource()
 
     params = params |> Map.delete("user_id") |> Map.put("patient_id", user.id)
@@ -64,6 +70,23 @@ defmodule TurnosWeb.Patient.AppointmentController do
       conn
       |> put_view(TurnosWeb.AppointmentView)
       |> render("show.json", appointment: appointment)
+    end
+  end
+
+  defp cancel_patient_appointment(conn, params) do
+    user = conn |> Guardian.Plug.current_resource()
+
+    params = params |> Map.delete("user_id") |> Map.put("patient_id", nil)
+
+    appointment =
+      user.id
+      |> Appointments.get_appointments_by_users()
+      |> Repo.get!(params["id"])
+
+    with {:ok, %Appointment{} = _appointment} <-
+           Appointments.update_patient_appointment(appointment, params) do
+      conn
+      |> send_resp(:no_content, "")
     end
   end
 end

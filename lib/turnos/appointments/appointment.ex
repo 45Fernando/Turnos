@@ -19,7 +19,7 @@ defmodule Turnos.Appointments.Appointment do
   def changeset_patient(appointment, attrs) do
     appointment
     |> cast(attrs, [:availability, :patient_id])
-    |> validate_required([:availability, :patient_id])
+    |> validate_required([:availability])
     |> foreign_key_constraint(:patient_id)
   end
 

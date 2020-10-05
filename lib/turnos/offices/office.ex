@@ -19,6 +19,7 @@ defmodule Turnos.Offices.Office do
   def changeset(office, attrs) do
     office
     |> cast(attrs, [:phone, :name, :address, :status, :lat, :long])
-    |> validate_required([:phone, :name, :address, :status, :lat, :long])
+    # luego agregar lat y long
+    |> validate_required([:phone, :name, :address, :status])
   end
 end
