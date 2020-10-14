@@ -118,4 +118,17 @@ defmodule TurnosWeb.Router do
       delete "/tokens", AutentificacionController, :revoke
     end
   end
+
+  scope "/api/swagger" do
+    forward "/", PhoenixSwagger.Plug.SwaggerUI, otp_app: :turnos, swagger_file: "swagger.json"
+  end
+
+  def swagger_info do
+    %{
+      info: %{
+        version: "0.0.1",
+        title: "Turnos"
+      }
+    }
+  end
 end

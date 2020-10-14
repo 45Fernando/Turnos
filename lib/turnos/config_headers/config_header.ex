@@ -3,7 +3,6 @@ defmodule Turnos.ConfigHeaders.ConfigHeader do
   import Ecto.Changeset
 
   schema "config_headers" do
-
     field :generate_every_days, :integer, default: 30
     field :generate_up_to, :utc_datetime_usec
     field :lastdate, :utc_datetime_usec
@@ -12,10 +11,7 @@ defmodule Turnos.ConfigHeaders.ConfigHeader do
     has_many(:config_details, Turnos.ConfigDetails.ConfigDetail, foreign_key: :config_header_id)
 
     timestamps()
-
   end
-
-
 
   @require_list ~w(user_id)a
 
@@ -26,5 +22,4 @@ defmodule Turnos.ConfigHeaders.ConfigHeader do
     |> validate_required(@require_list)
     |> foreign_key_constraint(:user_id)
   end
-
 end

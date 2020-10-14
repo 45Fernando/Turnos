@@ -1,0 +1,594 @@
+{
+  "definitions": {
+    "Config_Detail": {
+      "description": "A config detail for config header of a professional, to store his appointmens config",
+      "example": {
+        "day_id": 4,
+        "end_time": "20:00:00.000000",
+        "id": 4,
+        "minutes_interval": 15,
+        "office_id": "",
+        "office_per": 2,
+        "overturn": true,
+        "quantity_persons_overturn": 4,
+        "quantity_persons_per_day": 0,
+        "start_time": "15:00:00.000000"
+      },
+      "properties": {
+        "day_id": {
+          "description": "Foreign key of the day",
+          "type": "integer"
+        },
+        "end_time": {
+          "description": "A what time will end seeing patients the professional",
+          "type": "time_usec"
+        },
+        "id": {
+          "description": "The ID of the config detail",
+          "type": "integer"
+        },
+        "inserted_at": {
+          "description": "When was the country initially inserted",
+          "format": "ISO-8601",
+          "type": "string"
+        },
+        "minutes_interval": {
+          "description": "The interval between appointmens",
+          "type": "integer"
+        },
+        "office_id": {
+          "description": "Foreign key of the office",
+          "type": "integer"
+        },
+        "office_per_id": {
+          "description": "Foreign key of the personalized office",
+          "type": "integer"
+        },
+        "overturn": {
+          "description": "If the professional allow overturn appointments",
+          "type": "boolean"
+        },
+        "quantity_persons_overturn": {
+          "default": 0,
+          "description": "How many patients the professional will see in overturn",
+          "type": "integer"
+        },
+        "quantity_persons_per_day": {
+          "default": 0,
+          "description": "How many patients the professional will see in a day",
+          "type": "integer"
+        },
+        "start_time": {
+          "default": 30,
+          "description": "A what time will start seeing patients the professional",
+          "type": "time_usec"
+        },
+        "updated_at": {
+          "description": "When was the country last updated",
+          "format": "ISO-8601",
+          "type": "string"
+        }
+      },
+      "required": [
+        "office_per_id",
+        "office_id",
+        "day_id",
+        "minutes_interval",
+        "end_time",
+        "start_time"
+      ],
+      "title": "Config Detail",
+      "type": "object"
+    },
+    "Config_Details": {
+      "description": "Config details of a config header, that belong to a professional",
+      "items": {
+        "$ref": "#/definitions/Config_Detail"
+      },
+      "title": "Config Details",
+      "type": "array"
+    },
+    "Config_Header": {
+      "description": "A config header for a professional to store his appointmens config",
+      "example": {
+        "generate_every_days": 30,
+        "generate_up_to": "~U[2020-10-14 20:42:07.148801Z]",
+        "inserted_at": "2017-03-21T14:00:00Z",
+        "updated_at": "2017-03-21T14:00:00Z"
+      },
+      "properties": {
+        "generate_every_days": {
+          "default": 30,
+          "description": "How often appointmens will be generated",
+          "type": "integer"
+        },
+        "generate_up_to": {
+          "description": "Till what date will generated appointmes",
+          "type": "utc_datetime_usec"
+        },
+        "id": {
+          "description": "The ID of the config head",
+          "type": "integer"
+        },
+        "inserted_at": {
+          "description": "When was the country initially inserted",
+          "format": "ISO-8601",
+          "type": "string"
+        },
+        "updated_at": {
+          "description": "When was the country last updated",
+          "format": "ISO-8601",
+          "type": "string"
+        }
+      },
+      "required": [
+        "generate_every_days"
+      ],
+      "title": "Config Header",
+      "type": "object"
+    },
+    "Countries": {
+      "description": "All countries of the world",
+      "items": {
+        "$ref": "#/definitions/Country"
+      },
+      "title": "Countries",
+      "type": "array"
+    },
+    "Country": {
+      "description": "A country of the world",
+      "example": {
+        "code": "AR",
+        "inserted_at": "2017-03-21T14:00:00Z",
+        "name": "Argentina",
+        "updated_at": "2017-03-21T14:00:00Z"
+      },
+      "properties": {
+        "code": {
+          "description": "The code of the country",
+          "type": "string"
+        },
+        "id": {
+          "description": "The ID of the country",
+          "type": "integer"
+        },
+        "inserted_at": {
+          "description": "When was the country initially inserted",
+          "format": "ISO-8601",
+          "type": "string"
+        },
+        "name": {
+          "description": "The name of the country",
+          "type": "string"
+        },
+        "updated_at": {
+          "description": "When was the country last updated",
+          "format": "ISO-8601",
+          "type": "string"
+        }
+      },
+      "required": [
+        "name",
+        "code"
+      ],
+      "title": "Country",
+      "type": "object"
+    },
+    "Error": {
+      "description": "Error responses from the API",
+      "properties": {
+        "error": {
+          "description": "The message of the error raised",
+          "type": "string"
+        }
+      },
+      "required": [
+        "error"
+      ],
+      "title": "Errors",
+      "type": "object"
+    }
+  },
+  "host": "localhost:4000",
+  "info": {
+    "title": "Turnos",
+    "version": "0.0.1"
+  },
+  "paths": {
+    "/api/professional/{user_id}/config/config_details ": {
+      "get": {
+        "description": "List all config details of a config header",
+        "operationId": "TurnosWeb.Professional.ConfigDetailController.index",
+        "parameters": [],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "Ok",
+            "schema": {
+              "$ref": "#/definitions/Config_Details"
+            }
+          },
+          "400": {
+            "description": "Client Error"
+          }
+        },
+        "summary": "List all config details of a config header, that belong to a professional",
+        "tags": [
+          "ConfigDetail"
+        ]
+      }
+    },
+    "/api/professional/{user_id}/config/config_details/{id}": {
+      "delete": {
+        "description": "Remove a config detail from the system",
+        "operationId": "TurnosWeb.Professional.ConfigDetailController.delete",
+        "parameters": [
+          {
+            "description": "The id of the professional",
+            "in": "path",
+            "name": "user_id",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "description": "The id of the config detail",
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "type": "integer"
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "No content"
+          },
+          "404": {
+            "description": "Not found"
+          }
+        },
+        "summary": "Delete a config detail",
+        "tags": [
+          "ConfigDetail"
+        ]
+      }
+    },
+    "api/admin/countries": {
+      "get": {
+        "description": "List all countries",
+        "operationId": "TurnosWeb.Admin.CountryController.index",
+        "parameters": [],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "Ok",
+            "schema": {
+              "$ref": "#/definitions/Countries"
+            }
+          },
+          "400": {
+            "description": "Client Error"
+          }
+        },
+        "summary": "List all countries",
+        "tags": [
+          "Country"
+        ]
+      }
+    },
+    "api/admin/countries/": {
+      "post": {
+        "description": "Record a new country",
+        "operationId": "TurnosWeb.Admin.CountryController.create",
+        "parameters": [
+          {
+            "description": "Country to record",
+            "in": "body",
+            "name": "country",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Country"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Ok",
+            "schema": {
+              "$ref": "#/definitions/Country"
+            }
+          },
+          "422": {
+            "description": "Unprocessable Entity",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          }
+        },
+        "summary": "Add a new country",
+        "tags": [
+          "Country"
+        ]
+      }
+    },
+    "api/admin/countries/{id}": {
+      "get": {
+        "description": "Retrieve a country",
+        "operationId": "TurnosWeb.Admin.CountryController.show",
+        "parameters": [
+          {
+            "description": "The id of the country",
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "type": "integer"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Ok",
+            "schema": {
+              "$ref": "#/definitions/Country"
+            }
+          },
+          "404": {
+            "description": "Not found",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          }
+        },
+        "summary": "Retrieve a country",
+        "tags": [
+          "Country"
+        ]
+      }
+    },
+    "api/professional/{user_id}/config": {
+      "get": {
+        "description": "Retrieve the config header",
+        "operationId": "TurnosWeb.Professional.ConfigHeaderController.show",
+        "parameters": [
+          {
+            "description": "The id of the professional",
+            "in": "path",
+            "name": "user_id",
+            "required": true,
+            "type": "integer"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Ok",
+            "schema": {
+              "$ref": "#/definitions/Config_Header"
+            }
+          },
+          "404": {
+            "description": "Not found",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          }
+        },
+        "summary": "Retrieve the config header",
+        "tags": [
+          "ConfigHeader"
+        ]
+      },
+      "patch": {
+        "description": "Update the config header",
+        "operationId": "TurnosWeb.Professional.ConfigHeaderController.update",
+        "parameters": [
+          {
+            "description": "Country to record",
+            "in": "body",
+            "name": "config_header",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Config_Header"
+            }
+          },
+          {
+            "description": "The id of the professional",
+            "in": "path",
+            "name": "user_id",
+            "required": true,
+            "type": "integer"
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Ok",
+            "schema": {
+              "$ref": "#/definitions/Config_Header"
+            }
+          },
+          "422": {
+            "description": "Unprocessable Entity",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          }
+        },
+        "summary": "Update the config header",
+        "tags": [
+          "ConfigHeader"
+        ]
+      },
+      "post": {
+        "description": "Create a config header",
+        "operationId": "TurnosWeb.Professional.ConfigHeaderController.create",
+        "parameters": [
+          {
+            "description": "Country to record",
+            "in": "body",
+            "name": "config_header",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Config_Header"
+            }
+          },
+          {
+            "description": "The id of the professional",
+            "in": "path",
+            "name": "user_id",
+            "required": true,
+            "type": "integer"
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Ok",
+            "schema": {
+              "$ref": "#/definitions/Config_Header"
+            }
+          },
+          "422": {
+            "description": "Unprocessable Entity",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          }
+        },
+        "summary": "Create a config header",
+        "tags": [
+          "ConfigHeader"
+        ]
+      }
+    },
+    "api/professional/{user_id}/config/config_details": {
+      "post": {
+        "description": "Create a config detail",
+        "operationId": "TurnosWeb.Professional.ConfigDetailController.create",
+        "parameters": [
+          {
+            "description": "Config Detail to record",
+            "in": "body",
+            "name": "config_detail",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Config_Detail"
+            }
+          },
+          {
+            "description": "The id of the professional",
+            "in": "path",
+            "name": "user_id",
+            "required": true,
+            "type": "integer"
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Ok",
+            "schema": {
+              "$ref": "#/definitions/Config_Detail"
+            }
+          },
+          "422": {
+            "description": "Unprocessable Entity",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          }
+        },
+        "summary": "Create a config detail",
+        "tags": [
+          "ConfigDetail"
+        ]
+      }
+    },
+    "api/professional/{user_id}/config/config_details/{id}": {
+      "get": {
+        "description": "Retrieve the config header",
+        "operationId": "TurnosWeb.Professional.ConfigDetailController.show",
+        "parameters": [
+          {
+            "description": "The id of the professional",
+            "in": "path",
+            "name": "user_id",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "description": "The id of the config detail",
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "type": "integer"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Ok",
+            "schema": {
+              "$ref": "#/definitions/Config_Header"
+            }
+          },
+          "404": {
+            "description": "Not found",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          }
+        },
+        "summary": "Retrieve the config detail",
+        "tags": [
+          "ConfigDetail"
+        ]
+      },
+      "patch": {
+        "description": "Update the config detail",
+        "operationId": "TurnosWeb.Professional.ConfigDetailController.update",
+        "parameters": [
+          {
+            "description": "Country to record",
+            "in": "body",
+            "name": "config_detail",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Config_Detail"
+            }
+          },
+          {
+            "description": "The id of the professional",
+            "in": "path",
+            "name": "user_id",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "description": "The id of the config detail",
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "type": "integer"
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Ok",
+            "schema": {
+              "$ref": "#/definitions/Config_Detail"
+            }
+          },
+          "422": {
+            "description": "Unprocessable Entity",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          }
+        },
+        "summary": "Update the config detail",
+        "tags": [
+          "ConfigDetail"
+        ]
+      }
+    }
+  },
+  "swagger": "2.0"
+}

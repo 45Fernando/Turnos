@@ -25,45 +25,65 @@ config :logger, :console,
 # Use Jason for JSON parsing in Phoenix
 config :phoenix, :json_library, Jason
 
-#Configuracion de UerberAuth
+# Configuracion de UerberAuth
 config :ueberauth, Ueberauth,
-    base_path: "/api/auth",
-    providers: [
-      identity: {Ueberauth.Strategy.Identity, [
-        callback_methods: ["POST"],
-        correoelectronico: :mail,
-        #param_nesting: "usuario",
-        uid_field: :mail
-      ]}
-    ]
+  base_path: "/api/auth",
+  providers: [
+    identity:
+      {Ueberauth.Strategy.Identity,
+       [
+         callback_methods: ["POST"],
+         correoelectronico: :mail,
+         # param_nesting: "usuario",
+         uid_field: :mail
+       ]}
+  ]
 
-#Configuracion de Guardian
+# Configuracion de Guardian
 config :turnos, Turnos.Guardian,
-    hooks: GuardianDb,
-    issuer: "Auth",
-    secret_key: "YiCdBySVeRaFe3NYHp40ryepP+7eSaxsJ9WI1bvqQzFFiDcClp0RfY9t/DuKazD+",
+  hooks: GuardianDb,
+  issuer: "Auth",
+  secret_key: "YiCdBySVeRaFe3NYHp40ryepP+7eSaxsJ9WI1bvqQzFFiDcClp0RfY9t/DuKazD+",
 
-    # We will get round to using these permissions at the end
-    permissions: %{
-      default: [:read_users, :write_users]
-    }
+  # We will get round to using these permissions at the end
+  permissions: %{
+    default: [:read_users, :write_users]
+  }
+
+# Configuracion de Swagger
+config :turnos, :phoenix_swagger,
+  swagger_files: %{
+    "priv/static/swagger.json" => [
+      # phoenix routes will be converted to swagger paths
+      router: TurnosWeb.Router,
+      # (optional) endpoint config used to set host, port and https schemes.
+      endpoint: TurnosWeb.Endpoint
+    ]
+  }
+
+config :phoenix_swagger, json_library: Jason
 
 # Configure the authentication plug pipeline
 config :turnos, TurnosWeb.Plugs.AuthAccessPipeline,
-module: Turnos.Guardian,
-error_handler: TurnosWeb.Plugs.AuthErrorHandler
+  module: Turnos.Guardian,
+  error_handler: TurnosWeb.Plugs.AuthErrorHandler
 
 config :guardian, Guardian.DB,
-  repo: Turnos.Repo, # Add your repository module
-  schema_name: "guardian_tokens", # default
-  #token_types: ["refresh_token"], # store all token types if not set
-  sweep_interval: 120 # default: 60 minutes
+  # Add your repository module
+  repo: Turnos.Repo,
+  # default
+  schema_name: "guardian_tokens",
+  # token_types: ["refresh_token"], # store all token types if not set
+  # default: 60 minutes
+  sweep_interval: 120
 
 config :waffle,
-storage: Waffle.Storage.Local, # or Waffle.Storage.S3
-storage_dir_prefix: "priv/waffle/public",
-#bucket: {:system, "AWS_S3_BUCKET"}, # if using S3
-asset_host: "http://localhost:4000" # or {:system, "ASSET_HOST"}
+  # or Waffle.Storage.S3
+  storage: Waffle.Storage.Local,
+  storage_dir_prefix: "priv/waffle/public",
+  # bucket: {:system, "AWS_S3_BUCKET"}, # if using S3
+  # or {:system, "ASSET_HOST"}
+  asset_host: "http://localhost:4000"
 
 config :elixir, :time_zone_database, Tzdata.TimeZoneDatabase
 
