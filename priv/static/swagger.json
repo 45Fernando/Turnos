@@ -187,6 +187,76 @@
       ],
       "title": "Errors",
       "type": "object"
+    },
+    "Patient_Appointment": {
+      "description": "Patient Appointments",
+      "example": {
+        "appointment_date": "2020-10-28T21:52:13.549656Z",
+        "availability": false,
+        "end_time": "12:30:00.000000",
+        "id": 79,
+        "overturn": false,
+        "professional_id": 1,
+        "start_time": "12:00:00.000000"
+      },
+      "properties": {
+        "availability": {
+          "description": "If the appointment is available or not",
+          "type": "boolean"
+        },
+        "end_time": {
+          "description": "When the appointmend end",
+          "type": "time_usec"
+        },
+        "id": {
+          "description": "The ID of the appointment",
+          "type": "integer"
+        },
+        "inserted_at": {
+          "description": "When was the country initially inserted",
+          "format": "ISO-8601",
+          "type": "string"
+        },
+        "overturn": {
+          "description": "If the appointment is a overturn appointment",
+          "type": "boolean"
+        },
+        "patient_id": {
+          "description": "Patient's ID",
+          "type": "integer"
+        },
+        "professional_id": {
+          "description": "Professional's ID",
+          "type": "integer"
+        },
+        "start_time": {
+          "description": "When the appointmend end",
+          "type": "time_usec"
+        },
+        "updated_at": {
+          "description": "When was the country last updated",
+          "format": "ISO-8601",
+          "type": "string"
+        }
+      },
+      "required": [
+        "professional_id",
+        "patient_id",
+        "overturn",
+        "end_time",
+        "start_time",
+        "availability"
+      ],
+      "title": "Patient Appointments",
+      "type": "object"
+    },
+    "Patient_Appointments": {
+      "description": "All appointments of the patient",
+      "items": {
+        "$ref": "#/definitions/Patient_Appointment"
+      },
+      "title": "Patient's Appointments",
+      "type": "array"
     }
   },
   "host": "localhost:4000",
