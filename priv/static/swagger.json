@@ -265,6 +265,159 @@
     "version": "0.0.1"
   },
   "paths": {
+    "/api/patient/professionals/{professional_id}/appointments ": {
+      "get": {
+        "description": "List all the next available appointments of a professional",
+        "operationId": "TurnosWeb.Patient.AppointmentController.index_by_professional",
+        "parameters": [
+          {
+            "description": "The id of the professional",
+            "in": "path",
+            "name": "professional_id",
+            "required": true,
+            "type": "integer"
+          }
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "Ok",
+            "schema": {
+              "$ref": "#/definitions/Patient_Appointment"
+            }
+          },
+          "400": {
+            "description": "Client Error"
+          }
+        },
+        "summary": "List all the next available appointments of a professional",
+        "tags": [
+          "Appointment"
+        ]
+      }
+    },
+    "/api/patient/{user_id}/appointments": {
+      "get": {
+        "description": "List all the next appointments of the patient",
+        "operationId": "TurnosWeb.Patient.AppointmentController.index",
+        "parameters": [
+          {
+            "description": "The id of the patient",
+            "in": "path",
+            "name": "user_id",
+            "required": true,
+            "type": "integer"
+          }
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "Ok",
+            "schema": {
+              "$ref": "#/definitions/Patient_Appointment"
+            }
+          },
+          "400": {
+            "description": "Client Error"
+          }
+        },
+        "summary": "List all the next appointments of the patient",
+        "tags": [
+          "Appointment"
+        ]
+      }
+    },
+    "/api/patient/{user_id}/appointments/{id} ": {
+      "get": {
+        "description": "Retrieve a appointment of a patient",
+        "operationId": "TurnosWeb.Patient.AppointmentController.show",
+        "parameters": [
+          {
+            "description": "The id of the appointment",
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "description": "The id of the patient",
+            "in": "path",
+            "name": "user_id",
+            "required": true,
+            "type": "integer"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Ok",
+            "schema": {
+              "$ref": "#/definitions/Patient_Appointment"
+            }
+          },
+          "404": {
+            "description": "Not found",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          }
+        },
+        "summary": "Retrieve a appointment of a patient",
+        "tags": [
+          "Appointment"
+        ]
+      }
+    },
+    "/api/patient/{user_id}/professionals/{professional_id}/appointments/{id}": {
+      "patch": {
+        "description": "Pick an appointment by a patient",
+        "operationId": "TurnosWeb.Patient.AppointmentController.update_patient_appointment",
+        "parameters": [
+          {
+            "description": "The id of the appointment",
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "description": "The id of the patient",
+            "in": "path",
+            "name": "user_id",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "description": "True or False of the availability of the appointment",
+            "in": "body",
+            "name": "availability",
+            "required": true,
+            "schema": "boolean"
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Ok",
+            "schema": {
+              "$ref": "#/definitions/Patient_Appointment"
+            }
+          },
+          "422": {
+            "description": "Unprocessable Entity",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          }
+        },
+        "summary": "Pick an appointment by a patient",
+        "tags": [
+          "Appointment"
+        ]
+      }
+    },
     "/api/professional/{user_id}/config/config_details ": {
       "get": {
         "description": "List all config details of a config header",

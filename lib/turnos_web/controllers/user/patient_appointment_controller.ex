@@ -56,6 +56,20 @@ defmodule TurnosWeb.Patient.AppointmentController do
     }
   end
 
+  swagger_path :index do
+    get("/api/patient/{user_id}/appointments")
+    summary("List all the next appointments of the patient")
+    description("List all the next appointments of the patient")
+    produces("application/json")
+
+    parameters do
+      user_id(:path, :integer, "The id of the patient", required: true)
+    end
+
+    response(200, "Ok", Schema.ref(:Patient_Appointment))
+    response(400, "Client Error")
+  end
+
   # Muestra los turnos proximos del paciente, con fecha mayor o igual
   # a la actual
   def index(conn, _params) do
@@ -68,6 +82,20 @@ defmodule TurnosWeb.Patient.AppointmentController do
     |> render("index.json", appointments: appointments)
   end
 
+  swagger_path :index_by_professional do
+    get("/api/patient/professionals/{professional_id}/appointments ")
+    summary("List all the next available appointments of a professional")
+    description("List all the next available appointments of a professional")
+    produces("application/json")
+
+    parameters do
+      professional_id(:path, :integer, "The id of the professional", required: true)
+    end
+
+    response(200, "Ok", Schema.ref(:Patient_Appointment))
+    response(400, "Client Error")
+  end
+
   # Muestra el listado de turnos disponibles de un profesional con fecha
   # mayor o igual a la actual
   def index_by_professional(conn, params) do
@@ -78,6 +106,20 @@ defmodule TurnosWeb.Patient.AppointmentController do
     conn
     |> put_view(TurnosWeb.AppointmentView)
     |> render("index.json", appointments: appointments)
+  end
+
+  swagger_path :show do
+    get("/api/patient/{user_id}/appointments/{id} ")
+    summary("Retrieve a appointment of a patient")
+    description("Retrieve a appointment of a patient")
+
+    parameters do
+      id(:path, :integer, "The id of the appointment", required: true)
+      user_id(:path, :integer, "The id of the patient", required: true)
+    end
+
+    response(200, "Ok", Schema.ref(:Patient_Appointment))
+    response(404, "Not found", Schema.ref(:Error))
   end
 
   # Muestra el detalle de un turno de un paciente
@@ -95,8 +137,30 @@ defmodule TurnosWeb.Patient.AppointmentController do
     |> render("show.json", appointment: appointment)
   end
 
+  swagger_path :update_patient_appointment do
+    patch("/api/patient/{user_id}/professionals/{professional_id}/appointments/{id}")
+    summary("Pick an appointment by a patient")
+    description("Pick an appointment by a patient")
+
+    parameters do
+      id(:path, :integer, "The id of the appointment", required: true)
+      user_id(:path, :integer, "The id of the patient", required: true)
+
+      # patient_appointment(:body, Schema.ref(:Patient_Appointment), "The appointment to update",
+      # required: true
+      # )
+
+      availability(:body, :boolean, "True or False of the availability of the appointment",
+        required: true
+      )
+    end
+
+    response(201, "Ok", Schema.ref(:Patient_Appointment))
+    response(422, "Unprocessable Entity", Schema.ref(:Error))
+  end
+
   # Para modificar la disponibilidad del turno.
-  def update_patient_problem(conn, params) do
+  def update_patient_appointment(conn, params) do
     if params["availability"] do
       pick_patient_appointment(conn, params)
     else
