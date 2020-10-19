@@ -5,11 +5,14 @@ defmodule Turnos.Repo.Migrations.CreateAppointments do
     create table(:appointments) do
       add :professional_id, references(:users)
       add :patient_id, references(:users)
+      add :office_id, references(:offices)
+      add :office_per_id, references(:offices_per)
       add :appointment_date, :utc_datetime_usec
       add :start_time, :time_usec
       add :end_time, :time_usec
       add :availability, :boolean, default: true, null: false
       add :overturn, :boolean, default: false, null: false
+
 
       timestamps()
     end

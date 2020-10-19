@@ -107,22 +107,46 @@ defmodule TurnosWeb.Professional.AppointmentController do
   # ------------------------------------------
 
   defp generate_by_detail(detail, date, user_id) do
-    generate_by_detail(detail.start_time, detail.end_time, detail.minutes_interval, date, user_id)
+    generate_by_detail(
+      detail.start_time,
+      detail.end_time,
+      detail.minutes_interval,
+      date,
+      detail.office_id,
+      detail.office_per_id,
+      user_id
+    )
   end
 
-  defp generate_by_detail(start_time, end_time, minutes_interval, date, user_id) do
+  defp generate_by_detail(
+         start_time,
+         end_time,
+         minutes_interval,
+         date,
+         office_id,
+         office_per_id,
+         user_id
+       ) do
     if Time.compare(start_time, end_time) == :lt do
       end_appointment =
         start_time
         |> Time.add(minutes_interval * 60, :second)
 
-      insert_appointment(start_time, end_appointment, date, user_id)
+      insert_appointment(start_time, end_appointment, date, office_id, office_per_id, user_id)
 
       start_time =
         start_time
         |> Time.add(minutes_interval * 60, :second)
 
-      generate_by_detail(start_time, end_time, minutes_interval, date, user_id)
+      generate_by_detail(
+        start_time,
+        end_time,
+        minutes_interval,
+        date,
+        office_id,
+        office_per_id,
+        user_id
+      )
     else
       nil
     end
@@ -133,7 +157,16 @@ defmodule TurnosWeb.Professional.AppointmentController do
     |> Enum.filter(fn detail -> day_of_week == detail.day_id end)
   end
 
-  defp insert_appointment(start_time, end_time, appointment_date, professional_id) do
+  defp insert_appointment(
+         start_time,
+         end_time,
+         appointment_date,
+         office_id,
+         office_per_id,
+         professional_id
+       ) do
+    IO.inspect(appointment_date, label: "FECHA")
+
     appointment_date =
       appointment_date
       |> DateTime.shift_zone!("Etc/UTC")
@@ -142,7 +175,9 @@ defmodule TurnosWeb.Professional.AppointmentController do
       appointment_date: appointment_date,
       start_time: start_time,
       end_time: end_time,
-      professional_id: professional_id
+      professional_id: professional_id,
+      office_id: office_id,
+      office_per_id: office_per_id
     }
 
     Repo.insert!(appointment)

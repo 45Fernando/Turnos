@@ -2,7 +2,7 @@ defmodule Turnos.OfficesPer.OfficePer do
   use Ecto.Schema
   import Ecto.Changeset
   import Ecto.Query, warn: false
-  #alias Turnos.Repo
+  # alias Turnos.Repo
 
   schema "offices_per" do
     field :address, :string
@@ -14,6 +14,7 @@ defmodule Turnos.OfficesPer.OfficePer do
 
     belongs_to :users, Turnos.Users.User, foreign_key: :user_id
     has_many(:config_details, Turnos.ConfigDetails.ConfigDetail, foreign_key: :office_per_id)
+    has_many(:appointments, Turnos.Appointments.Appointment, foreign_key: :office_per_id)
 
     timestamps()
   end

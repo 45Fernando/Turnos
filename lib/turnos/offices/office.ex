@@ -11,6 +11,7 @@ defmodule Turnos.Offices.Office do
     field :status, :boolean, default: true
 
     has_many(:config_details, Turnos.ConfigDetails.ConfigDetail, foreign_key: :office_id)
+    has_many(:appointments, Turnos.Appointments.Appointment, foreign_key: :office_id)
 
     timestamps()
   end

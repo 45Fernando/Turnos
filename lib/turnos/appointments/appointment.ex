@@ -11,6 +11,8 @@ defmodule Turnos.Appointments.Appointment do
 
     belongs_to(:appointments_patient, Turnos.Users.User, foreign_key: :patient_id)
     belongs_to(:appointments_professional, Turnos.Users.User, foreign_key: :professional_id)
+    belongs_to(:appointments_office, Turnos.Offices.Office, foreign_key: :office_id)
+    belongs_to(:appointments_office_per, Turnos.OfficesPer.OfficePer, foreign_key: :office_per_id)
 
     timestamps()
   end
@@ -32,7 +34,9 @@ defmodule Turnos.Appointments.Appointment do
       :end_time,
       :availability,
       :profesional_id,
-      :overturn
+      :overturn,
+      :office_id,
+      :office_per_id
     ])
     |> validate_required([
       :appointment_date,
@@ -43,5 +47,7 @@ defmodule Turnos.Appointments.Appointment do
       :overturn
     ])
     |> foreign_key_constraint(:professional_id)
+    |> foreign_key_constraint(:office_id)
+    |> foreign_key_constraint(:office_per_id)
   end
 end

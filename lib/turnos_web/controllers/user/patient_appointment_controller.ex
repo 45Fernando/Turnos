@@ -23,6 +23,8 @@ defmodule TurnosWeb.Patient.AppointmentController do
             overturn(:boolean, "If the appointment is a overturn appointment", required: true)
             patient_id(:integer, "Patient's ID", required: true)
             professional_id(:integer, "Professional's ID", required: true)
+            office_id(:integer, "Office's ID", required: true)
+            office_per_id(:integer, "Office_per's ID", required: true)
             inserted_at(:string, "When was the country initially inserted", format: "ISO-8601")
             updated_at(:string, "When was the country last updated", format: "ISO-8601")
           end
@@ -34,6 +36,8 @@ defmodule TurnosWeb.Patient.AppointmentController do
             id: 79,
             overturn: false,
             professional_id: 1,
+            office_id: 1,
+            office_per_id: "",
             start_time: "12:00:00.000000"
           })
         end,
@@ -131,6 +135,7 @@ defmodule TurnosWeb.Patient.AppointmentController do
       |> Appointments.get_appointments_by_users()
       |> Repo.get!(params["id"])
       |> Repo.preload(appointments_professional: [:countries, :provinces])
+      |> Repo.preload([:appointments_office, :appointments_office_per])
 
     conn
     |> put_view(TurnosWeb.AppointmentView)
@@ -146,10 +151,6 @@ defmodule TurnosWeb.Patient.AppointmentController do
       id(:path, :integer, "The id of the appointment", required: true)
       user_id(:path, :integer, "The id of the patient", required: true)
 
-      # patient_appointment(:body, Schema.ref(:Patient_Appointment), "The appointment to update",
-      # required: true
-      # )
-
       availability(:body, :boolean, "True or False of the availability of the appointment",
         required: true
       )
@@ -161,7 +162,7 @@ defmodule TurnosWeb.Patient.AppointmentController do
 
   # Para modificar la disponibilidad del turno.
   def update_patient_appointment(conn, params) do
-    if params["availability"] do
+    if !params["availability"] do
       pick_patient_appointment(conn, params)
     else
       cancel_patient_appointment(conn, params)
@@ -177,6 +178,8 @@ defmodule TurnosWeb.Patient.AppointmentController do
       params["professional_id"]
       |> Appointments.get_available_appointments_by_professional()
       |> Repo.get!(params["id"])
+      |> Repo.preload(appointments_professional: [:countries, :provinces])
+      |> Repo.preload([:appointments_office, :appointments_office_per])
 
     with {:ok, %Appointment{} = appointment} <-
            Appointments.update_patient_appointment(appointment, params) do

@@ -195,6 +195,8 @@
         "availability": false,
         "end_time": "12:30:00.000000",
         "id": 79,
+        "office_id": 1,
+        "office_per_id": "",
         "overturn": false,
         "professional_id": 1,
         "start_time": "12:00:00.000000"
@@ -216,6 +218,14 @@
           "description": "When was the country initially inserted",
           "format": "ISO-8601",
           "type": "string"
+        },
+        "office_id": {
+          "description": "Office's ID",
+          "type": "integer"
+        },
+        "office_per_id": {
+          "description": "Office_per's ID",
+          "type": "integer"
         },
         "overturn": {
           "description": "If the appointment is a overturn appointment",
@@ -240,6 +250,8 @@
         }
       },
       "required": [
+        "office_per_id",
+        "office_id",
         "professional_id",
         "patient_id",
         "overturn",

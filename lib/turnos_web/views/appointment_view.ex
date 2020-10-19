@@ -18,13 +18,31 @@ defmodule TurnosWeb.AppointmentView do
       end_time: appointment.end_time,
       availability: appointment.availability,
       overturn: appointment.overturn,
-      professional: professional?(appointment.appointments_professional)
+      professional: professional?(appointment.appointments_professional),
+      office: office?(appointment.appointments_office),
+      office_per: office_per?(appointment.appointments_office_per)
     }
   end
 
   defp professional?(professional) do
     if Ecto.assoc_loaded?(professional) do
       render_one(professional, TurnosWeb.UserView, "professional.json", as: :professional)
+    else
+      []
+    end
+  end
+
+  defp office?(office) do
+    if Ecto.assoc_loaded?(office) do
+      render_one(office, TurnosWeb.OfficeView, "office.json", as: :office)
+    else
+      []
+    end
+  end
+
+  defp office_per?(office_per) do
+    if Ecto.assoc_loaded?(office_per) do
+      render_one(office_per, TurnosWeb.OfficePerView, "office_per.json", as: :office_per)
     else
       []
     end
