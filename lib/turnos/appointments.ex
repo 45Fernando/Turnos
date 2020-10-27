@@ -47,6 +47,13 @@ defmodule Turnos.Appointments do
     |> order_by(asc: :appointment_date)
   end
 
+  def get_appointments_by_users(user_id, from_date, to_date) do
+    user_id
+    |> Turnos.Users.get_user!()
+    |> Ecto.assoc(:appointments_patient)
+    |> where([a], a.appointment_date >= ^from_date and a.appointment_date <= ^to_date)
+  end
+
   def get_appointments_by_professional(user_id) do
     today = DateTime.now!("Etc/UTC")
 
@@ -68,11 +75,24 @@ defmodule Turnos.Appointments do
     |> order_by(asc: :appointment_date)
   end
 
-  def get_appointments_by_users(user_id, from_date, to_date) do
-    user_id
-    |> Turnos.Users.get_user!()
-    |> Ecto.assoc(:appointments_patient)
-    |> where([a], a.appointment_date >= ^from_date and a.appointment_date <= ^to_date)
+  # Recupera el ultimo turno no disponible o devuelve nil si no encuentra nada
+  def get_last_not_avalaible_appointment(user_id) do
+    Repo.one(
+      from a in Appointment,
+        where: a.professional_id == ^user_id and a.availability == false,
+        order_by: [desc: a.appointment_date],
+        limit: 1
+    )
+  end
+
+  # Recupera el ultimo turno  o devuelve nil si no encuentra nada
+  def get_last_appointment(user_id) do
+    Repo.one(
+      from a in Appointment,
+        where: a.professional_id == ^user_id,
+        order_by: [desc: a.appointment_date],
+        limit: 1
+    )
   end
 
   @doc """
@@ -125,6 +145,12 @@ defmodule Turnos.Appointments do
   """
   def delete_appointment(%Appointment{} = appointment) do
     Repo.delete(appointment)
+  end
+
+  # Borrar los turnos que sean mayor o igual a una fecha
+  def delete_appointment_by_date(user_id, date) do
+    from(a in Appointment, where: a.professional_id == ^user_id and a.appointment_date >= ^date)
+    |> Repo.delete_all()
   end
 
   @doc """

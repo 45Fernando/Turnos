@@ -403,6 +403,13 @@
             "type": "integer"
           },
           {
+            "description": "The id of the professional",
+            "in": "path",
+            "name": "professional_id",
+            "required": true,
+            "type": "integer"
+          },
+          {
             "description": "True or False of the availability of the appointment",
             "in": "body",
             "name": "availability",

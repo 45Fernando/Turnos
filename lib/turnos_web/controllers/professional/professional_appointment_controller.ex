@@ -31,62 +31,64 @@ defmodule TurnosWeb.Professional.AppointmentController do
   # end
   # end
 
-  def generate_appointments(conn, _params) do
+  def generate_appointments(conn, params) do
     user = conn |> Guardian.Plug.current_resource()
+    time_zone = params["time_zone"]
 
     config_header = user.id |> Turnos.ConfigHeaders.get_config_by_user()
     config_details = user.id |> Turnos.ConfigDetails.get_config_details_by_user() |> Repo.all()
+    last_appointment = user.id |> Turnos.Appointments.get_last_appointment()
 
-    today = DateTime.now!("America/Buenos_Aires")
+    last_appointment_not_available =
+      user.id |> Turnos.Appointments.get_last_not_avalaible_appointment()
 
-    if !config_header.generate_up_to do
-      case generate(config_header.generate_every_days, config_details, today, 1, user.id) do
-        {:ok, lastdate} ->
-          lastdate = lastdate |> DateTime.shift_zone!("Etc/UTC")
+    {date, acc} =
+      get_date(
+        last_appointment_not_available,
+        last_appointment,
+        config_header,
+        time_zone
+      )
 
-          with {:ok, %ConfigHeader{} = _config_header} <-
-                 Turnos.ConfigHeaders.update_config(config_header, %{"lastdate" => lastdate}) do
-            conn
-            |> index_by_professional(user)
-          end
+    {_quantity_rows, _} = user.id |> Turnos.Appointments.delete_appointment_by_date(date)
+
+    {:ok, lastdate} =
+      if !config_header.generate_up_to do
+        generate_by_days(config_details, date, acc, user.id, time_zone)
+      else
+        generate_till_date(config_header.generate_up_to, config_details, date, user.id, time_zone)
       end
-    else
-      case generate_till_date(config_header.generate_up_to, config_details, today, user.id) do
-        {:ok, lastdate} ->
-          lastdate = lastdate |> DateTime.shift_zone!("Etc/UTC")
 
-          with {:ok, %ConfigHeader{} = _config_header} <-
-                 Turnos.ConfigHeaders.update_config(config_header, %{"lastdate" => lastdate}) do
-            conn
-            |> index_by_professional(user)
-          end
-      end
+    with {:ok, %ConfigHeader{} = _config_header} <-
+           Turnos.ConfigHeaders.update_config(config_header, %{"lastdate" => lastdate}) do
+      conn
+      |> index_by_professional(user)
     end
   end
 
   # Para generar los turnos cada ciertos dias
-  defp generate(generate_every_days, config_details, date, acc, user_id)
-       when acc < generate_every_days do
+  defp generate_by_days(config_details, date, acc, user_id, time_zone)
+       when acc > 0 do
     day_of_week = Date.day_of_week(date)
 
     if day_of_week != 6 or day_of_week != 7 do
       list_of_details = search_days_in_details(day_of_week, config_details)
 
       list_of_details
-      |> Enum.each(fn detail -> generate_by_detail(detail, date, user_id) end)
+      |> Enum.each(fn detail -> generate_by_detail(detail, date, user_id, time_zone) end)
     end
 
     date = DateTime.add(date, 86400)
-    generate(generate_every_days, config_details, date, acc + 1, user_id)
+    generate_by_days(config_details, date, acc - 1, user_id, time_zone)
   end
 
-  defp generate(generate_every_days, _config_details, date, acc, _user_id)
-       when acc >= generate_every_days do
+  defp generate_by_days(_config_details, date, acc, _user_id, _time_zone)
+       when acc == 0 do
     {:ok, date}
   end
 
   # Para generar los turnos hasta cierta fecha
-  defp generate_till_date(generate_up_to, config_details, date, user_id) do
+  defp generate_till_date(generate_up_to, config_details, date, user_id, time_zone) do
     if DateTime.compare(generate_up_to, date) == :gt do
       day_of_week = Date.day_of_week(date)
 
@@ -94,11 +96,11 @@ defmodule TurnosWeb.Professional.AppointmentController do
         list_of_details = search_days_in_details(day_of_week, config_details)
 
         list_of_details
-        |> Enum.each(fn detail -> generate_by_detail(detail, date, user_id) end)
+        |> Enum.each(fn detail -> generate_by_detail(detail, date, user_id, time_zone) end)
       end
 
       date = DateTime.add(date, 86400)
-      generate_till_date(generate_up_to, config_details, date, user_id)
+      generate_till_date(generate_up_to, config_details, date, user_id, time_zone)
     else
       {:ok, date}
     end
@@ -106,7 +108,7 @@ defmodule TurnosWeb.Professional.AppointmentController do
 
   # ------------------------------------------
 
-  defp generate_by_detail(detail, date, user_id) do
+  defp generate_by_detail(detail, date, user_id, time_zone) do
     generate_by_detail(
       detail.start_time,
       detail.end_time,
@@ -114,7 +116,8 @@ defmodule TurnosWeb.Professional.AppointmentController do
       date,
       detail.office_id,
       detail.office_per_id,
-      user_id
+      user_id,
+      time_zone
     )
   end
 
@@ -125,12 +128,15 @@ defmodule TurnosWeb.Professional.AppointmentController do
          date,
          office_id,
          office_per_id,
-         user_id
+         user_id,
+         time_zone
        ) do
     if Time.compare(start_time, end_time) == :lt do
       end_appointment =
         start_time
         |> Time.add(minutes_interval * 60, :second)
+
+      date = TurnosWeb.HelpersDateTime.get_utc_with_start_time(date, start_time, time_zone)
 
       insert_appointment(start_time, end_appointment, date, office_id, office_per_id, user_id)
 
@@ -145,7 +151,8 @@ defmodule TurnosWeb.Professional.AppointmentController do
         date,
         office_id,
         office_per_id,
-        user_id
+        user_id,
+        time_zone
       )
     else
       nil
@@ -165,12 +172,6 @@ defmodule TurnosWeb.Professional.AppointmentController do
          office_per_id,
          professional_id
        ) do
-    IO.inspect(appointment_date, label: "FECHA")
-
-    appointment_date =
-      appointment_date
-      |> DateTime.shift_zone!("Etc/UTC")
-
     appointment = %Appointment{
       appointment_date: appointment_date,
       start_time: start_time,
@@ -181,6 +182,32 @@ defmodule TurnosWeb.Professional.AppointmentController do
     }
 
     Repo.insert!(appointment)
+  end
+
+  # Para conseguir desde que fecha borrar los turnos y generar los nuevos turnos
+  # Y para conseguir la diferencia de dias a generar y no pasar lo puesto en la
+  # configuracion
+  defp get_date(
+         last_appointment_not_available,
+         last_appointment,
+         config_header,
+         time_zone
+       ) do
+    if last_appointment_not_available == nil do
+      today = DateTime.now!(time_zone) |> DateTime.shift_zone!("Etc/UTC")
+
+      {today, config_header.generate_every_days}
+    else
+      date = DateTime.add(last_appointment_not_available.appointment_date, 86400)
+
+      acc =
+        last_appointment.appointment_date
+        |> DateTime.diff(date)
+        |> div(86400)
+        |> abs()
+
+      {date, acc + 1}
+    end
   end
 
   # Muestra el detalle de un turno de un paciente

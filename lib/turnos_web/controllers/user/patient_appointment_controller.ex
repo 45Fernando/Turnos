@@ -150,6 +150,7 @@ defmodule TurnosWeb.Patient.AppointmentController do
     parameters do
       id(:path, :integer, "The id of the appointment", required: true)
       user_id(:path, :integer, "The id of the patient", required: true)
+      professional_id(:path, :integer, "The id of the professional", required: true)
 
       availability(:body, :boolean, "True or False of the availability of the appointment",
         required: true
