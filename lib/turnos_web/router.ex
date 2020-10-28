@@ -78,6 +78,8 @@ defmodule TurnosWeb.Router do
 
         get "/appointments", Professional.AppointmentController, :index_by_professional
         post "/appointments/generate", Professional.AppointmentController, :generate_appointments
+        get "/appointments/:id", Professional.AppointmentController, :show
+        put "/appointments/:id", Professional.AppointmentController, :update
       end
     end
 

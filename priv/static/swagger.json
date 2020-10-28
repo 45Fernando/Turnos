@@ -269,6 +269,88 @@
       },
       "title": "Patient's Appointments",
       "type": "array"
+    },
+    "Professional_Appointment": {
+      "description": "Professional Appointments",
+      "example": {
+        "appointment_date": "2020-10-28T21:52:13.549656Z",
+        "availability": false,
+        "end_time": "12:30:00.000000",
+        "id": 79,
+        "office_id": 1,
+        "office_per_id": "",
+        "overturn": false,
+        "professional_id": 1,
+        "start_time": "12:00:00.000000"
+      },
+      "properties": {
+        "availability": {
+          "description": "If the appointment is available or not",
+          "type": "boolean"
+        },
+        "end_time": {
+          "description": "When the appointmend end",
+          "type": "time_usec"
+        },
+        "id": {
+          "description": "The ID of the appointment",
+          "type": "integer"
+        },
+        "inserted_at": {
+          "description": "When was the country initially inserted",
+          "format": "ISO-8601",
+          "type": "string"
+        },
+        "office_id": {
+          "description": "Office's ID",
+          "type": "integer"
+        },
+        "office_per_id": {
+          "description": "Office_per's ID",
+          "type": "integer"
+        },
+        "overturn": {
+          "description": "If the appointment is a overturn appointment",
+          "type": "boolean"
+        },
+        "patient_id": {
+          "description": "Patient's ID",
+          "type": "integer"
+        },
+        "professional_id": {
+          "description": "Professional's ID",
+          "type": "integer"
+        },
+        "start_time": {
+          "description": "When the appointmend end",
+          "type": "time_usec"
+        },
+        "updated_at": {
+          "description": "When was the country last updated",
+          "format": "ISO-8601",
+          "type": "string"
+        }
+      },
+      "required": [
+        "office_per_id",
+        "office_id",
+        "professional_id",
+        "patient_id",
+        "overturn",
+        "end_time",
+        "start_time",
+        "availability"
+      ],
+      "title": "Professional Appointments",
+      "type": "object"
+    },
+    "Professional_Appointments": {
+      "description": "All appointments of the Professional",
+      "items": {
+        "$ref": "#/definitions/Professional_Appointment"
+      },
+      "title": "Professional's Appointments",
+      "type": "array"
     }
   },
   "host": "localhost:4000",
@@ -330,7 +412,7 @@
           "200": {
             "description": "Ok",
             "schema": {
-              "$ref": "#/definitions/Patient_Appointment"
+              "$ref": "#/definitions/Patient_Appointments"
             }
           },
           "400": {
@@ -437,6 +519,119 @@
         ]
       }
     },
+    "/api/professional/{user_id}/appointments": {
+      "get": {
+        "description": "List all the next appointments of the professional",
+        "operationId": "TurnosWeb.Professional.AppointmentController.index_by_professional",
+        "parameters": [
+          {
+            "description": "The id of the professional",
+            "in": "path",
+            "name": "user_id",
+            "required": true,
+            "type": "integer"
+          }
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "Ok",
+            "schema": {
+              "$ref": "#/definitions/Professional_Appointments"
+            }
+          },
+          "400": {
+            "description": "Client Error"
+          }
+        },
+        "summary": "List all the next appointments of the professional",
+        "tags": [
+          "Appointment"
+        ]
+      }
+    },
+    "/api/professional/{user_id}/appointments/generate": {
+      "get": {
+        "description": "Generate the appointments base on the professional's configuration",
+        "operationId": "TurnosWeb.Professional.AppointmentController.generate_appointments",
+        "parameters": [
+          {
+            "description": "The id of the professional",
+            "in": "path",
+            "name": "user_id",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "description": "The time zone of the client",
+            "in": "body",
+            "name": "time_zone",
+            "required": true,
+            "schema": "string"
+          }
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "Ok",
+            "schema": {
+              "$ref": "#/definitions/Professional_Appointments"
+            }
+          },
+          "400": {
+            "description": "Client Error"
+          }
+        },
+        "summary": "Generate the appointments base on the user's configuration",
+        "tags": [
+          "Appointment"
+        ]
+      }
+    },
+    "/api/professional/{user_id}/appointments/{id} ": {
+      "get": {
+        "description": "Retrieve a appointment of a professional",
+        "operationId": "TurnosWeb.Professional.AppointmentController.show",
+        "parameters": [
+          {
+            "description": "The id of the appointment",
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "description": "The id of the professional",
+            "in": "path",
+            "name": "user_id",
+            "required": true,
+            "type": "integer"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Ok",
+            "schema": {
+              "$ref": "#/definitions/Professional_Appointment"
+            }
+          },
+          "404": {
+            "description": "Not found",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          }
+        },
+        "summary": "Retrieve a appointment of a professional",
+        "tags": [
+          "Appointment"
+        ]
+      }
+    },
     "/api/professional/{user_id}/config/config_details ": {
       "get": {
         "description": "List all config details of a config header",
@@ -493,6 +688,53 @@
         "summary": "Delete a config detail",
         "tags": [
           "ConfigDetail"
+        ]
+      }
+    },
+    "/api/professionals/{user_id}/appointments/{id}": {
+      "patch": {
+        "description": "Change the availabilty of an appointment by a professional",
+        "operationId": "TurnosWeb.Professional.AppointmentController.update",
+        "parameters": [
+          {
+            "description": "The id of the appointment",
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "description": "The id of the professional",
+            "in": "path",
+            "name": "user_id",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "description": "True or False of the availability of the appointment",
+            "in": "body",
+            "name": "availability",
+            "required": true,
+            "schema": "boolean"
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Ok",
+            "schema": {
+              "$ref": "#/definitions/Patient_Appointment"
+            }
+          },
+          "422": {
+            "description": "Unprocessable Entity",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          }
+        },
+        "summary": "Change the availabilty of an appointment by a professional",
+        "tags": [
+          "Appointment"
         ]
       }
     },

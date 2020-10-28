@@ -70,7 +70,7 @@ defmodule TurnosWeb.Patient.AppointmentController do
       user_id(:path, :integer, "The id of the patient", required: true)
     end
 
-    response(200, "Ok", Schema.ref(:Patient_Appointment))
+    response(200, "Ok", Schema.ref(:Patient_Appointments))
     response(400, "Client Error")
   end
 
