@@ -62,6 +62,33 @@ defmodule TurnosWeb.UserView do
     }
   end
 
+  # mostrar el paciente desde el lado del profesional
+  def render("index_patient.json", %{patients: patients}) do
+    %{data: render_many(patients, UserView, "patient.json", as: :patient)}
+  end
+
+  def render("show_patient.json", %{patient: patient}) do
+    %{data: render_one(patient, UserView, "patient.json", as: :patient)}
+  end
+
+  def render("patient.json", %{patient: patient}) do
+    %{
+      id: patient.id,
+      name: patient.name,
+      lastname: patient.lastname,
+      dni: patient.dni,
+      mail: patient.mail,
+      address: patient.address,
+      phoneNumber: patient.phoneNumber,
+      mobilePhoneNumber: patient.mobilePhoneNumber,
+      cuil: patient.cuil,
+      location: patient.location,
+      avatars: TurnosWeb.Uploaders.Avatar.urls({patient.avatar, patient}),
+      country: render_one(patient.countries, TurnosWeb.CountryView, "country.json"),
+      province: render_one(patient.provinces, TurnosWeb.ProvinceView, "province.json")
+    }
+  end
+
   def render("mail.json", %{message: message}) do
     %{
       message: message

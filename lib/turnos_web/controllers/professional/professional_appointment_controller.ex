@@ -211,17 +211,34 @@ defmodule TurnosWeb.Professional.AppointmentController do
   end
 
   # Muestra el detalle de un turno de un paciente
-  def show(conn, %{"id" => id}) do
-    appointment = Appointments.get_appointment!(id)
-    render(conn, "show.json", appointment: appointment)
+  def show(conn, params) do
+    user = conn |> Guardian.Plug.current_resource()
+
+    appointment =
+      user.id
+      |> Appointments.get_appointments_by_professional()
+      |> Repo.get!(params["id"])
+      |> Repo.preload(appointments_patient: [:countries, :provinces])
+      |> Repo.preload([:appointments_office, :appointments_office_per])
+
+    conn
+    |> put_view(TurnosWeb.AppointmentView)
+    |> render("show.json", appointment: appointment)
   end
 
   # Para modificar la disponibilidad del turno.
-  def update(conn, %{"id" => id, "appointment" => appointment_params}) do
-    appointment = Appointments.get_appointment!(id)
+  def update(conn, params) do
+    user = conn |> Guardian.Plug.current_resource()
+
+    appointment =
+      user.id
+      |> Appointments.get_appointments_by_professional()
+      |> Repo.get!(params["id"])
+
+    params = params |> Map.delete("user_id") |> Map.put("patient_id", nil)
 
     with {:ok, %Appointment{} = appointment} <-
-           Appointments.update_patient_appointment(appointment, appointment_params) do
+           Appointments.update_patient_appointment(appointment, params) do
       render(conn, "show.json", appointment: appointment)
     end
   end
