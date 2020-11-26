@@ -86,7 +86,7 @@ defmodule TurnosWeb.Admin.CountryController do
       conn
       |> put_view(TurnosWeb.CountryView)
       |> put_status(:created)
-      |> put_resp_header("location", Routes.admin_country_path(conn, :show, country))
+      |> put_resp_header("location", Routes.country_path(conn, :show, country))
       |> render("show.json", country: country)
     end
   end

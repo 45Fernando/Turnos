@@ -9,8 +9,8 @@ defmodule TurnosWeb.Admin.ProvinceController do
 
   def index(conn, params) do
     provinces =
-       Provinces.provinces_by_country(params["country_id"])
-       |> Repo.all
+      Provinces.provinces_by_country(params["country_id"])
+      |> Repo.all()
 
     conn
     |> put_view(TurnosWeb.ProvinceView)
@@ -22,7 +22,10 @@ defmodule TurnosWeb.Admin.ProvinceController do
       conn
       |> put_view(TurnosWeb.ProvinceView)
       |> put_status(:created)
-      |> put_resp_header("location", Routes.admin_country_province_path(conn, :show, province.country_id ,province))
+      |> put_resp_header(
+        "location",
+        Routes.country_province_path(conn, :show, province.country_id, province)
+      )
       |> render("show.json", province: province)
     end
   end
@@ -36,7 +39,12 @@ defmodule TurnosWeb.Admin.ProvinceController do
   end
 
   def update(conn, province_params) do
-    province = Repo.get!(Provinces.provinces_by_country(province_params["country_id"]), province_params["id"])
+    province =
+      Repo.get!(
+        Provinces.provinces_by_country(province_params["country_id"]),
+        province_params["id"]
+      )
+
     province_params = Map.delete(province_params, "id")
 
     with {:ok, %Province{} = province} <- Provinces.update_province(province, province_params) do

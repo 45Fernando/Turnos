@@ -19,7 +19,7 @@ defmodule TurnosWeb.Admin.SpecialtyController do
       conn
       |> put_view(TurnosWeb.SpecialtyView)
       |> put_status(:created)
-      |> put_resp_header("location", Routes.admin_specialty_path(conn, :show, specialty))
+      |> put_resp_header("location", Routes.specialty_path(conn, :show, specialty))
       |> render("show.json", specialty: specialty)
     end
   end

@@ -5,18 +5,6 @@ defmodule TurnosWeb.Router do
     plug :accepts, ["json"]
   end
 
-  pipeline :paciente do
-    plug TurnosWeb.Plugs.EnsureRolePlug, [:paciente]
-  end
-
-  pipeline :proffesional do
-    plug TurnosWeb.Plugs.EnsureRolePlug, [:profesional]
-  end
-
-  pipeline :admin do
-    plug TurnosWeb.Plugs.EnsureRolePlug, [:admin]
-  end
-
   pipeline :authenticated do
     plug TurnosWeb.Plugs.AuthAccessPipeline
   end
@@ -45,8 +33,6 @@ defmodule TurnosWeb.Router do
 
     # Todas estas son rutas del usuario
     scope "/patient", as: :patient do
-      pipe_through :paciente
-
       resources "/", Patient.UserController, except: [:index, :new, :create, :edit, :delete] do
         resources "/appointments", Patient.AppointmentController, only: [:index, :show]
 
@@ -65,8 +51,6 @@ defmodule TurnosWeb.Router do
 
     # Todas estas son rutas del profesional
     scope "/professional", as: :professional do
-      pipe_through :proffesional
-
       resources "/", Professional.UserController, except: [:index, :new, :create, :edit, :delete] do
         resources "/config", Professional.ConfigHeaderController, only: [:create]
         get "/config", Professional.ConfigHeaderController, :show
@@ -87,8 +71,6 @@ defmodule TurnosWeb.Router do
 
     # Todas estas son rutas de admin
     scope "/admin", as: :admin do
-      pipe_through :admin
-
       resources "/users", Admin.UserController, except: [:new, :create, :edit, :delete] do
         resources "/offices_per", Admin.OfficePerController, except: [:new, :edit]
       end
