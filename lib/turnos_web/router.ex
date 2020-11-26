@@ -37,8 +37,9 @@ defmodule TurnosWeb.Router do
     delete "/identity/callback", AutentificacionController, :delete
     post "/identity/callback", AutentificacionController, :refresh
 
-    resources "/countries", Admin.CountryController, only: [:index] do
-      resources "/provinces", Admin.ProvinceController, only: [:index]
+    resources "/countries", CountryController, except: [:new, :edit, :create, :update, :delete] do
+      resources "/provinces", Admin.ProvinceController,
+        except: [:new, :edit, :create, :update, :delete]
     end
 
     # Todas estas son rutas del usuario
@@ -101,10 +102,6 @@ defmodule TurnosWeb.Router do
 
       put "/users/:user_id/specialties", Admin.UserController, :update_specialties
       get "/users/:user_id/specialties", Admin.UserController, :show_specialties
-
-      resources "/countries", Admin.CountryController, except: [:new, :edit, :index] do
-        resources "/provinces", Admin.ProvinceController, except: [:new, :edit, :index]
-      end
 
       resources "/roles", Admin.RoleController, except: [:new, :create, :edit, :delete]
 

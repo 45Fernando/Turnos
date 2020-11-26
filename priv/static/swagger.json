@@ -738,10 +738,10 @@
         ]
       }
     },
-    "api/admin/countries": {
+    "api/countries": {
       "get": {
         "description": "List all countries",
-        "operationId": "TurnosWeb.Admin.CountryController.index",
+        "operationId": "TurnosWeb.CountryController.index",
         "parameters": [],
         "produces": [
           "application/json"
@@ -763,45 +763,10 @@
         ]
       }
     },
-    "api/admin/countries/": {
-      "post": {
-        "description": "Record a new country",
-        "operationId": "TurnosWeb.Admin.CountryController.create",
-        "parameters": [
-          {
-            "description": "Country to record",
-            "in": "body",
-            "name": "country",
-            "required": true,
-            "schema": {
-              "$ref": "#/definitions/Country"
-            }
-          }
-        ],
-        "responses": {
-          "201": {
-            "description": "Ok",
-            "schema": {
-              "$ref": "#/definitions/Country"
-            }
-          },
-          "422": {
-            "description": "Unprocessable Entity",
-            "schema": {
-              "$ref": "#/definitions/Error"
-            }
-          }
-        },
-        "summary": "Add a new country",
-        "tags": [
-          "Country"
-        ]
-      }
-    },
-    "api/admin/countries/{id}": {
+    "api/countries/{id}": {
       "get": {
         "description": "Retrieve a country",
-        "operationId": "TurnosWeb.Admin.CountryController.show",
+        "operationId": "TurnosWeb.CountryController.show",
         "parameters": [
           {
             "description": "The id of the country",
