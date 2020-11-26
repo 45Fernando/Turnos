@@ -403,6 +403,52 @@
       },
       "title": "Provinces",
       "type": "array"
+    },
+    "Specialties": {
+      "description": "All specialties",
+      "items": {
+        "$ref": "#/definitions/Specialty"
+      },
+      "title": "Specialties",
+      "type": "array"
+    },
+    "Specialty": {
+      "description": "A specialty",
+      "example": {
+        "id": 1,
+        "inserted_at": "2017-03-21T14:00:00Z",
+        "name": "Dermatologia",
+        "updated_at": "2017-03-21T14:00:00Z"
+      },
+      "properties": {
+        "id": {
+          "description": "The ID of the specialty",
+          "type": "integer"
+        },
+        "inserted_at": {
+          "description": "When was the specialty initially inserted",
+          "format": "ISO-8601",
+          "type": "string"
+        },
+        "name": {
+          "description": "The name of the specialty",
+          "type": "string"
+        },
+        "updated_at": {
+          "description": "When was the specialty last updated",
+          "format": "ISO-8601",
+          "type": "string"
+        },
+        "users": {
+          "description": "Has many users",
+          "type": "array"
+        }
+      },
+      "required": [
+        "name"
+      ],
+      "title": "Specialty",
+      "type": "object"
     }
   },
   "host": "localhost:4000",
@@ -787,6 +833,164 @@
         "summary": "Change the availabilty of an appointment by a professional",
         "tags": [
           "Appointment"
+        ]
+      }
+    },
+    "/api/specialties": {
+      "get": {
+        "description": "List all specialties",
+        "operationId": "TurnosWeb.SpecialtyController.index",
+        "parameters": [],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "Ok",
+            "schema": {
+              "$ref": "#/definitions/Countries"
+            }
+          },
+          "400": {
+            "description": "Client Error"
+          }
+        },
+        "summary": "List all specialties",
+        "tags": [
+          "Specialty"
+        ]
+      }
+    },
+    "/api/specialties/": {
+      "post": {
+        "description": "Record a new specialty",
+        "operationId": "TurnosWeb.SpecialtyController.create",
+        "parameters": [
+          {
+            "description": "Specialty to record",
+            "in": "body",
+            "name": "country",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Specialty"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Ok",
+            "schema": {
+              "$ref": "#/definitions/Specialty"
+            }
+          },
+          "422": {
+            "description": "Unprocessable Entity",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          }
+        },
+        "summary": "Add a new specialty",
+        "tags": [
+          "Specialty"
+        ]
+      }
+    },
+    "/api/specialties/{id}": {
+      "delete": {
+        "description": "Remove a specialty from the system",
+        "operationId": "TurnosWeb.SpecialtyController.delete",
+        "parameters": [
+          {
+            "description": "The id of the specialty",
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "type": "integer"
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "No content"
+          },
+          "404": {
+            "description": "Not found"
+          }
+        },
+        "summary": "Delete a specialty",
+        "tags": [
+          "Specialty"
+        ]
+      },
+      "get": {
+        "description": "Retrieve a specialty",
+        "operationId": "TurnosWeb.SpecialtyController.show",
+        "parameters": [
+          {
+            "description": "The id of the specialty",
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "type": "integer"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Ok",
+            "schema": {
+              "$ref": "#/definitions/Specialty"
+            }
+          },
+          "404": {
+            "description": "Not found",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          }
+        },
+        "summary": "Retrieve a specialty",
+        "tags": [
+          "Specialty"
+        ]
+      },
+      "patch": {
+        "description": "Update the specialty",
+        "operationId": "TurnosWeb.SpecialtyController.update",
+        "parameters": [
+          {
+            "description": "Specialty to record",
+            "in": "body",
+            "name": "config_detail",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Specialty"
+            }
+          },
+          {
+            "description": "The id of the specialty",
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "type": "integer"
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Ok",
+            "schema": {
+              "$ref": "#/definitions/Specialty"
+            }
+          },
+          "422": {
+            "description": "Unprocessable Entity",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          }
+        },
+        "summary": "Update the specialty",
+        "tags": [
+          "Specialty"
         ]
       }
     },
