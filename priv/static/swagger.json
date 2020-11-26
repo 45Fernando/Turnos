@@ -351,6 +351,58 @@
       },
       "title": "Professional's Appointments",
       "type": "array"
+    },
+    "Province": {
+      "description": "A province of the world",
+      "example": {
+        "code": "AR-A",
+        "country_id": 1,
+        "inserted_at": "2017-03-21T14:00:00Z",
+        "name": "Salta",
+        "updated_at": "2017-03-21T14:00:00Z"
+      },
+      "properties": {
+        "code": {
+          "description": "The code of the province",
+          "type": "string"
+        },
+        "country_id": {
+          "description": "The ID of the country that belong",
+          "type": "integer"
+        },
+        "id": {
+          "description": "The ID of the province",
+          "type": "integer"
+        },
+        "inserted_at": {
+          "description": "When was the province initially inserted",
+          "format": "ISO-8601",
+          "type": "string"
+        },
+        "name": {
+          "description": "The name of the province",
+          "type": "string"
+        },
+        "updated_at": {
+          "description": "When was the province last updated",
+          "format": "ISO-8601",
+          "type": "string"
+        }
+      },
+      "required": [
+        "name",
+        "code"
+      ],
+      "title": "Province",
+      "type": "object"
+    },
+    "Provinces": {
+      "description": "All provinces/states of the world",
+      "items": {
+        "$ref": "#/definitions/Province"
+      },
+      "title": "Provinces",
+      "type": "array"
     }
   },
   "host": "localhost:4000",
@@ -760,6 +812,79 @@
         "summary": "List all countries",
         "tags": [
           "Country"
+        ]
+      }
+    },
+    "api/countries/{country_id}/provinces": {
+      "get": {
+        "description": "List all provinces that belong to a country",
+        "operationId": "TurnosWeb.ProvinceController.index",
+        "parameters": [
+          {
+            "description": "The id of the country",
+            "in": "path",
+            "name": "country_id",
+            "required": true,
+            "type": "integer"
+          }
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "Ok",
+            "schema": {
+              "$ref": "#/definitions/Provinces"
+            }
+          },
+          "400": {
+            "description": "Client Error"
+          }
+        },
+        "summary": "List all provinces that belong to a country",
+        "tags": [
+          "Province"
+        ]
+      }
+    },
+    "api/countries/{country_id}/provinces/{id}": {
+      "get": {
+        "description": "Retrieve a country",
+        "operationId": "TurnosWeb.ProvinceController.show",
+        "parameters": [
+          {
+            "description": "The id of the country",
+            "in": "path",
+            "name": "country_id",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "description": "The id of the province",
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "type": "integer"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Ok",
+            "schema": {
+              "$ref": "#/definitions/Province"
+            }
+          },
+          "404": {
+            "description": "Not found",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          }
+        },
+        "summary": "Retrieve a country",
+        "tags": [
+          "Province"
         ]
       }
     },

@@ -48,6 +48,13 @@ defmodule TurnosWeb.CountryController do
     }
   end
 
+  def action(conn, _) do
+    current_user_roles =
+      conn |> Guardian.Plug.current_resource() |> TurnosWeb.ExtractRoles.extract_roles()
+
+    apply(__MODULE__, action_name(conn), [conn, conn.params, current_user_roles])
+  end
+
   swagger_path :index do
     get("api/countries")
     summary("List all countries")
@@ -57,34 +64,25 @@ defmodule TurnosWeb.CountryController do
     response(400, "Client Error")
   end
 
-  def action(conn, _) do
-    current_user_roles =
-      conn |> Guardian.Plug.current_resource() |> TurnosWeb.ExtractRoles.extract_roles()
-
-    apply(__MODULE__, action_name(conn), [conn, conn.params, current_user_roles])
-  end
-
   def index(conn, _params, current_user_roles) do
-    IO.inspect(current_user_roles, label: "ROLES")
-
     cond do
       "admin" in current_user_roles -> TurnosWeb.Admin.CountryController.index(conn, [])
       true -> conn |> TurnosWeb.ExtractRoles.halt_connection()
     end
   end
 
-  swagger_path :create do
-    post("api/countries/")
-    summary("Add a new country")
-    description("Record a new country")
+  # swagger_path :create do
+  # post("api/countries/")
+  # summary("Add a new country")
+  # description("Record a new country")
 
-    parameters do
-      country(:body, Schema.ref(:Country), "Country to record", required: true)
-    end
+  # parameters do
+  # country(:body, Schema.ref(:Country), "Country to record", required: true)
+  # end
 
-    response(201, "Ok", Schema.ref(:Country))
-    response(422, "Unprocessable Entity", Schema.ref(:Error))
-  end
+  # response(201, "Ok", Schema.ref(:Country))
+  # response(422, "Unprocessable Entity", Schema.ref(:Error))
+  # end
 
   def create(conn, country_params, current_user_roles) do
     cond do

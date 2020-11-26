@@ -38,8 +38,7 @@ defmodule TurnosWeb.Router do
     post "/identity/callback", AutentificacionController, :refresh
 
     resources "/countries", CountryController, except: [:new, :edit, :create, :update, :delete] do
-      resources "/provinces", Admin.ProvinceController,
-        except: [:new, :edit, :create, :update, :delete]
+      resources "/provinces", ProvinceController, except: [:new, :edit, :create, :update, :delete]
     end
 
     # Todas estas son rutas del usuario
