@@ -14,12 +14,13 @@ defmodule TurnosWeb.Admin.DayController do
     |> render("index.json", days: days)
   end
 
+  # Deshabilitado
   def create(conn, %{"day" => day_params}) do
     with {:ok, %Day{} = day} <- Days.create_day(day_params) do
       conn
       |> put_view(TurnosWeb.DayView)
       |> put_status(:created)
-      |> put_resp_header("location", Routes.admin_day_path(conn, :show, day))
+      |> put_resp_header("location", Routes.day_path(conn, :show, day))
       |> render("show.json", day: day)
     end
   end
@@ -32,6 +33,7 @@ defmodule TurnosWeb.Admin.DayController do
     |> render("show.json", day: day)
   end
 
+  # Deshabilitado
   def update(conn, %{"id" => id, "day" => day_params}) do
     day = Days.get_day!(id)
 
@@ -42,6 +44,7 @@ defmodule TurnosWeb.Admin.DayController do
     end
   end
 
+  # Deshabilitado
   def delete(conn, %{"id" => id}) do
     day = Days.get_day!(id)
 

@@ -26,6 +26,8 @@ defmodule TurnosWeb.Router do
     post "/identity/callback", AutentificacionController, :refresh
 
     resources "/specialties", SpecialtyController, except: [:new, :edit, :delete]
+    resources "/days", DayController, except: [:new, :create, :edit, :update, :delete]
+    resources "/roles", RoleController, except: [:new, :create, :edit, :update, :delete]
 
     resources "/countries", CountryController, except: [:new, :edit, :create, :update, :delete] do
       resources "/provinces", ProvinceController, except: [:new, :edit, :create, :update, :delete]
@@ -86,14 +88,10 @@ defmodule TurnosWeb.Router do
       put "/users/:user_id/specialties", Admin.UserController, :update_specialties
       get "/users/:user_id/specialties", Admin.UserController, :show_specialties
 
-      resources "/roles", Admin.RoleController, except: [:new, :create, :edit, :delete]
-
       resources "/medicalsinsurances", Admin.MedicalInsuranceController,
         except: [:new, :edit, :delete]
 
       resources "/offices", Admin.OfficeController, except: [:new, :edit]
-
-      resources "/days", Admin.DayController, except: [:new, :create, :edit, :update, :delete]
 
       get "/tokens", Admin.GuardianTokenController, :index
       delete "/tokens", AutentificacionController, :revoke

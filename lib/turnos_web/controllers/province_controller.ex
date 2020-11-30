@@ -73,8 +73,6 @@ defmodule TurnosWeb.ProvinceController do
   end
 
   def index(conn, params, current_user_roles) do
-    IO.inspect(current_user_roles, label: "ROLES")
-
     cond do
       "admin" in current_user_roles -> TurnosWeb.Admin.ProvinceController.index(conn, params)
       true -> conn |> TurnosWeb.ExtractRoles.halt_connection()

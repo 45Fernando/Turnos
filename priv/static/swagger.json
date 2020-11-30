@@ -174,6 +174,52 @@
       "title": "Country",
       "type": "object"
     },
+    "Day": {
+      "description": "A day",
+      "example": {
+        "id": 1,
+        "inserted_at": "2017-03-21T14:00:00Z",
+        "name": "Lunes",
+        "updated_at": "2017-03-21T14:00:00Z"
+      },
+      "properties": {
+        "config_details": {
+          "description": "Has many users",
+          "type": "array"
+        },
+        "id": {
+          "description": "The ID of the day",
+          "type": "integer"
+        },
+        "inserted_at": {
+          "description": "When was the day initially inserted",
+          "format": "ISO-8601",
+          "type": "string"
+        },
+        "name": {
+          "description": "The name of the day",
+          "type": "string"
+        },
+        "updated_at": {
+          "description": "When was the day last updated",
+          "format": "ISO-8601",
+          "type": "string"
+        }
+      },
+      "required": [
+        "name"
+      ],
+      "title": "Day",
+      "type": "object"
+    },
+    "Days": {
+      "description": "All days",
+      "items": {
+        "$ref": "#/definitions/Day"
+      },
+      "title": "Days",
+      "type": "array"
+    },
     "Error": {
       "description": "Error responses from the API",
       "properties": {
@@ -404,6 +450,52 @@
       "title": "Provinces",
       "type": "array"
     },
+    "Role": {
+      "description": "A role",
+      "example": {
+        "id": 1,
+        "inserted_at": "2017-03-21T14:00:00Z",
+        "roleName": "admin",
+        "updated_at": "2017-03-21T14:00:00Z"
+      },
+      "properties": {
+        "id": {
+          "description": "The ID of the role",
+          "type": "integer"
+        },
+        "inserted_at": {
+          "description": "When was the role initially inserted",
+          "format": "ISO-8601",
+          "type": "string"
+        },
+        "roleName": {
+          "description": "The name of the role",
+          "type": "string"
+        },
+        "updated_at": {
+          "description": "When was the role last updated",
+          "format": "ISO-8601",
+          "type": "string"
+        },
+        "users": {
+          "description": "Has many users",
+          "type": "array"
+        }
+      },
+      "required": [
+        "roleName"
+      ],
+      "title": "Role",
+      "type": "object"
+    },
+    "Roles": {
+      "description": "All roles",
+      "items": {
+        "$ref": "#/definitions/Role"
+      },
+      "title": "Roles",
+      "type": "array"
+    },
     "Specialties": {
       "description": "All specialties",
       "items": {
@@ -457,6 +549,64 @@
     "version": "0.0.1"
   },
   "paths": {
+    "/api/days": {
+      "get": {
+        "description": "List all days",
+        "operationId": "TurnosWeb.DayController.index",
+        "parameters": [],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "Ok",
+            "schema": {
+              "$ref": "#/definitions/Days"
+            }
+          },
+          "400": {
+            "description": "Client Error"
+          }
+        },
+        "summary": "List all days",
+        "tags": [
+          "Day"
+        ]
+      }
+    },
+    "/api/days/{id}": {
+      "get": {
+        "description": "Retrieve a day",
+        "operationId": "TurnosWeb.DayController.show",
+        "parameters": [
+          {
+            "description": "The id of the day",
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "type": "integer"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Ok",
+            "schema": {
+              "$ref": "#/definitions/Specialty"
+            }
+          },
+          "404": {
+            "description": "Not found",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          }
+        },
+        "summary": "Retrieve a day",
+        "tags": [
+          "Day"
+        ]
+      }
+    },
     "/api/patient/professionals/{professional_id}/appointments ": {
       "get": {
         "description": "List all the next available appointments of a professional",
@@ -833,6 +983,64 @@
         "summary": "Change the availabilty of an appointment by a professional",
         "tags": [
           "Appointment"
+        ]
+      }
+    },
+    "/api/roles": {
+      "get": {
+        "description": "List all roles",
+        "operationId": "TurnosWeb.RoleController.index",
+        "parameters": [],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "Ok",
+            "schema": {
+              "$ref": "#/definitions/Roles"
+            }
+          },
+          "400": {
+            "description": "Client Error"
+          }
+        },
+        "summary": "List all roles",
+        "tags": [
+          "Role"
+        ]
+      }
+    },
+    "/api/roles/{id}": {
+      "get": {
+        "description": "Retrieve a role",
+        "operationId": "TurnosWeb.RoleController.show",
+        "parameters": [
+          {
+            "description": "The id of the role",
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "type": "integer"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Ok",
+            "schema": {
+              "$ref": "#/definitions/Specialty"
+            }
+          },
+          "404": {
+            "description": "Not found",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          }
+        },
+        "summary": "Retrieve a role",
+        "tags": [
+          "Role"
         ]
       }
     },
