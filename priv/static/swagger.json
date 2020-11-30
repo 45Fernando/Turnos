@@ -234,6 +234,68 @@
       "title": "Errors",
       "type": "object"
     },
+    "MedicalInsurance": {
+      "description": "A medical insurance",
+      "example": {
+        "businessName": "OSPE",
+        "cuit": "20741258391",
+        "id": 1,
+        "inserted_at": "2017-03-21T14:00:00Z",
+        "name": "Obra Social de Petroleros",
+        "updated_at": "2017-03-21T14:00:00Z"
+      },
+      "properties": {
+        "businessName": {
+          "description": "The business Name of the medical insurance",
+          "type": "string"
+        },
+        "cuit": {
+          "description": "The CUIT of the medical insurance",
+          "type": "string"
+        },
+        "id": {
+          "description": "The ID of the medical insurance",
+          "type": "integer"
+        },
+        "inserted_at": {
+          "description": "When was the medical insurance initially inserted",
+          "format": "ISO-8601",
+          "type": "string"
+        },
+        "name": {
+          "description": "The name of the medical insurance",
+          "type": "string"
+        },
+        "status": {
+          "description": "The status of the medical insurance",
+          "type": "boolean"
+        },
+        "updated_at": {
+          "description": "When was the medical insurance last updated",
+          "format": "ISO-8601",
+          "type": "string"
+        },
+        "users": {
+          "description": "Has many professionals",
+          "type": "array"
+        }
+      },
+      "required": [
+        "name",
+        "cuit",
+        "businessName"
+      ],
+      "title": "Medical insurance",
+      "type": "object"
+    },
+    "MedicalsInsurances": {
+      "description": "All medicals insurances",
+      "items": {
+        "$ref": "#/definitions/MedicalInsurance"
+      },
+      "title": "Medicals insurances",
+      "type": "array"
+    },
     "Patient_Appointment": {
       "description": "Patient Appointments",
       "example": {
@@ -546,7 +608,7 @@
   "host": "localhost:4000",
   "info": {
     "title": "Turnos",
-    "version": "0.0.1"
+    "version": "0.0.3"
   },
   "paths": {
     "/api/days": {
@@ -604,6 +666,139 @@
         "summary": "Retrieve a day",
         "tags": [
           "Day"
+        ]
+      }
+    },
+    "/api/medicalsinsurances": {
+      "get": {
+        "description": "List all medicals insurances",
+        "operationId": "TurnosWeb.MedicalInsuranceController.index",
+        "parameters": [],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "Ok",
+            "schema": {
+              "$ref": "#/definitions/MedicalsInsurances"
+            }
+          },
+          "400": {
+            "description": "Client Error"
+          }
+        },
+        "summary": "List all medicals insurances",
+        "tags": [
+          "MedicalInsurance"
+        ]
+      }
+    },
+    "/api/medicalsinsurances/": {
+      "post": {
+        "description": "Record a new medical insurance",
+        "operationId": "TurnosWeb.MedicalInsuranceController.create",
+        "parameters": [
+          {
+            "description": "Medical insurance to record",
+            "in": "body",
+            "name": "country",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/MedicalInsurance"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Ok",
+            "schema": {
+              "$ref": "#/definitions/MedicalInsurance"
+            }
+          },
+          "422": {
+            "description": "Unprocessable Entity",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          }
+        },
+        "summary": "Add a new medical insurance",
+        "tags": [
+          "MedicalInsurance"
+        ]
+      }
+    },
+    "/api/medicalsinsurances/{id}": {
+      "get": {
+        "description": "Retrieve a medical insurance",
+        "operationId": "TurnosWeb.MedicalInsuranceController.show",
+        "parameters": [
+          {
+            "description": "The id of the medical insurance",
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "type": "integer"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Ok",
+            "schema": {
+              "$ref": "#/definitions/MedicalInsurance"
+            }
+          },
+          "404": {
+            "description": "Not found",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          }
+        },
+        "summary": "Retrieve a medical insurance",
+        "tags": [
+          "MedicalInsurance"
+        ]
+      },
+      "patch": {
+        "description": "Update the medical insurance",
+        "operationId": "TurnosWeb.MedicalInsuranceController.update",
+        "parameters": [
+          {
+            "description": "Specialty to record",
+            "in": "body",
+            "name": "medicalinsurance",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/MedicalInsurance"
+            }
+          },
+          {
+            "description": "The id of the specialty",
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "type": "integer"
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Ok",
+            "schema": {
+              "$ref": "#/definitions/MedicalInsurance"
+            }
+          },
+          "422": {
+            "description": "Unprocessable Entity",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          }
+        },
+        "summary": "Update the medical insurance ",
+        "tags": [
+          "MedicalInsurance"
         ]
       }
     },
@@ -1143,7 +1338,7 @@
           {
             "description": "Specialty to record",
             "in": "body",
-            "name": "config_detail",
+            "name": "specialty",
             "required": true,
             "schema": {
               "$ref": "#/definitions/Specialty"

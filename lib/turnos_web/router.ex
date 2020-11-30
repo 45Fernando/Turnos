@@ -28,6 +28,7 @@ defmodule TurnosWeb.Router do
     resources "/specialties", SpecialtyController, except: [:new, :edit, :delete]
     resources "/days", DayController, except: [:new, :create, :edit, :update, :delete]
     resources "/roles", RoleController, except: [:new, :create, :edit, :update, :delete]
+    resources "/medicalsinsurances", MedicalInsuranceController, except: [:new, :edit, :delete]
 
     resources "/countries", CountryController, except: [:new, :edit, :create, :update, :delete] do
       resources "/provinces", ProvinceController, except: [:new, :edit, :create, :update, :delete]
@@ -88,9 +89,6 @@ defmodule TurnosWeb.Router do
       put "/users/:user_id/specialties", Admin.UserController, :update_specialties
       get "/users/:user_id/specialties", Admin.UserController, :show_specialties
 
-      resources "/medicalsinsurances", Admin.MedicalInsuranceController,
-        except: [:new, :edit, :delete]
-
       resources "/offices", Admin.OfficeController, except: [:new, :edit]
 
       get "/tokens", Admin.GuardianTokenController, :index
@@ -105,7 +103,7 @@ defmodule TurnosWeb.Router do
   def swagger_info do
     %{
       info: %{
-        version: "0.0.1",
+        version: "0.0.3",
         title: "Turnos"
       }
     }

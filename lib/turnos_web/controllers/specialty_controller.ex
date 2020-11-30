@@ -120,7 +120,7 @@ defmodule TurnosWeb.SpecialtyController do
     description("Update the specialty")
 
     parameters do
-      config_detail(:body, Schema.ref(:Specialty), "Specialty to record", required: true)
+      specialty(:body, Schema.ref(:Specialty), "Specialty to record", required: true)
       id(:path, :integer, "The id of the specialty", required: true)
     end
 
