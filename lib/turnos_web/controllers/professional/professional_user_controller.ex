@@ -7,7 +7,6 @@ defmodule TurnosWeb.Professional.UserController do
 
   action_fallback TurnosWeb.FallbackController
 
-
   def show(conn, _params) do
     user = Guardian.Plug.current_resource(conn)
 
@@ -19,7 +18,8 @@ defmodule TurnosWeb.Professional.UserController do
   def show_medicalsinsurances(conn, _params) do
     user = Guardian.Plug.current_resource(conn)
 
-    medicals_insurances = Turnos.MedicalsInsurances.get_medicals_insurance_by_user(user.id) |> Repo.all
+    medicals_insurances =
+      Turnos.MedicalsInsurances.get_medicals_insurance_by_user(user.id) |> Repo.all()
 
     conn
     |> put_view(TurnosWeb.MedicalInsuranceView)
@@ -29,7 +29,7 @@ defmodule TurnosWeb.Professional.UserController do
   def show_specialties(conn, _params) do
     user = Guardian.Plug.current_resource(conn)
 
-    specialties = Turnos.Specialties.get_specialties_user(user.id) |> Repo.all
+    specialties = Turnos.Specialties.get_specialties_user(user.id) |> Repo.all()
 
     conn
     |> put_view(TurnosWeb.SpecialtyView)
@@ -40,8 +40,8 @@ defmodule TurnosWeb.Professional.UserController do
     user = Guardian.Plug.current_resource(conn)
     params = Map.delete(params, "id")
 
-    #Chequeo si tiene o no un avatar subido, si tiene borro el archivo
-    #del almacenamiento para guardar el nuevo archivo.
+    # Chequeo si tiene o no un avatar subido, si tiene borro el archivo
+    # del almacenamiento para guardar el nuevo archivo.
     if user.avatar != nil do
       :ok = TurnosWeb.Uploaders.Avatar.delete({user.avatar, user})
     end
@@ -66,11 +66,11 @@ defmodule TurnosWeb.Professional.UserController do
 
   def update_medicalsinsurances(conn, params) do
     params = Map.delete(params, "id")
+
     user_with_medicals_insurances =
       conn
       |> Guardian.Plug.current_resource()
       |> Users.get_usermi!()
-
 
     with {:ok, %User{} = user} <- Users.update_user_mi(user_with_medicals_insurances, params) do
       conn
@@ -81,6 +81,7 @@ defmodule TurnosWeb.Professional.UserController do
 
   def update_specialties(conn, params) do
     params = Map.delete(params, "id")
+
     user_with_specialties =
       conn
       |> Guardian.Plug.current_resource()
@@ -92,5 +93,4 @@ defmodule TurnosWeb.Professional.UserController do
       |> render("index.json", specialties: user.specialties)
     end
   end
-
 end

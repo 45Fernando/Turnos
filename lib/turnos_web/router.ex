@@ -16,14 +16,29 @@ defmodule TurnosWeb.Router do
       post "/identity/callback", AutentificacionController, :identity_callback
     end
 
-    resources "/users", Admin.UserController, only: [:create]
-    get "/users/:mail", Patient.UserController, :search_by_mail
+    get "/users/search_by_mail/:mail", Patient.UserController, :search_by_mail
+
+    resources "/users", UserController, only: [:create]
 
     # Todo de aca para abajo va a pasar por la autentificacion.
     pipe_through :authenticated
 
     delete "/identity/callback", AutentificacionController, :delete
     post "/identity/callback", AutentificacionController, :refresh
+
+    resources "/users", UserController, except: [:new, :create, :edit, :delete] do
+      resources "/offices_per", Admin.OfficePerController, except: [:new, :edit]
+      put "/:user_id/updatepassword", UserController, :update_password
+
+      put "/:user_id/medicalsinsurances", UserController, :update_medicalsinsurances
+      get "/:user_id/medicalsinsurances", UserController, :show_medicalsinsurances
+
+      put "/:user_id/roles", UserController, :update_roles
+      get "/:user_id/roles", UserController, :show_roles
+
+      put "/:user_id/specialties", UserController, :update_specialties
+      get "/:user_id/specialties", UserController, :show_specialties
+    end
 
     resources "/specialties", SpecialtyController, except: [:new, :edit, :delete]
     resources "/days", DayController, except: [:new, :create, :edit, :update, :delete]
@@ -44,9 +59,6 @@ defmodule TurnosWeb.Router do
             Patient.AppointmentController,
             :update_patient_appointment
       end
-
-      get "/professionals", Patient.UserController, :index_professionals
-      get "/professionals/:id", Patient.UserController, :show_professionals
 
       get "/professionals/:professional_id/appointments",
           Patient.AppointmentController,
@@ -75,21 +87,6 @@ defmodule TurnosWeb.Router do
 
     # Todas estas son rutas de admin
     scope "/admin", as: :admin do
-      resources "/users", Admin.UserController, except: [:new, :create, :edit, :delete] do
-        resources "/offices_per", Admin.OfficePerController, except: [:new, :edit]
-      end
-
-      put "/users/:user_id/updatepassword", Admin.UserController, :update_password
-
-      put "/users/:user_id/medicalsinsurances", Admin.UserController, :update_medicalsinsurances
-      get "/users/:user_id/medicalsinsurances", Admin.UserController, :show_medicalsinsurances
-
-      put "/users/:user_id/roles", Admin.UserController, :update_roles
-      get "/users/:user_id/roles", Admin.UserController, :show_roles
-
-      put "/users/:user_id/specialties", Admin.UserController, :update_specialties
-      get "/users/:user_id/specialties", Admin.UserController, :show_specialties
-
       get "/tokens", Admin.GuardianTokenController, :index
       delete "/tokens", AutentificacionController, :revoke
     end

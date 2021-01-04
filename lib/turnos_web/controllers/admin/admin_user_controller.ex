@@ -20,7 +20,7 @@ defmodule TurnosWeb.Admin.UserController do
       conn
       |> put_view(TurnosWeb.UserView)
       |> put_status(:created)
-      |> put_resp_header("location", Routes.admin_user_path(conn, :show, user))
+      |> put_resp_header("location", Routes.user_path(conn, :show, user))
       |> render("show.json", user: user)
     end
   end

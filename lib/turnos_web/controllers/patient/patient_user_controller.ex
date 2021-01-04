@@ -7,16 +7,20 @@ defmodule TurnosWeb.Patient.UserController do
 
   action_fallback TurnosWeb.FallbackController
 
-  #Muestra el perfil de un paciente
-  def show(conn, _params) do
+  # Muestra el perfil de un paciente
+  def show(conn, %{"id" => id} = map) do
     user = conn |> Guardian.Plug.current_resource()
 
-    conn
-    |> put_view(TurnosWeb.UserView)
-    |> render("show.json", user: user)
+    if user.id == id do
+      conn
+      |> put_view(TurnosWeb.UserView)
+      |> render("show.json", user: user)
+    else
+      show_professionals(conn, map)
+    end
   end
 
-  #Muestra el listado de profesionales
+  # Muestra el listado de profesionales
   def index_professionals(conn, _params) do
     professionals = Users.list_professionals() |> Repo.all()
 
@@ -25,10 +29,10 @@ defmodule TurnosWeb.Patient.UserController do
     |> render("index_professional.json", professionals: professionals)
   end
 
-  def show_professionals(conn, params) do
+  defp show_professionals(conn, params) do
     professional = Users.get_user!(params["id"])
 
-    if Enum.any?(professional.roles, fn(x) -> x.roleName == "profesional" end) do
+    if Enum.any?(professional.roles, fn x -> x.roleName == "profesional" end) do
       conn
       |> put_view(TurnosWeb.UserView)
       |> render("show_professional.json", professional: professional)
@@ -44,8 +48,8 @@ defmodule TurnosWeb.Patient.UserController do
     user = Guardian.Plug.current_resource(conn)
     params = Map.delete(params, "id")
 
-    #Chequeo si tiene o no un avatar subido, si tiene borro el archivo
-    #del almacenamiento para guardar el nuevo archivo.
+    # Chequeo si tiene o no un avatar subido, si tiene borro el archivo
+    # del almacenamiento para guardar el nuevo archivo.
     if user.avatar != nil do
       :ok = TurnosWeb.Uploaders.Avatar.delete({user.avatar, user})
     end
@@ -57,20 +61,14 @@ defmodule TurnosWeb.Patient.UserController do
     end
   end
 
-  #Buscar si existe un mail registrado o no
-  #Preguntar si deberia valida que es una direccion de mail
-  def search_by_mail(conn, %{"mail" => mail}) do
-    user = Users.get_user_by_mail(mail)
+  def update_password(conn, params) do
+    user = Guardian.Plug.current_resource(conn)
+    params = Map.delete(params, "id")
 
-    message = if user != nil do
-                "Not Available"
-              else
-                "Available"
-              end
-
-    conn
-    |> put_view(TurnosWeb.UserView)
-    |> render("mail.json", message: message)
+    with {:ok, %User{} = user} <- Users.update_password(user, params) do
+      conn
+      |> put_view(TurnosWeb.UserView)
+      |> render("show.json", user: user)
+    end
   end
-
 end
