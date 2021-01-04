@@ -28,16 +28,16 @@ defmodule TurnosWeb.Router do
 
     resources "/users", UserController, except: [:new, :create, :edit, :delete] do
       resources "/offices_per", Admin.OfficePerController, except: [:new, :edit]
-      put "/:user_id/updatepassword", UserController, :update_password
+      put "/updatepassword", UserController, :update_password
 
-      put "/:user_id/medicalsinsurances", UserController, :update_medicalsinsurances
-      get "/:user_id/medicalsinsurances", UserController, :show_medicalsinsurances
+      put "/medicalsinsurances", UserController, :update_medicalsinsurances
+      get "/medicalsinsurances", UserController, :show_medicalsinsurances
 
-      put "/:user_id/roles", UserController, :update_roles
-      get "/:user_id/roles", UserController, :show_roles
+      put "/roles", UserController, :update_roles
+      get "/roles", UserController, :show_roles
 
-      put "/:user_id/specialties", UserController, :update_specialties
-      get "/:user_id/specialties", UserController, :show_specialties
+      put "/specialties", UserController, :update_specialties
+      get "/specialties", UserController, :show_specialties
     end
 
     resources "/specialties", SpecialtyController, except: [:new, :edit, :delete]
