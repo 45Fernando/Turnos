@@ -19,11 +19,10 @@ defmodule TurnosWeb.Admin.OfficeController do
       conn
       |> put_view(TurnosWeb.OfficeView)
       |> put_status(:created)
-      |> put_resp_header("location", Routes.admin_office_path(conn, :show, office))
+      |> put_resp_header("location", Routes.office_path(conn, :show, office))
       |> render("show.json", office: office)
     end
   end
-
 
   def show(conn, params) do
     office = Offices.get_office!(params["id"])
@@ -36,7 +35,7 @@ defmodule TurnosWeb.Admin.OfficeController do
   def update(conn, params) do
     id = params["id"]
     office = Offices.get_office!(id)
-    params= Map.delete(params, "id")
+    params = Map.delete(params, "id")
 
     with {:ok, %Office{} = office} <- Offices.update_office(office, params) do
       conn

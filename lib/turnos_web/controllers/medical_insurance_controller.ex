@@ -92,7 +92,9 @@ defmodule TurnosWeb.MedicalInsuranceController do
     description("Record a new medical insurance")
 
     parameters do
-      country(:body, Schema.ref(:MedicalInsurance), "Medical insurance to record", required: true)
+      medicalinsurance(:body, Schema.ref(:MedicalInsurance), "Medical insurance to record",
+        required: true
+      )
     end
 
     response(201, "Ok", Schema.ref(:MedicalInsurance))
@@ -141,9 +143,11 @@ defmodule TurnosWeb.MedicalInsuranceController do
     description("Update the medical insurance")
 
     parameters do
-      medicalinsurance(:body, Schema.ref(:MedicalInsurance), "Specialty to record", required: true)
+      medicalinsurance(:body, Schema.ref(:MedicalInsurance), "Medical insurance to record",
+        required: true
+      )
 
-      id(:path, :integer, "The id of the specialty", required: true)
+      id(:path, :integer, "The id of the medical insurance", required: true)
     end
 
     response(201, "Ok", Schema.ref(:MedicalInsurance))

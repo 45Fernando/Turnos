@@ -296,6 +296,85 @@
       "title": "Medicals insurances",
       "type": "array"
     },
+    "Office": {
+      "description": "An office",
+      "example": {
+        "addres": "Santa Fe 97",
+        "id": 1,
+        "inserted_at": "2017-03-21T14:00:00Z",
+        "lat": "",
+        "long": "",
+        "name": "CEMID",
+        "phone": "11111",
+        "status": true,
+        "updated_at": "2017-03-21T14:00:00Z"
+      },
+      "properties": {
+        "address": {
+          "description": "The address of the office",
+          "type": "string"
+        },
+        "appointments": {
+          "description": "Has many appointments",
+          "type": "array"
+        },
+        "config_details": {
+          "description": "Has many config details",
+          "type": "array"
+        },
+        "id": {
+          "description": "The ID of the office",
+          "type": "integer"
+        },
+        "inserted_at": {
+          "description": "When was the office initially inserted",
+          "format": "ISO-8601",
+          "type": "string"
+        },
+        "lat": {
+          "description": "The lat of the office",
+          "type": "string"
+        },
+        "long": {
+          "description": "The long of the office",
+          "type": "string"
+        },
+        "name": {
+          "description": "The name of the office",
+          "type": "string"
+        },
+        "phone": {
+          "description": "The phone of the office",
+          "type": "string"
+        },
+        "status": {
+          "description": "The status of the office",
+          "type": "boolean"
+        },
+        "updated_at": {
+          "description": "When was the office last updated",
+          "format": "ISO-8601",
+          "type": "string"
+        }
+      },
+      "required": [
+        "phone",
+        "name",
+        "long",
+        "lat",
+        "address"
+      ],
+      "title": "Office",
+      "type": "object"
+    },
+    "Offices": {
+      "description": "All offices",
+      "items": {
+        "$ref": "#/definitions/Offices"
+      },
+      "title": "Offices ",
+      "type": "array"
+    },
     "Patient_Appointment": {
       "description": "Patient Appointments",
       "example": {
@@ -702,7 +781,7 @@
           {
             "description": "Medical insurance to record",
             "in": "body",
-            "name": "country",
+            "name": "medicalinsurance",
             "required": true,
             "schema": {
               "$ref": "#/definitions/MedicalInsurance"
@@ -766,7 +845,7 @@
         "operationId": "TurnosWeb.MedicalInsuranceController.update",
         "parameters": [
           {
-            "description": "Specialty to record",
+            "description": "Medical insurance to record",
             "in": "body",
             "name": "medicalinsurance",
             "required": true,
@@ -775,7 +854,7 @@
             }
           },
           {
-            "description": "The id of the specialty",
+            "description": "The id of the medical insurance",
             "in": "path",
             "name": "id",
             "required": true,
@@ -799,6 +878,164 @@
         "summary": "Update the medical insurance ",
         "tags": [
           "MedicalInsurance"
+        ]
+      }
+    },
+    "/api/offices": {
+      "get": {
+        "description": "List all offices",
+        "operationId": "TurnosWeb.OfficeController.index",
+        "parameters": [],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "Ok",
+            "schema": {
+              "$ref": "#/definitions/Offices"
+            }
+          },
+          "400": {
+            "description": "Client Error"
+          }
+        },
+        "summary": "List all offices",
+        "tags": [
+          "Office"
+        ]
+      }
+    },
+    "/api/offices/": {
+      "post": {
+        "description": "Record a new office",
+        "operationId": "TurnosWeb.OfficeController.create",
+        "parameters": [
+          {
+            "description": "Office to record",
+            "in": "body",
+            "name": "office",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Office"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Ok",
+            "schema": {
+              "$ref": "#/definitions/Office"
+            }
+          },
+          "422": {
+            "description": "Unprocessable Entity",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          }
+        },
+        "summary": "Add a new office",
+        "tags": [
+          "Office"
+        ]
+      }
+    },
+    "/api/offices/{id}": {
+      "delete": {
+        "description": "Remove a office from the system",
+        "operationId": "TurnosWeb.OfficeController.delete",
+        "parameters": [
+          {
+            "description": "The id of the office",
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "type": "integer"
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "No content"
+          },
+          "404": {
+            "description": "Not found"
+          }
+        },
+        "summary": "Delete a office",
+        "tags": [
+          "Office"
+        ]
+      },
+      "get": {
+        "description": "Retrieve a office",
+        "operationId": "TurnosWeb.OfficeController.show",
+        "parameters": [
+          {
+            "description": "The id of the office",
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "type": "integer"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Ok",
+            "schema": {
+              "$ref": "#/definitions/Office"
+            }
+          },
+          "404": {
+            "description": "Not found",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          }
+        },
+        "summary": "Retrieve a office",
+        "tags": [
+          "Office"
+        ]
+      },
+      "patch": {
+        "description": "Update the office",
+        "operationId": "TurnosWeb.OfficeController.update",
+        "parameters": [
+          {
+            "description": "Office to record",
+            "in": "body",
+            "name": "office",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Office"
+            }
+          },
+          {
+            "description": "The id of the Office",
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "type": "integer"
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Ok",
+            "schema": {
+              "$ref": "#/definitions/Office"
+            }
+          },
+          "422": {
+            "description": "Unprocessable Entity",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          }
+        },
+        "summary": "Update the office",
+        "tags": [
+          "Office"
         ]
       }
     },
