@@ -1,9 +1,6 @@
-defmodule TurnosWeb.Professional.ConfigHeaderController do
+defmodule TurnosWeb.ConfigHeaderController do
   use TurnosWeb, :controller
   use PhoenixSwagger
-
-  alias Turnos.ConfigHeaders
-  alias Turnos.ConfigHeaders.ConfigHeader
 
   action_fallback TurnosWeb.FallbackController
 
@@ -59,31 +56,39 @@ defmodule TurnosWeb.Professional.ConfigHeaderController do
     }
   end
 
+  def action(conn, _) do
+    current_user_roles =
+      conn |> Guardian.Plug.current_resource() |> TurnosWeb.ExtractRoles.extract_roles()
+
+    apply(__MODULE__, action_name(conn), [conn, conn.params, current_user_roles])
+  end
+
   swagger_path :show do
-    get("api/professional/{user_id}/config")
+    get("api/users/{user_id}/config/{id}")
     summary("Retrieve the config header")
     description("Retrieve the config header")
 
     parameters do
-      user_id(:path, :integer, "The id of the professional", required: true)
+      user_id(:path, :integer, "The id of the user", required: true)
+      id(:path, :integer, "The id of the config header", required: false)
     end
 
     response(200, "Ok", Schema.ref(:Config_Header))
     response(404, "Not found", Schema.ref(:Error))
   end
 
-  def show(conn, _params) do
-    user = conn |> Guardian.Plug.current_resource()
+  def show(conn, _params, current_user_roles) do
+    cond do
+      "professional" in current_user_roles ->
+        TurnosWeb.Professional.ConfigHeaderController.show(conn, [])
 
-    config_header = user.id |> Turnos.ConfigHeaders.get_config_by_user()
-
-    conn
-    |> put_view(TurnosWeb.ConfigHeaderView)
-    |> render("show.json", config_header: config_header)
+      true ->
+        conn |> TurnosWeb.ExtractRoles.halt_connection()
+    end
   end
 
   swagger_path :create do
-    post("api/professional/{user_id}/config")
+    post("api/users/{user_id}/config")
     summary("Create a config header")
     description("Create a config header")
 
@@ -96,59 +101,38 @@ defmodule TurnosWeb.Professional.ConfigHeaderController do
     response(422, "Unprocessable Entity", Schema.ref(:Error))
   end
 
-  def create(conn, params) do
-    user = conn |> Guardian.Plug.current_resource()
+  def create(conn, params, current_user_roles) do
+    cond do
+      "professional" in current_user_roles ->
+        TurnosWeb.Professional.ConfigHeaderController.create(conn, params)
 
-    params =
-      Map.update!(params, "user_id", fn _data ->
-        user.id
-      end)
-
-    with {:ok, %ConfigHeader{} = config_header} <- ConfigHeaders.create_config(params) do
-      conn
-      |> put_view(TurnosWeb.ConfigHeaderView)
-      |> put_status(:created)
-      |> put_resp_header(
-        "location",
-        Routes.user_config_header_path(
-          conn,
-          :show,
-          config_header.user_id,
-          config_header
-        )
-      )
-      |> render("show.json", config_header: config_header)
+      true ->
+        conn |> TurnosWeb.ExtractRoles.halt_connection()
     end
   end
 
   swagger_path :update do
-    patch("api/professional/{user_id}/config")
+    patch("api/users/{user_id}/config/{id}")
     summary("Update the config header")
     description("Update the config header")
 
     parameters do
       config_header(:body, Schema.ref(:Config_Header), "Country to record", required: true)
       user_id(:path, :integer, "The id of the professional", required: true)
+      id(:path, :integer, "The id of the config header", required: false)
     end
 
     response(201, "Ok", Schema.ref(:Config_Header))
     response(422, "Unprocessable Entity", Schema.ref(:Error))
   end
 
-  def update(conn, params) do
-    user = conn |> Guardian.Plug.current_resource()
+  def update(conn, params, current_user_roles) do
+    cond do
+      "professional" in current_user_roles ->
+        TurnosWeb.Professional.ConfigHeaderController.update(conn, params)
 
-    config_header = user.id |> Turnos.ConfigHeaders.get_config_by_user()
-
-    params = Map.delete(params, "id")
-    params = Map.delete(params, "user_id")
-    params = Map.put(params, "user_id", user.id)
-
-    with {:ok, %ConfigHeader{} = config_header} <-
-           ConfigHeaders.update_config(config_header, params) do
-      conn
-      |> put_view(TurnosWeb.ConfigHeaderView)
-      |> render("show.json", config_header: config_header)
+      true ->
+        conn |> TurnosWeb.ExtractRoles.halt_connection()
     end
   end
 

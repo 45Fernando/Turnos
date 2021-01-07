@@ -38,6 +38,7 @@ defmodule TurnosWeb.Router do
 
       put "/specialties", UserController, :update_specialties
       get "/specialties", UserController, :show_specialties
+      resources "/config", ConfigHeaderController, only: [:create, :show, :update]
     end
 
     resources "/specialties", SpecialtyController, except: [:new, :edit, :delete]
@@ -66,10 +67,6 @@ defmodule TurnosWeb.Router do
     # Todas estas son rutas del profesional
     scope "/professional", as: :professional do
       resources "/", Professional.UserController, except: [:index, :new, :create, :edit, :delete] do
-        resources "/config", Professional.ConfigHeaderController, only: [:create]
-        get "/config", Professional.ConfigHeaderController, :show
-        put "/config", Professional.ConfigHeaderController, :update
-
         resources "/config/config_details", Professional.ConfigDetailController,
           except: [:new, :edit]
 
