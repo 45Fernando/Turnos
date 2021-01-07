@@ -457,6 +457,90 @@
       "title": "Patient's Appointments",
       "type": "array"
     },
+    "PersonalizedOffice": {
+      "description": "A personalized office",
+      "example": {
+        "address": "La Rioja 97",
+        "id": 1,
+        "inserted_at": "2017-03-21T14:00:00Z",
+        "lat": "",
+        "long": "",
+        "name": "Casa",
+        "phone": "1111",
+        "status": true,
+        "updated_at": "2017-03-21T14:00:00Z",
+        "user_id": 1
+      },
+      "properties": {
+        "address": {
+          "description": "The address of the personalized office",
+          "type": "string"
+        },
+        "appointments": {
+          "description": "Has many appointments",
+          "type": "array"
+        },
+        "configdetails": {
+          "description": "Has many config details",
+          "type": "array"
+        },
+        "id": {
+          "description": "The ID of the personalized office",
+          "type": "integer"
+        },
+        "inserted_at": {
+          "description": "When was the personalized office initially inserted",
+          "format": "ISO-8601",
+          "type": "string"
+        },
+        "lat": {
+          "description": "The latituded of the personalized office",
+          "type": "string"
+        },
+        "long": {
+          "description": "The longituted of the personalized office",
+          "type": "string"
+        },
+        "name": {
+          "description": "The name of the personalized office",
+          "type": "string"
+        },
+        "phone": {
+          "description": "The phone of the personalized office",
+          "type": "string"
+        },
+        "status": {
+          "description": "The status of the personalized office",
+          "type": "boolean"
+        },
+        "updated_at": {
+          "description": "When was the personalized office last updated",
+          "format": "ISO-8601",
+          "type": "string"
+        },
+        "user_id": {
+          "description": "The id (FK) of the user who belongs the office",
+          "type": "integer"
+        }
+      },
+      "required": [
+        "long",
+        "lat",
+        "phone",
+        "name",
+        "address"
+      ],
+      "title": "Personalized office",
+      "type": "object"
+    },
+    "PersonalizedOffices": {
+      "description": "All personalized offices",
+      "items": {
+        "$ref": "#/definitions/PersonalizedOffice"
+      },
+      "title": "Personalized offices",
+      "type": "array"
+    },
     "Professional_Appointment": {
       "description": "Professional Appointments",
       "example": {
@@ -1019,6 +1103,55 @@
         "summary": "Retrieve the medicals insurances of a user",
         "tags": [
           "User"
+        ]
+      }
+    },
+    "/api/users/{user_id}/offices_per/{id} ": {
+      "patch": {
+        "description": "Update the personalized office",
+        "operationId": "TurnosWeb.OfficePerController.update",
+        "parameters": [
+          {
+            "description": "Personalized office to record",
+            "in": "body",
+            "name": "personalizedOffice",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/PersonalizedOffice"
+            }
+          },
+          {
+            "description": "The id of the user",
+            "in": "path",
+            "name": "user_id",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "description": "The id of the personalized office",
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "type": "integer"
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Ok",
+            "schema": {
+              "$ref": "#/definitions/PersonalizedOffice"
+            }
+          },
+          "422": {
+            "description": "Unprocessable Entity",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          }
+        },
+        "summary": "Update the personalized office ",
+        "tags": [
+          "OfficePer"
         ]
       }
     },
@@ -1595,36 +1728,75 @@
         ]
       }
     },
-    "/api/patient/{user_id}/appointments": {
-      "get": {
-        "description": "List all the next appointments of the patient",
-        "operationId": "TurnosWeb.Patient.AppointmentController.index",
+    "/api/users/{user_id}/offices_per/{id}": {
+      "delete": {
+        "description": "Remove a personalized office from the system",
+        "operationId": "TurnosWeb.OfficePerController.delete",
         "parameters": [
           {
-            "description": "The id of the patient",
+            "description": "The id of the user",
             "in": "path",
             "name": "user_id",
             "required": true,
             "type": "integer"
+          },
+          {
+            "description": "The id of the personalized office",
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "type": "integer"
           }
         ],
-        "produces": [
-          "application/json"
+        "responses": {
+          "204": {
+            "description": "No content"
+          },
+          "404": {
+            "description": "Not found"
+          }
+        },
+        "summary": "Delete a personalized office",
+        "tags": [
+          "OfficePer"
+        ]
+      },
+      "get": {
+        "description": "Retrieve a personalized office",
+        "operationId": "TurnosWeb.OfficePerController.show",
+        "parameters": [
+          {
+            "description": "The id of the user",
+            "in": "path",
+            "name": "user_id",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "description": "The id of the personalized office",
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "type": "integer"
+          }
         ],
         "responses": {
           "200": {
             "description": "Ok",
             "schema": {
-              "$ref": "#/definitions/Patient_Appointments"
+              "$ref": "#/definitions/PersonalizedOffice"
             }
           },
-          "400": {
-            "description": "Client Error"
+          "404": {
+            "description": "Not found",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
           }
         },
-        "summary": "List all the next appointments of the patient",
+        "summary": "Retrieve a personalized office",
         "tags": [
-          "Appointment"
+          "OfficePer"
         ]
       }
     },
@@ -1677,46 +1849,6 @@
           }
         },
         "summary": "Pick an appointment by a patient",
-        "tags": [
-          "Appointment"
-        ]
-      }
-    },
-    "/api/patient/{user_id}/appointments/{id} ": {
-      "get": {
-        "description": "Retrieve a appointment of a patient",
-        "operationId": "TurnosWeb.Patient.AppointmentController.show",
-        "parameters": [
-          {
-            "description": "The id of the appointment",
-            "in": "path",
-            "name": "id",
-            "required": true,
-            "type": "integer"
-          },
-          {
-            "description": "The id of the patient",
-            "in": "path",
-            "name": "user_id",
-            "required": true,
-            "type": "integer"
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Ok",
-            "schema": {
-              "$ref": "#/definitions/Patient_Appointment"
-            }
-          },
-          "404": {
-            "description": "Not found",
-            "schema": {
-              "$ref": "#/definitions/Error"
-            }
-          }
-        },
-        "summary": "Retrieve a appointment of a patient",
         "tags": [
           "Appointment"
         ]
@@ -2125,6 +2257,81 @@
         "summary": "List all the next available appointments of a professional",
         "tags": [
           "Appointment"
+        ]
+      }
+    },
+    "/api/users/{user_id}/offices_per ": {
+      "get": {
+        "description": "List all personalized offices, will show acording to permisions",
+        "operationId": "TurnosWeb.OfficePerController.index",
+        "parameters": [
+          {
+            "description": "The id of the user",
+            "in": "path",
+            "name": "user_id",
+            "required": true,
+            "type": "integer"
+          }
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "Ok",
+            "schema": {
+              "$ref": "#/definitions/PersonalizedOffices"
+            }
+          },
+          "400": {
+            "description": "Client Error"
+          }
+        },
+        "summary": "List all personalized offices",
+        "tags": [
+          "OfficePer"
+        ]
+      }
+    },
+    "/api/users/{user_id}/offices_per/": {
+      "post": {
+        "description": "Record a new personalized office",
+        "operationId": "TurnosWeb.OfficePerController.create",
+        "parameters": [
+          {
+            "description": "Personalized office to record",
+            "in": "body",
+            "name": "personalizedOffice",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/PersonalizedOffice"
+            }
+          },
+          {
+            "description": "The id of the user",
+            "in": "path",
+            "name": "user_id",
+            "required": true,
+            "type": "integer"
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Ok",
+            "schema": {
+              "$ref": "#/definitions/PersonalizedOffice"
+            }
+          },
+          "422": {
+            "description": "Unprocessable Entity",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          }
+        },
+        "summary": "Add a new personalized office",
+        "tags": [
+          "OfficePer"
         ]
       }
     },

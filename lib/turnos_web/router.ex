@@ -27,7 +27,7 @@ defmodule TurnosWeb.Router do
     post "/identity/callback", AutentificacionController, :refresh
 
     resources "/users", UserController, except: [:new, :create, :edit, :delete] do
-      resources "/offices_per", Admin.OfficePerController, except: [:new, :edit]
+      resources "/offices_per", OfficePerController, except: [:new, :edit]
       put "/updatepassword", UserController, :update_password
 
       put "/medicalsinsurances", UserController, :update_medicalsinsurances
@@ -53,8 +53,6 @@ defmodule TurnosWeb.Router do
     # Todas estas son rutas del usuario
     scope "/patient", as: :patient do
       resources "/", Patient.UserController, except: [:index, :new, :create, :edit, :delete] do
-        resources "/appointments", Patient.AppointmentController, only: [:index, :show]
-
         put "/professionals/:professional_id/appointments/:id",
             Patient.AppointmentController,
             :update_patient_appointment
