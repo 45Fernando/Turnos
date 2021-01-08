@@ -57,6 +57,7 @@ defmodule TurnosWeb.UserView do
       provincialRegistration: professional.provincialRegistration,
       location: professional.location,
       avatars: TurnosWeb.Uploaders.Avatar.urls({professional.avatar, professional}),
+      specialties: specialty?(professional.specialties),
       country: render_one(professional.countries, TurnosWeb.CountryView, "country.json"),
       province: render_one(professional.provinces, TurnosWeb.ProvinceView, "province.json")
     }
@@ -93,5 +94,13 @@ defmodule TurnosWeb.UserView do
     %{
       message: message
     }
+  end
+
+  defp specialty?(specialty) do
+    if Ecto.assoc_loaded?(specialty) do
+      render_one(specialty, TurnosWeb.SpecialtyView, "specialty.json", as: :specialty)
+    else
+      []
+    end
   end
 end

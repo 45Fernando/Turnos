@@ -1,10 +1,9 @@
-defmodule TurnosWeb.Admin.CountryController do
+defmodule TurnosWeb.CountryController do
   use TurnosWeb, :controller
   use PhoenixSwagger
 
   alias Turnos.Countries
   alias Turnos.Countries.Country
-  alias Turnos.Repo
 
   action_fallback TurnosWeb.FallbackController
 
@@ -49,8 +48,15 @@ defmodule TurnosWeb.Admin.CountryController do
     }
   end
 
+  def action(conn, _) do
+    current_user_roles =
+      conn |> Guardian.Plug.current_resource() |> TurnosWeb.ExtractRoles.extract_roles()
+
+    apply(__MODULE__, action_name(conn), [conn, conn.params, current_user_roles])
+  end
+
   swagger_path :index do
-    get("api/admin/countries")
+    get("/api/countries")
     summary("List all countries")
     description("List all countries")
     produces("application/json")
@@ -58,41 +64,38 @@ defmodule TurnosWeb.Admin.CountryController do
     response(400, "Client Error")
   end
 
-  def index(conn, _params) do
-    countries = Countries.list_countries()
-
-    conn
-    |> put_view(TurnosWeb.CountryView)
-    |> render("index.json", countries: countries)
-  end
-
-  swagger_path :create do
-    post("api/admin/countries/")
-    summary("Add a new country")
-    description("Record a new country")
-
-    parameters do
-      country(:body, Schema.ref(:Country), "Country to record", required: true)
+  def index(conn, _params, current_user_roles) do
+    cond do
+      "admin" in current_user_roles -> TurnosWeb.Admin.CountryController.index(conn, [])
+      true -> conn |> TurnosWeb.ExtractRoles.halt_connection()
     end
-
-    response(201, "Ok", Schema.ref(:Country))
-    response(422, "Unprocessable Entity", Schema.ref(:Error))
   end
 
-  def create(conn, country_params) do
-    with {:ok, %Country{} = country} <- Countries.create_country(country_params) do
-      country = country |> Repo.preload(:provinces)
+  # swagger_path :create do
+  # post("api/countries/")
+  # summary("Add a new country")
+  # description("Record a new country")
 
-      conn
-      |> put_view(TurnosWeb.CountryView)
-      |> put_status(:created)
-      |> put_resp_header("location", Routes.country_path(conn, :show, country))
-      |> render("show.json", country: country)
+  # parameters do
+  # country(:body, Schema.ref(:Country), "Country to record", required: true)
+  # end
+
+  # response(201, "Ok", Schema.ref(:Country))
+  # response(422, "Unprocessable Entity", Schema.ref(:Error))
+  # end
+
+  def create(conn, country_params, current_user_roles) do
+    cond do
+      "admin" in current_user_roles ->
+        TurnosWeb.Admin.CountryController.create(conn, country_params)
+
+      true ->
+        conn |> TurnosWeb.ExtractRoles.halt_connection()
     end
   end
 
   swagger_path :show do
-    get("api/admin/countries/{id}")
+    get("/api/countries/{id}")
     summary("Retrieve a country")
     description("Retrieve a country")
 
@@ -104,14 +107,17 @@ defmodule TurnosWeb.Admin.CountryController do
     response(404, "Not found", Schema.ref(:Error))
   end
 
-  def show(conn, %{"id" => id}) do
-    country = Countries.get_country!(id)
+  def show(conn, %{"id" => id}, current_user_roles) do
+    cond do
+      "admin" in current_user_roles ->
+        TurnosWeb.Admin.CountryController.show(conn, %{"id" => id})
 
-    conn
-    |> put_view(TurnosWeb.CountryView)
-    |> render("show.json", country: country)
+      true ->
+        conn |> TurnosWeb.ExtractRoles.halt_connection()
+    end
   end
 
+  # Se decidio no habilitar esto, ya que estara cargado por un seed.
   def update(conn, country_params) do
     country = Countries.get_country!(country_params["id"])
     country_params = Map.delete(country_params, "id")
@@ -123,6 +129,7 @@ defmodule TurnosWeb.Admin.CountryController do
     end
   end
 
+  # Se decidio no habilitar esto, ya que estara cargado por un seed.
   def delete(conn, %{"id" => id}) do
     country = Countries.get_country!(id)
 

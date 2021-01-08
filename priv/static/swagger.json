@@ -1,5 +1,87 @@
 {
   "definitions": {
+    "Appointment": {
+      "description": "Appointments",
+      "example": {
+        "appointment_date": "2020-10-28T21:52:13.549656Z",
+        "availability": false,
+        "end_time": "12:30:00.000000",
+        "id": 79,
+        "office_id": 1,
+        "office_per_id": "",
+        "overturn": false,
+        "professional_id": 1,
+        "start_time": "12:00:00.000000"
+      },
+      "properties": {
+        "availability": {
+          "description": "If the appointment is available or not",
+          "type": "boolean"
+        },
+        "end_time": {
+          "description": "When the appointmend end",
+          "type": "time_usec"
+        },
+        "id": {
+          "description": "The ID of the appointment",
+          "type": "integer"
+        },
+        "inserted_at": {
+          "description": "When was the country initially inserted",
+          "format": "ISO-8601",
+          "type": "string"
+        },
+        "office_id": {
+          "description": "Office's ID",
+          "type": "integer"
+        },
+        "office_per_id": {
+          "description": "Office_per's ID",
+          "type": "integer"
+        },
+        "overturn": {
+          "description": "If the appointment is a overturn appointment",
+          "type": "boolean"
+        },
+        "patient_id": {
+          "description": "Patient's ID",
+          "type": "integer"
+        },
+        "professional_id": {
+          "description": "Professional's ID",
+          "type": "integer"
+        },
+        "start_time": {
+          "description": "When the appointmend end",
+          "type": "time_usec"
+        },
+        "updated_at": {
+          "description": "When was the country last updated",
+          "format": "ISO-8601",
+          "type": "string"
+        }
+      },
+      "required": [
+        "office_per_id",
+        "office_id",
+        "professional_id",
+        "patient_id",
+        "overturn",
+        "end_time",
+        "start_time",
+        "availability"
+      ],
+      "title": "Appointments",
+      "type": "object"
+    },
+    "Appointments": {
+      "description": "All appointments of the user",
+      "items": {
+        "$ref": "#/definitions/Appointment"
+      },
+      "title": "Appointments",
+      "type": "array"
+    },
     "Config_Detail": {
       "description": "A config detail for config header of a professional, to store his appointmens config",
       "example": {
@@ -174,6 +256,52 @@
       "title": "Country",
       "type": "object"
     },
+    "Day": {
+      "description": "A day",
+      "example": {
+        "id": 1,
+        "inserted_at": "2017-03-21T14:00:00Z",
+        "name": "Lunes",
+        "updated_at": "2017-03-21T14:00:00Z"
+      },
+      "properties": {
+        "config_details": {
+          "description": "Has many users",
+          "type": "array"
+        },
+        "id": {
+          "description": "The ID of the day",
+          "type": "integer"
+        },
+        "inserted_at": {
+          "description": "When was the day initially inserted",
+          "format": "ISO-8601",
+          "type": "string"
+        },
+        "name": {
+          "description": "The name of the day",
+          "type": "string"
+        },
+        "updated_at": {
+          "description": "When was the day last updated",
+          "format": "ISO-8601",
+          "type": "string"
+        }
+      },
+      "required": [
+        "name"
+      ],
+      "title": "Day",
+      "type": "object"
+    },
+    "Days": {
+      "description": "All days",
+      "items": {
+        "$ref": "#/definitions/Day"
+      },
+      "title": "Days",
+      "type": "array"
+    },
     "Error": {
       "description": "Error responses from the API",
       "properties": {
@@ -188,257 +316,570 @@
       "title": "Errors",
       "type": "object"
     },
-    "Patient_Appointment": {
-      "description": "Patient Appointments",
+    "MedicalInsurance": {
+      "description": "A medical insurance",
       "example": {
-        "appointment_date": "2020-10-28T21:52:13.549656Z",
-        "availability": false,
-        "end_time": "12:30:00.000000",
-        "id": 79,
-        "office_id": 1,
-        "office_per_id": "",
-        "overturn": false,
-        "professional_id": 1,
-        "start_time": "12:00:00.000000"
+        "businessName": "OSPE",
+        "cuit": "20741258391",
+        "id": 1,
+        "inserted_at": "2017-03-21T14:00:00Z",
+        "name": "Obra Social de Petroleros",
+        "updated_at": "2017-03-21T14:00:00Z"
       },
       "properties": {
-        "availability": {
-          "description": "If the appointment is available or not",
-          "type": "boolean"
+        "businessName": {
+          "description": "The business Name of the medical insurance",
+          "type": "string"
         },
-        "end_time": {
-          "description": "When the appointmend end",
-          "type": "time_usec"
+        "cuit": {
+          "description": "The CUIT of the medical insurance",
+          "type": "string"
         },
         "id": {
-          "description": "The ID of the appointment",
+          "description": "The ID of the medical insurance",
           "type": "integer"
         },
         "inserted_at": {
-          "description": "When was the country initially inserted",
+          "description": "When was the medical insurance initially inserted",
           "format": "ISO-8601",
           "type": "string"
         },
-        "office_id": {
-          "description": "Office's ID",
-          "type": "integer"
+        "name": {
+          "description": "The name of the medical insurance",
+          "type": "string"
         },
-        "office_per_id": {
-          "description": "Office_per's ID",
-          "type": "integer"
-        },
-        "overturn": {
-          "description": "If the appointment is a overturn appointment",
+        "status": {
+          "description": "The status of the medical insurance",
           "type": "boolean"
         },
-        "patient_id": {
-          "description": "Patient's ID",
-          "type": "integer"
-        },
-        "professional_id": {
-          "description": "Professional's ID",
-          "type": "integer"
-        },
-        "start_time": {
-          "description": "When the appointmend end",
-          "type": "time_usec"
-        },
         "updated_at": {
-          "description": "When was the country last updated",
+          "description": "When was the medical insurance last updated",
           "format": "ISO-8601",
           "type": "string"
+        },
+        "users": {
+          "description": "Has many professionals",
+          "type": "array"
         }
       },
       "required": [
-        "office_per_id",
-        "office_id",
-        "professional_id",
-        "patient_id",
-        "overturn",
-        "end_time",
-        "start_time",
-        "availability"
+        "name",
+        "cuit",
+        "businessName"
       ],
-      "title": "Patient Appointments",
+      "title": "Medical insurance",
       "type": "object"
     },
-    "Patient_Appointments": {
-      "description": "All appointments of the patient",
+    "MedicalsInsurances": {
+      "description": "All medicals insurances",
       "items": {
-        "$ref": "#/definitions/Patient_Appointment"
+        "$ref": "#/definitions/MedicalInsurance"
       },
-      "title": "Patient's Appointments",
+      "title": "Medicals insurances",
       "type": "array"
     },
-    "Professional_Appointment": {
-      "description": "Professional Appointments",
+    "Office": {
+      "description": "An office",
       "example": {
-        "appointment_date": "2020-10-28T21:52:13.549656Z",
-        "availability": false,
-        "end_time": "12:30:00.000000",
-        "id": 79,
-        "office_id": 1,
-        "office_per_id": "",
-        "overturn": false,
-        "professional_id": 1,
-        "start_time": "12:00:00.000000"
+        "addres": "Santa Fe 97",
+        "id": 1,
+        "inserted_at": "2017-03-21T14:00:00Z",
+        "lat": "",
+        "long": "",
+        "name": "CEMID",
+        "phone": "11111",
+        "status": true,
+        "updated_at": "2017-03-21T14:00:00Z"
       },
       "properties": {
-        "availability": {
-          "description": "If the appointment is available or not",
-          "type": "boolean"
+        "address": {
+          "description": "The address of the office",
+          "type": "string"
         },
-        "end_time": {
-          "description": "When the appointmend end",
-          "type": "time_usec"
+        "appointments": {
+          "description": "Has many appointments",
+          "type": "array"
+        },
+        "config_details": {
+          "description": "Has many config details",
+          "type": "array"
         },
         "id": {
-          "description": "The ID of the appointment",
+          "description": "The ID of the office",
           "type": "integer"
         },
         "inserted_at": {
-          "description": "When was the country initially inserted",
+          "description": "When was the office initially inserted",
           "format": "ISO-8601",
           "type": "string"
         },
-        "office_id": {
-          "description": "Office's ID",
-          "type": "integer"
+        "lat": {
+          "description": "The lat of the office",
+          "type": "string"
         },
-        "office_per_id": {
-          "description": "Office_per's ID",
-          "type": "integer"
+        "long": {
+          "description": "The long of the office",
+          "type": "string"
         },
-        "overturn": {
-          "description": "If the appointment is a overturn appointment",
+        "name": {
+          "description": "The name of the office",
+          "type": "string"
+        },
+        "phone": {
+          "description": "The phone of the office",
+          "type": "string"
+        },
+        "status": {
+          "description": "The status of the office",
           "type": "boolean"
         },
-        "patient_id": {
-          "description": "Patient's ID",
-          "type": "integer"
-        },
-        "professional_id": {
-          "description": "Professional's ID",
-          "type": "integer"
-        },
-        "start_time": {
-          "description": "When the appointmend end",
-          "type": "time_usec"
-        },
         "updated_at": {
-          "description": "When was the country last updated",
+          "description": "When was the office last updated",
           "format": "ISO-8601",
           "type": "string"
         }
       },
       "required": [
-        "office_per_id",
-        "office_id",
-        "professional_id",
-        "patient_id",
-        "overturn",
-        "end_time",
-        "start_time",
-        "availability"
+        "phone",
+        "name",
+        "long",
+        "lat",
+        "address"
       ],
-      "title": "Professional Appointments",
+      "title": "Office",
       "type": "object"
     },
-    "Professional_Appointments": {
-      "description": "All appointments of the Professional",
+    "Offices": {
+      "description": "All offices",
       "items": {
-        "$ref": "#/definitions/Professional_Appointment"
+        "$ref": "#/definitions/Offices"
       },
-      "title": "Professional's Appointments",
+      "title": "Offices ",
+      "type": "array"
+    },
+    "PersonalizedOffice": {
+      "description": "A personalized office",
+      "example": {
+        "address": "La Rioja 97",
+        "id": 1,
+        "inserted_at": "2017-03-21T14:00:00Z",
+        "lat": "",
+        "long": "",
+        "name": "Casa",
+        "phone": "1111",
+        "status": true,
+        "updated_at": "2017-03-21T14:00:00Z",
+        "user_id": 1
+      },
+      "properties": {
+        "address": {
+          "description": "The address of the personalized office",
+          "type": "string"
+        },
+        "appointments": {
+          "description": "Has many appointments",
+          "type": "array"
+        },
+        "configdetails": {
+          "description": "Has many config details",
+          "type": "array"
+        },
+        "id": {
+          "description": "The ID of the personalized office",
+          "type": "integer"
+        },
+        "inserted_at": {
+          "description": "When was the personalized office initially inserted",
+          "format": "ISO-8601",
+          "type": "string"
+        },
+        "lat": {
+          "description": "The latituded of the personalized office",
+          "type": "string"
+        },
+        "long": {
+          "description": "The longituted of the personalized office",
+          "type": "string"
+        },
+        "name": {
+          "description": "The name of the personalized office",
+          "type": "string"
+        },
+        "phone": {
+          "description": "The phone of the personalized office",
+          "type": "string"
+        },
+        "status": {
+          "description": "The status of the personalized office",
+          "type": "boolean"
+        },
+        "updated_at": {
+          "description": "When was the personalized office last updated",
+          "format": "ISO-8601",
+          "type": "string"
+        },
+        "user_id": {
+          "description": "The id (FK) of the user who belongs the office",
+          "type": "integer"
+        }
+      },
+      "required": [
+        "long",
+        "lat",
+        "phone",
+        "name",
+        "address"
+      ],
+      "title": "Personalized office",
+      "type": "object"
+    },
+    "PersonalizedOffices": {
+      "description": "All personalized offices",
+      "items": {
+        "$ref": "#/definitions/PersonalizedOffice"
+      },
+      "title": "Personalized offices",
+      "type": "array"
+    },
+    "Province": {
+      "description": "A province of the world",
+      "example": {
+        "code": "AR-A",
+        "country_id": 1,
+        "inserted_at": "2017-03-21T14:00:00Z",
+        "name": "Salta",
+        "updated_at": "2017-03-21T14:00:00Z"
+      },
+      "properties": {
+        "code": {
+          "description": "The code of the province",
+          "type": "string"
+        },
+        "country_id": {
+          "description": "The ID of the country that belong",
+          "type": "integer"
+        },
+        "id": {
+          "description": "The ID of the province",
+          "type": "integer"
+        },
+        "inserted_at": {
+          "description": "When was the province initially inserted",
+          "format": "ISO-8601",
+          "type": "string"
+        },
+        "name": {
+          "description": "The name of the province",
+          "type": "string"
+        },
+        "updated_at": {
+          "description": "When was the province last updated",
+          "format": "ISO-8601",
+          "type": "string"
+        }
+      },
+      "required": [
+        "name",
+        "code"
+      ],
+      "title": "Province",
+      "type": "object"
+    },
+    "Provinces": {
+      "description": "All provinces/states of the world",
+      "items": {
+        "$ref": "#/definitions/Province"
+      },
+      "title": "Provinces",
+      "type": "array"
+    },
+    "Role": {
+      "description": "A role",
+      "example": {
+        "id": 1,
+        "inserted_at": "2017-03-21T14:00:00Z",
+        "roleName": "admin",
+        "updated_at": "2017-03-21T14:00:00Z"
+      },
+      "properties": {
+        "id": {
+          "description": "The ID of the role",
+          "type": "integer"
+        },
+        "inserted_at": {
+          "description": "When was the role initially inserted",
+          "format": "ISO-8601",
+          "type": "string"
+        },
+        "roleName": {
+          "description": "The name of the role",
+          "type": "string"
+        },
+        "updated_at": {
+          "description": "When was the role last updated",
+          "format": "ISO-8601",
+          "type": "string"
+        },
+        "users": {
+          "description": "Has many users",
+          "type": "array"
+        }
+      },
+      "required": [
+        "roleName"
+      ],
+      "title": "Role",
+      "type": "object"
+    },
+    "Roles": {
+      "description": "All roles",
+      "items": {
+        "$ref": "#/definitions/Role"
+      },
+      "title": "Roles",
+      "type": "array"
+    },
+    "Specialties": {
+      "description": "All specialties",
+      "items": {
+        "$ref": "#/definitions/Specialty"
+      },
+      "title": "Specialties",
+      "type": "array"
+    },
+    "Specialty": {
+      "description": "A specialty",
+      "example": {
+        "id": 1,
+        "inserted_at": "2017-03-21T14:00:00Z",
+        "name": "Dermatologia",
+        "updated_at": "2017-03-21T14:00:00Z"
+      },
+      "properties": {
+        "id": {
+          "description": "The ID of the specialty",
+          "type": "integer"
+        },
+        "inserted_at": {
+          "description": "When was the specialty initially inserted",
+          "format": "ISO-8601",
+          "type": "string"
+        },
+        "name": {
+          "description": "The name of the specialty",
+          "type": "string"
+        },
+        "updated_at": {
+          "description": "When was the specialty last updated",
+          "format": "ISO-8601",
+          "type": "string"
+        },
+        "users": {
+          "description": "Has many users",
+          "type": "array"
+        }
+      },
+      "required": [
+        "name"
+      ],
+      "title": "Specialty",
+      "type": "object"
+    },
+    "User": {
+      "description": "A user",
+      "example": {
+        "address": "Alberdi 759",
+        "birthDate": {
+          "calendar": "Elixir.Calendar.ISO",
+          "day": 12,
+          "month": 8,
+          "year": 1981
+        },
+        "countries_id": 1,
+        "cuil": "20177778881",
+        "dni": "17777888",
+        "id": 1,
+        "lastname": "Gutierrez",
+        "location": "Salta",
+        "mail": "normagutierrez@gmail.com",
+        "mobilePhoneNumber": "3875852963",
+        "name": "Norma",
+        "nationalRegistration": "7365",
+        "phoneNumber": "3874283312",
+        "professionalAddress": "Alvarado 478",
+        "professionalPhoneNumber": "3874963852",
+        "province_id": 2,
+        "provincialRegistration": "125",
+        "status": true
+      },
+      "properties": {
+        "address": {
+          "description": "The address of the user",
+          "type": "string"
+        },
+        "appointments_patient": {
+          "description": "Has many appointments as a patient",
+          "type": "array"
+        },
+        "appointments_professional": {
+          "description": "Has many appointments as a professional",
+          "type": "array"
+        },
+        "avatar": {
+          "description": "The avatar of the user",
+          "type": "Elixir.TurnosWeb.Uploaders.Avatar.Type"
+        },
+        "birthDate": {
+          "description": "The birthdate of the user",
+          "type": "date"
+        },
+        "config_header": {
+          "description": "Has one config header",
+          "type": "array"
+        },
+        "cuil": {
+          "description": "The CUIL of the user",
+          "type": "string"
+        },
+        "dni": {
+          "description": "The DNI of the user",
+          "type": "string"
+        },
+        "guardian_tokens": {
+          "description": "Has many Guardian tokens",
+          "type": "array"
+        },
+        "id": {
+          "description": "The ID of the user",
+          "type": "integer"
+        },
+        "inserted_at": {
+          "description": "When was the medical insurance initially inserted",
+          "format": "ISO-8601",
+          "type": "string"
+        },
+        "lastname": {
+          "description": "The lastname of the user",
+          "type": "string"
+        },
+        "location": {
+          "description": "The location of the user",
+          "type": "string"
+        },
+        "mail": {
+          "description": "The mail of the user",
+          "type": "string"
+        },
+        "medicalsinsurances": {
+          "description": "Has many medicals insurances",
+          "type": "array"
+        },
+        "mobilePhoneNumber": {
+          "description": "The mobile phone number of the user",
+          "type": "string"
+        },
+        "name": {
+          "description": "The name of the user",
+          "type": "string"
+        },
+        "nationalRegistration": {
+          "description": "The national registration of the user",
+          "type": "string"
+        },
+        "offices_per": {
+          "description": "Has many personalized offices",
+          "type": "array"
+        },
+        "password": {
+          "description": "The password of the user",
+          "type": "string"
+        },
+        "phoneNumber": {
+          "description": "The phone number of the user",
+          "type": "string"
+        },
+        "professionalAddress": {
+          "description": "The professional address of the user",
+          "type": "string"
+        },
+        "professionalPhoneNumber": {
+          "description": "The professional phone number of the user",
+          "type": "string"
+        },
+        "provincialRegistration": {
+          "description": "The provincial registration of the user",
+          "type": "string"
+        },
+        "roles": {
+          "description": "Has many roles",
+          "type": "array"
+        },
+        "specialties": {
+          "description": "Has many specialties",
+          "type": "array"
+        },
+        "status": {
+          "description": "The status of the user",
+          "type": "boolean"
+        },
+        "updated_at": {
+          "description": "When was the medical insurance last updated",
+          "format": "ISO-8601",
+          "type": "string"
+        }
+      },
+      "required": [
+        "location",
+        "professionalPhoneNumber",
+        "phoneNumber",
+        "name",
+        "provincialRegistration",
+        "nationalRegistration",
+        "mail",
+        "birthDate",
+        "status",
+        "password",
+        "dni",
+        "professionalAddress",
+        "address",
+        "cuil",
+        "mobilePhoneNumber",
+        "lastname"
+      ],
+      "title": "User",
+      "type": "object"
+    },
+    "Users": {
+      "description": "All users",
+      "items": {
+        "$ref": "#/definitions/User"
+      },
+      "title": "Users",
       "type": "array"
     }
   },
   "host": "localhost:4000",
   "info": {
     "title": "Turnos",
-    "version": "0.0.1"
+    "version": "0.0.3"
   },
   "paths": {
-    "/api/patient/professionals/{professional_id}/appointments ": {
-      "get": {
-        "description": "List all the next available appointments of a professional",
-        "operationId": "TurnosWeb.Patient.AppointmentController.index_by_professional",
+    "/api/users/{user_id}/roles": {
+      "patch": {
+        "description": "Update the user's roles, if permission are ok",
+        "operationId": "TurnosWeb.UserController.update_roles",
         "parameters": [
           {
-            "description": "The id of the professional",
-            "in": "path",
-            "name": "professional_id",
+            "description": "The users's roles to update",
+            "in": "body",
+            "name": "roles",
             "required": true,
-            "type": "integer"
-          }
-        ],
-        "produces": [
-          "application/json"
-        ],
-        "responses": {
-          "200": {
-            "description": "Ok",
             "schema": {
-              "$ref": "#/definitions/Patient_Appointment"
+              "$ref": "#/definitions/Roles"
             }
           },
-          "400": {
-            "description": "Client Error"
-          }
-        },
-        "summary": "List all the next available appointments of a professional",
-        "tags": [
-          "Appointment"
-        ]
-      }
-    },
-    "/api/patient/{user_id}/appointments": {
-      "get": {
-        "description": "List all the next appointments of the patient",
-        "operationId": "TurnosWeb.Patient.AppointmentController.index",
-        "parameters": [
           {
-            "description": "The id of the patient",
-            "in": "path",
-            "name": "user_id",
-            "required": true,
-            "type": "integer"
-          }
-        ],
-        "produces": [
-          "application/json"
-        ],
-        "responses": {
-          "200": {
-            "description": "Ok",
-            "schema": {
-              "$ref": "#/definitions/Patient_Appointments"
-            }
-          },
-          "400": {
-            "description": "Client Error"
-          }
-        },
-        "summary": "List all the next appointments of the patient",
-        "tags": [
-          "Appointment"
-        ]
-      }
-    },
-    "/api/patient/{user_id}/appointments/{id} ": {
-      "get": {
-        "description": "Retrieve a appointment of a patient",
-        "operationId": "TurnosWeb.Patient.AppointmentController.show",
-        "parameters": [
-          {
-            "description": "The id of the appointment",
-            "in": "path",
-            "name": "id",
-            "required": true,
-            "type": "integer"
-          },
-          {
-            "description": "The id of the patient",
+            "description": "The id of the user",
             "in": "path",
             "name": "user_id",
             "required": true,
@@ -446,29 +887,89 @@
           }
         ],
         "responses": {
-          "200": {
+          "201": {
             "description": "Ok",
             "schema": {
-              "$ref": "#/definitions/Patient_Appointment"
+              "$ref": "#/definitions/Roles"
             }
           },
-          "404": {
-            "description": "Not found",
+          "422": {
+            "description": "Unprocessable Entity",
             "schema": {
               "$ref": "#/definitions/Error"
             }
           }
         },
-        "summary": "Retrieve a appointment of a patient",
+        "summary": "Update the user's roles",
         "tags": [
-          "Appointment"
+          "User"
         ]
       }
     },
-    "/api/patient/{user_id}/professionals/{professional_id}/appointments/{id}": {
+    "/api/medicalsinsurances/": {
+      "post": {
+        "description": "Record a new medical insurance",
+        "operationId": "TurnosWeb.MedicalInsuranceController.create",
+        "parameters": [
+          {
+            "description": "Medical insurance to record",
+            "in": "body",
+            "name": "medicalinsurance",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/MedicalInsurance"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Ok",
+            "schema": {
+              "$ref": "#/definitions/MedicalInsurance"
+            }
+          },
+          "422": {
+            "description": "Unprocessable Entity",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          }
+        },
+        "summary": "Add a new medical insurance",
+        "tags": [
+          "MedicalInsurance"
+        ]
+      }
+    },
+    "/api/offices": {
+      "get": {
+        "description": "List all offices",
+        "operationId": "TurnosWeb.OfficeController.index",
+        "parameters": [],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "Ok",
+            "schema": {
+              "$ref": "#/definitions/Offices"
+            }
+          },
+          "400": {
+            "description": "Client Error"
+          }
+        },
+        "summary": "List all offices",
+        "tags": [
+          "Office"
+        ]
+      }
+    },
+    "/api/users/{user_id}/appointments/{id}": {
       "patch": {
-        "description": "Pick an appointment by a patient",
-        "operationId": "TurnosWeb.Patient.AppointmentController.update_patient_appointment",
+        "description": "Pick an appointment by a user",
+        "operationId": "TurnosWeb.AppointmentController.update",
         "parameters": [
           {
             "description": "The id of the appointment",
@@ -478,16 +979,9 @@
             "type": "integer"
           },
           {
-            "description": "The id of the patient",
+            "description": "The id of the user",
             "in": "path",
             "name": "user_id",
-            "required": true,
-            "type": "integer"
-          },
-          {
-            "description": "The id of the professional",
-            "in": "path",
-            "name": "professional_id",
             "required": true,
             "type": "integer"
           },
@@ -503,7 +997,7 @@
           "201": {
             "description": "Ok",
             "schema": {
-              "$ref": "#/definitions/Patient_Appointment"
+              "$ref": "#/definitions/Appointment"
             }
           },
           "422": {
@@ -513,25 +1007,99 @@
             }
           }
         },
-        "summary": "Pick an appointment by a patient",
+        "summary": "Pick an appointment by a user",
         "tags": [
           "Appointment"
         ]
       }
     },
-    "/api/professional/{user_id}/appointments": {
+    "/api/users/{user_id}/medicalsinsurances/": {
       "get": {
-        "description": "List all the next appointments of the professional",
-        "operationId": "TurnosWeb.Professional.AppointmentController.index_by_professional",
+        "description": "Retrieve the medicals insurances of a user, will show acording to permisions",
+        "operationId": "TurnosWeb.UserController.show_medicalsinsurances",
         "parameters": [
           {
-            "description": "The id of the professional",
+            "description": "The id of the user",
             "in": "path",
             "name": "user_id",
             "required": true,
             "type": "integer"
           }
         ],
+        "responses": {
+          "200": {
+            "description": "Ok",
+            "schema": {
+              "$ref": "#/definitions/MedicalsInsurances"
+            }
+          },
+          "404": {
+            "description": "Not found",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          }
+        },
+        "summary": "Retrieve the medicals insurances of a user",
+        "tags": [
+          "User"
+        ]
+      }
+    },
+    "/api/users/{user_id}/offices_per/{id} ": {
+      "patch": {
+        "description": "Update the personalized office",
+        "operationId": "TurnosWeb.OfficePerController.update",
+        "parameters": [
+          {
+            "description": "Personalized office to record",
+            "in": "body",
+            "name": "personalizedOffice",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/PersonalizedOffice"
+            }
+          },
+          {
+            "description": "The id of the user",
+            "in": "path",
+            "name": "user_id",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "description": "The id of the personalized office",
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "type": "integer"
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Ok",
+            "schema": {
+              "$ref": "#/definitions/PersonalizedOffice"
+            }
+          },
+          "422": {
+            "description": "Unprocessable Entity",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          }
+        },
+        "summary": "Update the personalized office ",
+        "tags": [
+          "OfficePer"
+        ]
+      }
+    },
+    "/api/medicalsinsurances": {
+      "get": {
+        "description": "List all medicals insurances",
+        "operationId": "TurnosWeb.MedicalInsuranceController.index",
+        "parameters": [],
         "produces": [
           "application/json"
         ],
@@ -539,26 +1107,565 @@
           "200": {
             "description": "Ok",
             "schema": {
-              "$ref": "#/definitions/Professional_Appointments"
+              "$ref": "#/definitions/MedicalsInsurances"
             }
           },
           "400": {
             "description": "Client Error"
           }
         },
-        "summary": "List all the next appointments of the professional",
+        "summary": "List all medicals insurances",
         "tags": [
-          "Appointment"
+          "MedicalInsurance"
         ]
       }
     },
-    "/api/professional/{user_id}/appointments/generate": {
+    "/api/medicalsinsurances/{id}": {
       "get": {
-        "description": "Generate the appointments base on the professional's configuration",
-        "operationId": "TurnosWeb.Professional.AppointmentController.generate_appointments",
+        "description": "Retrieve a medical insurance",
+        "operationId": "TurnosWeb.MedicalInsuranceController.show",
         "parameters": [
           {
-            "description": "The id of the professional",
+            "description": "The id of the medical insurance",
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "type": "integer"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Ok",
+            "schema": {
+              "$ref": "#/definitions/MedicalInsurance"
+            }
+          },
+          "404": {
+            "description": "Not found",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          }
+        },
+        "summary": "Retrieve a medical insurance",
+        "tags": [
+          "MedicalInsurance"
+        ]
+      },
+      "patch": {
+        "description": "Update the medical insurance",
+        "operationId": "TurnosWeb.MedicalInsuranceController.update",
+        "parameters": [
+          {
+            "description": "Medical insurance to record",
+            "in": "body",
+            "name": "medicalinsurance",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/MedicalInsurance"
+            }
+          },
+          {
+            "description": "The id of the medical insurance",
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "type": "integer"
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Ok",
+            "schema": {
+              "$ref": "#/definitions/MedicalInsurance"
+            }
+          },
+          "422": {
+            "description": "Unprocessable Entity",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          }
+        },
+        "summary": "Update the medical insurance ",
+        "tags": [
+          "MedicalInsurance"
+        ]
+      }
+    },
+    "/api/days": {
+      "get": {
+        "description": "List all days",
+        "operationId": "TurnosWeb.DayController.index",
+        "parameters": [],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "Ok",
+            "schema": {
+              "$ref": "#/definitions/Days"
+            }
+          },
+          "400": {
+            "description": "Client Error"
+          }
+        },
+        "summary": "List all days",
+        "tags": [
+          "Day"
+        ]
+      }
+    },
+    "/api/roles/{id}": {
+      "get": {
+        "description": "Retrieve a role",
+        "operationId": "TurnosWeb.RoleController.show",
+        "parameters": [
+          {
+            "description": "The id of the role",
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "type": "integer"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Ok",
+            "schema": {
+              "$ref": "#/definitions/Specialty"
+            }
+          },
+          "404": {
+            "description": "Not found",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          }
+        },
+        "summary": "Retrieve a role",
+        "tags": [
+          "Role"
+        ]
+      }
+    },
+    "/api/users/{user_id}/medicalsinsurances": {
+      "patch": {
+        "description": "Update the user's medicals insurances, if permissions are good",
+        "operationId": "TurnosWeb.UserController.update_medicalsinsurances",
+        "parameters": [
+          {
+            "description": "The users's medicals insurances to update",
+            "in": "body",
+            "name": "medicalsinsurances",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/MedicalsInsurances"
+            }
+          },
+          {
+            "description": "The id of the user",
+            "in": "path",
+            "name": "user_id",
+            "required": true,
+            "type": "integer"
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Ok",
+            "schema": {
+              "$ref": "#/definitions/MedicalsInsurances"
+            }
+          },
+          "422": {
+            "description": "Unprocessable Entity",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          }
+        },
+        "summary": "Update the user's medicals insurances",
+        "tags": [
+          "User"
+        ]
+      }
+    },
+    "/api/roles": {
+      "get": {
+        "description": "List all roles",
+        "operationId": "TurnosWeb.RoleController.index",
+        "parameters": [],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "Ok",
+            "schema": {
+              "$ref": "#/definitions/Roles"
+            }
+          },
+          "400": {
+            "description": "Client Error"
+          }
+        },
+        "summary": "List all roles",
+        "tags": [
+          "Role"
+        ]
+      }
+    },
+    "api/countries/{country_id}/provinces/{id}": {
+      "get": {
+        "description": "Retrieve a country",
+        "operationId": "TurnosWeb.ProvinceController.show",
+        "parameters": [
+          {
+            "description": "The id of the country",
+            "in": "path",
+            "name": "country_id",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "description": "The id of the province",
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "type": "integer"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Ok",
+            "schema": {
+              "$ref": "#/definitions/Province"
+            }
+          },
+          "404": {
+            "description": "Not found",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          }
+        },
+        "summary": "Retrieve a country",
+        "tags": [
+          "Province"
+        ]
+      }
+    },
+    "/api/users/{user_id}/config/config_details": {
+      "post": {
+        "description": "Create a config detail, acording to permisions",
+        "operationId": "TurnosWeb.ConfigDetailController.create",
+        "parameters": [
+          {
+            "description": "Config Detail to record",
+            "in": "body",
+            "name": "config_detail",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Config_Detail"
+            }
+          },
+          {
+            "description": "The id of the user",
+            "in": "path",
+            "name": "user_id",
+            "required": true,
+            "type": "integer"
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Ok",
+            "schema": {
+              "$ref": "#/definitions/Config_Detail"
+            }
+          },
+          "422": {
+            "description": "Unprocessable Entity",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          }
+        },
+        "summary": "Create a config detail",
+        "tags": [
+          "ConfigDetail"
+        ]
+      }
+    },
+    "/api/offices/": {
+      "post": {
+        "description": "Record a new office",
+        "operationId": "TurnosWeb.OfficeController.create",
+        "parameters": [
+          {
+            "description": "Office to record",
+            "in": "body",
+            "name": "office",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Office"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Ok",
+            "schema": {
+              "$ref": "#/definitions/Office"
+            }
+          },
+          "422": {
+            "description": "Unprocessable Entity",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          }
+        },
+        "summary": "Add a new office",
+        "tags": [
+          "Office"
+        ]
+      }
+    },
+    "/api/users/{user_id}/roles/": {
+      "get": {
+        "description": "Retrieve the roles of a user, will show acording to permisions",
+        "operationId": "TurnosWeb.UserController.show_roles",
+        "parameters": [
+          {
+            "description": "The id of the user",
+            "in": "path",
+            "name": "user_id",
+            "required": true,
+            "type": "integer"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Ok",
+            "schema": {
+              "$ref": "#/definitions/Roles"
+            }
+          },
+          "404": {
+            "description": "Not found",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          }
+        },
+        "summary": "Retrieve the roles of a user",
+        "tags": [
+          "User"
+        ]
+      }
+    },
+    "/api/users/{user_id}/offices_per/{id}": {
+      "delete": {
+        "description": "Remove a personalized office from the system",
+        "operationId": "TurnosWeb.OfficePerController.delete",
+        "parameters": [
+          {
+            "description": "The id of the user",
+            "in": "path",
+            "name": "user_id",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "description": "The id of the personalized office",
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "type": "integer"
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "No content"
+          },
+          "404": {
+            "description": "Not found"
+          }
+        },
+        "summary": "Delete a personalized office",
+        "tags": [
+          "OfficePer"
+        ]
+      },
+      "get": {
+        "description": "Retrieve a personalized office",
+        "operationId": "TurnosWeb.OfficePerController.show",
+        "parameters": [
+          {
+            "description": "The id of the user",
+            "in": "path",
+            "name": "user_id",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "description": "The id of the personalized office",
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "type": "integer"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Ok",
+            "schema": {
+              "$ref": "#/definitions/PersonalizedOffice"
+            }
+          },
+          "404": {
+            "description": "Not found",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          }
+        },
+        "summary": "Retrieve a personalized office",
+        "tags": [
+          "OfficePer"
+        ]
+      }
+    },
+    "/api/users/{user_id}/updatepassword": {
+      "patch": {
+        "description": "Update the user's password",
+        "operationId": "TurnosWeb.UserController.update_password",
+        "parameters": [
+          {
+            "description": "The password to update",
+            "in": "body",
+            "name": "user",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/User"
+            }
+          },
+          {
+            "description": "The id of the user",
+            "in": "path",
+            "name": "user_id",
+            "required": true,
+            "type": "integer"
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Ok",
+            "schema": {
+              "$ref": "#/definitions/User"
+            }
+          },
+          "422": {
+            "description": "Unprocessable Entity",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          }
+        },
+        "summary": "Update the user's password",
+        "tags": [
+          "User"
+        ]
+      }
+    },
+    "/api/specialties/": {
+      "post": {
+        "description": "Record a new specialty",
+        "operationId": "TurnosWeb.SpecialtyController.create",
+        "parameters": [
+          {
+            "description": "Specialty to record",
+            "in": "body",
+            "name": "country",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Specialty"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Ok",
+            "schema": {
+              "$ref": "#/definitions/Specialty"
+            }
+          },
+          "422": {
+            "description": "Unprocessable Entity",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          }
+        },
+        "summary": "Add a new specialty",
+        "tags": [
+          "Specialty"
+        ]
+      }
+    },
+    "/api/users/{user_id}/specialties": {
+      "patch": {
+        "description": "Update the user's specialties, if permissions are good",
+        "operationId": "TurnosWeb.UserController.update_specialties",
+        "parameters": [
+          {
+            "description": "The users's specialties to update",
+            "in": "body",
+            "name": "specialties",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Specialties"
+            }
+          },
+          {
+            "description": "The id of the user",
+            "in": "path",
+            "name": "user_id",
+            "required": true,
+            "type": "integer"
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Ok",
+            "schema": {
+              "$ref": "#/definitions/Specialties"
+            }
+          },
+          "422": {
+            "description": "Unprocessable Entity",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          }
+        },
+        "summary": "Update the user's specialties",
+        "tags": [
+          "User"
+        ]
+      }
+    },
+    "/api/users/{user_id}/appointments/generate": {
+      "get": {
+        "description": "Generate the appointments base on the users's configuration",
+        "operationId": "TurnosWeb.AppointmentController.generate_appointments",
+        "parameters": [
+          {
+            "description": "The id of the user",
             "in": "path",
             "name": "user_id",
             "required": true,
@@ -579,7 +1686,7 @@
           "200": {
             "description": "Ok",
             "schema": {
-              "$ref": "#/definitions/Professional_Appointments"
+              "$ref": "#/definitions/Appointments"
             }
           },
           "400": {
@@ -592,156 +1699,10 @@
         ]
       }
     },
-    "/api/professional/{user_id}/appointments/{id} ": {
+    "/api/specialties": {
       "get": {
-        "description": "Retrieve a appointment of a professional",
-        "operationId": "TurnosWeb.Professional.AppointmentController.show",
-        "parameters": [
-          {
-            "description": "The id of the appointment",
-            "in": "path",
-            "name": "id",
-            "required": true,
-            "type": "integer"
-          },
-          {
-            "description": "The id of the professional",
-            "in": "path",
-            "name": "user_id",
-            "required": true,
-            "type": "integer"
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Ok",
-            "schema": {
-              "$ref": "#/definitions/Professional_Appointment"
-            }
-          },
-          "404": {
-            "description": "Not found",
-            "schema": {
-              "$ref": "#/definitions/Error"
-            }
-          }
-        },
-        "summary": "Retrieve a appointment of a professional",
-        "tags": [
-          "Appointment"
-        ]
-      }
-    },
-    "/api/professional/{user_id}/config/config_details ": {
-      "get": {
-        "description": "List all config details of a config header",
-        "operationId": "TurnosWeb.Professional.ConfigDetailController.index",
-        "parameters": [],
-        "produces": [
-          "application/json"
-        ],
-        "responses": {
-          "200": {
-            "description": "Ok",
-            "schema": {
-              "$ref": "#/definitions/Config_Details"
-            }
-          },
-          "400": {
-            "description": "Client Error"
-          }
-        },
-        "summary": "List all config details of a config header, that belong to a professional",
-        "tags": [
-          "ConfigDetail"
-        ]
-      }
-    },
-    "/api/professional/{user_id}/config/config_details/{id}": {
-      "delete": {
-        "description": "Remove a config detail from the system",
-        "operationId": "TurnosWeb.Professional.ConfigDetailController.delete",
-        "parameters": [
-          {
-            "description": "The id of the professional",
-            "in": "path",
-            "name": "user_id",
-            "required": true,
-            "type": "integer"
-          },
-          {
-            "description": "The id of the config detail",
-            "in": "path",
-            "name": "id",
-            "required": true,
-            "type": "integer"
-          }
-        ],
-        "responses": {
-          "204": {
-            "description": "No content"
-          },
-          "404": {
-            "description": "Not found"
-          }
-        },
-        "summary": "Delete a config detail",
-        "tags": [
-          "ConfigDetail"
-        ]
-      }
-    },
-    "/api/professionals/{user_id}/appointments/{id}": {
-      "patch": {
-        "description": "Change the availabilty of an appointment by a professional",
-        "operationId": "TurnosWeb.Professional.AppointmentController.update",
-        "parameters": [
-          {
-            "description": "The id of the appointment",
-            "in": "path",
-            "name": "id",
-            "required": true,
-            "type": "integer"
-          },
-          {
-            "description": "The id of the professional",
-            "in": "path",
-            "name": "user_id",
-            "required": true,
-            "type": "integer"
-          },
-          {
-            "description": "True or False of the availability of the appointment",
-            "in": "body",
-            "name": "availability",
-            "required": true,
-            "schema": "boolean"
-          }
-        ],
-        "responses": {
-          "201": {
-            "description": "Ok",
-            "schema": {
-              "$ref": "#/definitions/Patient_Appointment"
-            }
-          },
-          "422": {
-            "description": "Unprocessable Entity",
-            "schema": {
-              "$ref": "#/definitions/Error"
-            }
-          }
-        },
-        "summary": "Change the availabilty of an appointment by a professional",
-        "tags": [
-          "Appointment"
-        ]
-      }
-    },
-    "api/admin/countries": {
-      "get": {
-        "description": "List all countries",
-        "operationId": "TurnosWeb.Admin.CountryController.index",
+        "description": "List all specialties",
+        "operationId": "TurnosWeb.SpecialtyController.index",
         "parameters": [],
         "produces": [
           "application/json"
@@ -757,24 +1718,49 @@
             "description": "Client Error"
           }
         },
-        "summary": "List all countries",
+        "summary": "List all specialties",
         "tags": [
-          "Country"
+          "Specialty"
         ]
       }
     },
-    "api/admin/countries/": {
+    "/api/users/{user_id}/config/config_details ": {
+      "get": {
+        "description": "List all config details of a config header, will show acording to permisions",
+        "operationId": "TurnosWeb.ConfigDetailController.index",
+        "parameters": [],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "Ok",
+            "schema": {
+              "$ref": "#/definitions/Config_Details"
+            }
+          },
+          "400": {
+            "description": "Client Error"
+          }
+        },
+        "summary": "List all config details of a config header",
+        "tags": [
+          "ConfigDetail"
+        ]
+      }
+    },
+    "/api/users/": {
       "post": {
-        "description": "Record a new country",
-        "operationId": "TurnosWeb.Admin.CountryController.create",
+        "description": "Record a new user",
+        "operationId": "TurnosWeb.UserController.create",
         "parameters": [
           {
-            "description": "Country to record",
+            "description": "User to record",
             "in": "body",
-            "name": "country",
+            "name": "user",
             "required": true,
             "schema": {
-              "$ref": "#/definitions/Country"
+              "$ref": "#/definitions/User"
             }
           }
         ],
@@ -782,7 +1768,7 @@
           "201": {
             "description": "Ok",
             "schema": {
-              "$ref": "#/definitions/Country"
+              "$ref": "#/definitions/User"
             }
           },
           "422": {
@@ -792,16 +1778,16 @@
             }
           }
         },
-        "summary": "Add a new country",
+        "summary": "Add a new user",
         "tags": [
-          "Country"
+          "User"
         ]
       }
     },
-    "api/admin/countries/{id}": {
+    "/api/countries/{id}": {
       "get": {
         "description": "Retrieve a country",
-        "operationId": "TurnosWeb.Admin.CountryController.show",
+        "operationId": "TurnosWeb.CountryController.show",
         "parameters": [
           {
             "description": "The id of the country",
@@ -831,16 +1817,196 @@
         ]
       }
     },
-    "api/professional/{user_id}/config": {
+    "/api/users/{user_id}/offices_per ": {
       "get": {
-        "description": "Retrieve the config header",
-        "operationId": "TurnosWeb.Professional.ConfigHeaderController.show",
+        "description": "List all personalized offices, will show acording to permisions",
+        "operationId": "TurnosWeb.OfficePerController.index",
         "parameters": [
           {
-            "description": "The id of the professional",
+            "description": "The id of the user",
             "in": "path",
             "name": "user_id",
             "required": true,
+            "type": "integer"
+          }
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "Ok",
+            "schema": {
+              "$ref": "#/definitions/PersonalizedOffices"
+            }
+          },
+          "400": {
+            "description": "Client Error"
+          }
+        },
+        "summary": "List all personalized offices",
+        "tags": [
+          "OfficePer"
+        ]
+      }
+    },
+    "/api/users/{user_id}/offices_per/": {
+      "post": {
+        "description": "Record a new personalized office",
+        "operationId": "TurnosWeb.OfficePerController.create",
+        "parameters": [
+          {
+            "description": "Personalized office to record",
+            "in": "body",
+            "name": "personalizedOffice",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/PersonalizedOffice"
+            }
+          },
+          {
+            "description": "The id of the user",
+            "in": "path",
+            "name": "user_id",
+            "required": true,
+            "type": "integer"
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Ok",
+            "schema": {
+              "$ref": "#/definitions/PersonalizedOffice"
+            }
+          },
+          "422": {
+            "description": "Unprocessable Entity",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          }
+        },
+        "summary": "Add a new personalized office",
+        "tags": [
+          "OfficePer"
+        ]
+      }
+    },
+    "/api/offices/{id}": {
+      "delete": {
+        "description": "Remove a office from the system",
+        "operationId": "TurnosWeb.OfficeController.delete",
+        "parameters": [
+          {
+            "description": "The id of the office",
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "type": "integer"
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "No content"
+          },
+          "404": {
+            "description": "Not found"
+          }
+        },
+        "summary": "Delete a office",
+        "tags": [
+          "Office"
+        ]
+      },
+      "get": {
+        "description": "Retrieve a office",
+        "operationId": "TurnosWeb.OfficeController.show",
+        "parameters": [
+          {
+            "description": "The id of the office",
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "type": "integer"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Ok",
+            "schema": {
+              "$ref": "#/definitions/Office"
+            }
+          },
+          "404": {
+            "description": "Not found",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          }
+        },
+        "summary": "Retrieve a office",
+        "tags": [
+          "Office"
+        ]
+      },
+      "patch": {
+        "description": "Update the office",
+        "operationId": "TurnosWeb.OfficeController.update",
+        "parameters": [
+          {
+            "description": "Office to record",
+            "in": "body",
+            "name": "office",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Office"
+            }
+          },
+          {
+            "description": "The id of the Office",
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "type": "integer"
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Ok",
+            "schema": {
+              "$ref": "#/definitions/Office"
+            }
+          },
+          "422": {
+            "description": "Unprocessable Entity",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          }
+        },
+        "summary": "Update the office",
+        "tags": [
+          "Office"
+        ]
+      }
+    },
+    "/api/users/{user_id}/config/{id}": {
+      "get": {
+        "description": "Retrieve the config header",
+        "operationId": "TurnosWeb.ConfigHeaderController.show",
+        "parameters": [
+          {
+            "description": "The id of the user",
+            "in": "path",
+            "name": "user_id",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "description": "The id of the config header",
+            "in": "path",
+            "name": "id",
+            "required": false,
             "type": "integer"
           }
         ],
@@ -865,7 +2031,7 @@
       },
       "patch": {
         "description": "Update the config header",
-        "operationId": "TurnosWeb.Professional.ConfigHeaderController.update",
+        "operationId": "TurnosWeb.ConfigHeaderController.update",
         "parameters": [
           {
             "description": "Country to record",
@@ -881,6 +2047,13 @@
             "in": "path",
             "name": "user_id",
             "required": true,
+            "type": "integer"
+          },
+          {
+            "description": "The id of the config header",
+            "in": "path",
+            "name": "id",
+            "required": false,
             "type": "integer"
           }
         ],
@@ -902,22 +2075,15 @@
         "tags": [
           "ConfigHeader"
         ]
-      },
-      "post": {
-        "description": "Create a config header",
-        "operationId": "TurnosWeb.Professional.ConfigHeaderController.create",
+      }
+    },
+    "/api/users/{user_id}/specialties/": {
+      "get": {
+        "description": "Retrieve the specialties of a user, will show acording to permisions",
+        "operationId": "TurnosWeb.UserController.show_specialties",
         "parameters": [
           {
-            "description": "Country to record",
-            "in": "body",
-            "name": "config_header",
-            "required": true,
-            "schema": {
-              "$ref": "#/definitions/Config_Header"
-            }
-          },
-          {
-            "description": "The id of the professional",
+            "description": "The id of the user",
             "in": "path",
             "name": "user_id",
             "required": true,
@@ -925,43 +2091,205 @@
           }
         ],
         "responses": {
-          "201": {
+          "200": {
             "description": "Ok",
             "schema": {
-              "$ref": "#/definitions/Config_Header"
+              "$ref": "#/definitions/Specialties"
             }
           },
-          "422": {
-            "description": "Unprocessable Entity",
+          "404": {
+            "description": "Not found",
             "schema": {
               "$ref": "#/definitions/Error"
             }
           }
         },
-        "summary": "Create a config header",
+        "summary": "Retrieve the specialties of a user",
         "tags": [
-          "ConfigHeader"
+          "User"
         ]
       }
     },
-    "api/professional/{user_id}/config/config_details": {
-      "post": {
-        "description": "Create a config detail",
-        "operationId": "TurnosWeb.Professional.ConfigDetailController.create",
+    "api/countries/{country_id}/provinces": {
+      "get": {
+        "description": "List all provinces that belong to a country",
+        "operationId": "TurnosWeb.ProvinceController.index",
         "parameters": [
           {
-            "description": "Config Detail to record",
+            "description": "The id of the country",
+            "in": "path",
+            "name": "country_id",
+            "required": true,
+            "type": "integer"
+          }
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "Ok",
+            "schema": {
+              "$ref": "#/definitions/Provinces"
+            }
+          },
+          "400": {
+            "description": "Client Error"
+          }
+        },
+        "summary": "List all provinces that belong to a country",
+        "tags": [
+          "Province"
+        ]
+      }
+    },
+    "/api/days/{id}": {
+      "get": {
+        "description": "Retrieve a day",
+        "operationId": "TurnosWeb.DayController.show",
+        "parameters": [
+          {
+            "description": "The id of the day",
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "type": "integer"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Ok",
+            "schema": {
+              "$ref": "#/definitions/Specialty"
+            }
+          },
+          "404": {
+            "description": "Not found",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          }
+        },
+        "summary": "Retrieve a day",
+        "tags": [
+          "Day"
+        ]
+      }
+    },
+    "/api/users/{user_id}/appointments/{id} ": {
+      "get": {
+        "description": "Retrieve a appointment of a user",
+        "operationId": "TurnosWeb.AppointmentController.show",
+        "parameters": [
+          {
+            "description": "The id of the appointment",
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "description": "The id of the user",
+            "in": "path",
+            "name": "user_id",
+            "required": true,
+            "type": "integer"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Ok",
+            "schema": {
+              "$ref": "#/definitions/Appointment"
+            }
+          },
+          "404": {
+            "description": "Not found",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          }
+        },
+        "summary": "Retrieve a appointment of a user",
+        "tags": [
+          "Appointment"
+        ]
+      }
+    },
+    "/api/countries": {
+      "get": {
+        "description": "List all countries",
+        "operationId": "TurnosWeb.CountryController.index",
+        "parameters": [],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "Ok",
+            "schema": {
+              "$ref": "#/definitions/Countries"
+            }
+          },
+          "400": {
+            "description": "Client Error"
+          }
+        },
+        "summary": "List all countries",
+        "tags": [
+          "Country"
+        ]
+      }
+    },
+    "/api/specialties/{id}": {
+      "get": {
+        "description": "Retrieve a specialty",
+        "operationId": "TurnosWeb.SpecialtyController.show",
+        "parameters": [
+          {
+            "description": "The id of the specialty",
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "type": "integer"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Ok",
+            "schema": {
+              "$ref": "#/definitions/Specialty"
+            }
+          },
+          "404": {
+            "description": "Not found",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          }
+        },
+        "summary": "Retrieve a specialty",
+        "tags": [
+          "Specialty"
+        ]
+      },
+      "patch": {
+        "description": "Update the specialty",
+        "operationId": "TurnosWeb.SpecialtyController.update",
+        "parameters": [
+          {
+            "description": "Specialty to record",
             "in": "body",
-            "name": "config_detail",
+            "name": "specialty",
             "required": true,
             "schema": {
-              "$ref": "#/definitions/Config_Detail"
+              "$ref": "#/definitions/Specialty"
             }
           },
           {
-            "description": "The id of the professional",
+            "description": "The id of the specialty",
             "in": "path",
-            "name": "user_id",
+            "name": "id",
             "required": true,
             "type": "integer"
           }
@@ -970,7 +2298,7 @@
           "201": {
             "description": "Ok",
             "schema": {
-              "$ref": "#/definitions/Config_Detail"
+              "$ref": "#/definitions/Specialty"
             }
           },
           "422": {
@@ -980,16 +2308,81 @@
             }
           }
         },
-        "summary": "Create a config detail",
+        "summary": "Update the specialty",
+        "tags": [
+          "Specialty"
+        ]
+      }
+    },
+    "/api/users/{user_id}/appointments": {
+      "get": {
+        "description": "List all the next appointments of the user",
+        "operationId": "TurnosWeb.AppointmentController.index",
+        "parameters": [
+          {
+            "description": "The id of the user",
+            "in": "path",
+            "name": "user_id",
+            "required": true,
+            "type": "integer"
+          }
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "Ok",
+            "schema": {
+              "$ref": "#/definitions/Appointments"
+            }
+          },
+          "400": {
+            "description": "Client Error"
+          }
+        },
+        "summary": "List all the next appointments of the user",
+        "tags": [
+          "Appointment"
+        ]
+      }
+    },
+    "/api/users/{user_id}/config/config_details/{id}": {
+      "delete": {
+        "description": "Remove a config detail from the system, acording to permisions",
+        "operationId": "TurnosWeb.ConfigDetailController.delete",
+        "parameters": [
+          {
+            "description": "The id of the user",
+            "in": "path",
+            "name": "user_id",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "description": "The id of the config detail",
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "type": "integer"
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "No content"
+          },
+          "404": {
+            "description": "Not found"
+          }
+        },
+        "summary": "Delete a config detail",
         "tags": [
           "ConfigDetail"
         ]
-      }
-    },
-    "api/professional/{user_id}/config/config_details/{id}": {
+      },
       "get": {
-        "description": "Retrieve the config header",
-        "operationId": "TurnosWeb.Professional.ConfigDetailController.show",
+        "description": "Retrieve the config header, acording to permisions",
+        "operationId": "TurnosWeb.ConfigDetailController.show",
         "parameters": [
           {
             "description": "The id of the professional",
@@ -1026,11 +2419,11 @@
         ]
       },
       "patch": {
-        "description": "Update the config detail",
-        "operationId": "TurnosWeb.Professional.ConfigDetailController.update",
+        "description": "Update the config detail, acording to permisions",
+        "operationId": "TurnosWeb.ConfigDetailController.update",
         "parameters": [
           {
-            "description": "Country to record",
+            "description": "Config detail to record",
             "in": "body",
             "name": "config_detail",
             "required": true,
@@ -1039,7 +2432,7 @@
             }
           },
           {
-            "description": "The id of the professional",
+            "description": "The id of the user",
             "in": "path",
             "name": "user_id",
             "required": true,
@@ -1070,6 +2463,146 @@
         "summary": "Update the config detail",
         "tags": [
           "ConfigDetail"
+        ]
+      }
+    },
+    "/api/users": {
+      "get": {
+        "description": "List all users, will show acording to permisions",
+        "operationId": "TurnosWeb.UserController.index",
+        "parameters": [],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "Ok",
+            "schema": {
+              "$ref": "#/definitions/Users"
+            }
+          },
+          "400": {
+            "description": "Client Error"
+          }
+        },
+        "summary": "List all users",
+        "tags": [
+          "User"
+        ]
+      }
+    },
+    "/api/users/{id}": {
+      "get": {
+        "description": "Retrieve a user, will show data acording to permisions",
+        "operationId": "TurnosWeb.UserController.show",
+        "parameters": [
+          {
+            "description": "The id of the user",
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "type": "integer"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Ok",
+            "schema": {
+              "$ref": "#/definitions/User"
+            }
+          },
+          "404": {
+            "description": "Not found",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          }
+        },
+        "summary": "Retrieve a user",
+        "tags": [
+          "User"
+        ]
+      },
+      "patch": {
+        "description": "Update the user, info to update is acording to permisions",
+        "operationId": "TurnosWeb.UserController.update",
+        "parameters": [
+          {
+            "description": "User to record",
+            "in": "body",
+            "name": "user",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/User"
+            }
+          },
+          {
+            "description": "The id of the user",
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "type": "integer"
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Ok",
+            "schema": {
+              "$ref": "#/definitions/User"
+            }
+          },
+          "422": {
+            "description": "Unprocessable Entity",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          }
+        },
+        "summary": "Update the user ",
+        "tags": [
+          "User"
+        ]
+      }
+    },
+    "/api/users/{user_id}/config": {
+      "post": {
+        "description": "Create a config header",
+        "operationId": "TurnosWeb.ConfigHeaderController.create",
+        "parameters": [
+          {
+            "description": "Country to record",
+            "in": "body",
+            "name": "config_header",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Config_Header"
+            }
+          },
+          {
+            "description": "The id of the professional",
+            "in": "path",
+            "name": "user_id",
+            "required": true,
+            "type": "integer"
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Ok",
+            "schema": {
+              "$ref": "#/definitions/Config_Header"
+            }
+          },
+          "422": {
+            "description": "Unprocessable Entity",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          }
+        },
+        "summary": "Create a config header",
+        "tags": [
+          "ConfigHeader"
         ]
       }
     }
