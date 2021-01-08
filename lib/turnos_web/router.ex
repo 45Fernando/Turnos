@@ -41,6 +41,9 @@ defmodule TurnosWeb.Router do
       resources "/config", ConfigHeaderController, only: [:create, :show, :update]
 
       resources "/config/config_details", ConfigDetailController, except: [:new, :edit]
+
+      resources "/appointments", AppointmentController, only: [:index, :show, :update]
+      post "/appointments/generate", AppointmentController, :generate_appointments
     end
 
     resources "/specialties", SpecialtyController, except: [:new, :edit, :delete]
@@ -51,29 +54,6 @@ defmodule TurnosWeb.Router do
 
     resources "/countries", CountryController, except: [:new, :edit, :create, :update, :delete] do
       resources "/provinces", ProvinceController, except: [:new, :edit, :create, :update, :delete]
-    end
-
-    # Todas estas son rutas del usuario
-    scope "/patient", as: :patient do
-      resources "/", Patient.UserController, except: [:index, :new, :create, :edit, :delete] do
-        put "/professionals/:professional_id/appointments/:id",
-            Patient.AppointmentController,
-            :update_patient_appointment
-      end
-
-      get "/professionals/:professional_id/appointments",
-          Patient.AppointmentController,
-          :index_by_professional
-    end
-
-    # Todas estas son rutas del profesional
-    scope "/professional", as: :professional do
-      resources "/", Professional.UserController, except: [:index, :new, :create, :edit, :delete] do
-        get "/appointments", Professional.AppointmentController, :index_by_professional
-        post "/appointments/generate", Professional.AppointmentController, :generate_appointments
-        get "/appointments/:id", Professional.AppointmentController, :show
-        put "/appointments/:id", Professional.AppointmentController, :update
-      end
     end
 
     # Todas estas son rutas de admin

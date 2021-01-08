@@ -64,7 +64,7 @@ defmodule TurnosWeb.ConfigHeaderController do
   end
 
   swagger_path :show do
-    get("api/users/{user_id}/config/{id}")
+    get("/api/users/{user_id}/config/{id}")
     summary("Retrieve the config header")
     description("Retrieve the config header")
 
@@ -88,7 +88,7 @@ defmodule TurnosWeb.ConfigHeaderController do
   end
 
   swagger_path :create do
-    post("api/users/{user_id}/config")
+    post("/api/users/{user_id}/config")
     summary("Create a config header")
     description("Create a config header")
 
@@ -112,7 +112,7 @@ defmodule TurnosWeb.ConfigHeaderController do
   end
 
   swagger_path :update do
-    patch("api/users/{user_id}/config/{id}")
+    patch("/api/users/{user_id}/config/{id}")
     summary("Update the config header")
     description("Update the config header")
 
@@ -135,14 +135,4 @@ defmodule TurnosWeb.ConfigHeaderController do
         conn |> TurnosWeb.ExtractRoles.halt_connection()
     end
   end
-
-  # def delete(conn, _params) do
-  #  config = conn
-  #            |> Guardian.Plug.current_resource()
-  #            |> Turnos.ConfigHeaders.get_config_by_user()
-
-  #  with {:ok, %ConfigHeader{}} <- ConfigHeaders.delete_config(config) do
-  #    send_resp(conn, :no_content, "")
-  #  end
-  # end
 end

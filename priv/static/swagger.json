@@ -1,5 +1,87 @@
 {
   "definitions": {
+    "Appointment": {
+      "description": "Appointments",
+      "example": {
+        "appointment_date": "2020-10-28T21:52:13.549656Z",
+        "availability": false,
+        "end_time": "12:30:00.000000",
+        "id": 79,
+        "office_id": 1,
+        "office_per_id": "",
+        "overturn": false,
+        "professional_id": 1,
+        "start_time": "12:00:00.000000"
+      },
+      "properties": {
+        "availability": {
+          "description": "If the appointment is available or not",
+          "type": "boolean"
+        },
+        "end_time": {
+          "description": "When the appointmend end",
+          "type": "time_usec"
+        },
+        "id": {
+          "description": "The ID of the appointment",
+          "type": "integer"
+        },
+        "inserted_at": {
+          "description": "When was the country initially inserted",
+          "format": "ISO-8601",
+          "type": "string"
+        },
+        "office_id": {
+          "description": "Office's ID",
+          "type": "integer"
+        },
+        "office_per_id": {
+          "description": "Office_per's ID",
+          "type": "integer"
+        },
+        "overturn": {
+          "description": "If the appointment is a overturn appointment",
+          "type": "boolean"
+        },
+        "patient_id": {
+          "description": "Patient's ID",
+          "type": "integer"
+        },
+        "professional_id": {
+          "description": "Professional's ID",
+          "type": "integer"
+        },
+        "start_time": {
+          "description": "When the appointmend end",
+          "type": "time_usec"
+        },
+        "updated_at": {
+          "description": "When was the country last updated",
+          "format": "ISO-8601",
+          "type": "string"
+        }
+      },
+      "required": [
+        "office_per_id",
+        "office_id",
+        "professional_id",
+        "patient_id",
+        "overturn",
+        "end_time",
+        "start_time",
+        "availability"
+      ],
+      "title": "Appointments",
+      "type": "object"
+    },
+    "Appointments": {
+      "description": "All appointments of the user",
+      "items": {
+        "$ref": "#/definitions/Appointment"
+      },
+      "title": "Appointments",
+      "type": "array"
+    },
     "Config_Detail": {
       "description": "A config detail for config header of a professional, to store his appointmens config",
       "example": {
@@ -375,88 +457,6 @@
       "title": "Offices ",
       "type": "array"
     },
-    "Patient_Appointment": {
-      "description": "Patient Appointments",
-      "example": {
-        "appointment_date": "2020-10-28T21:52:13.549656Z",
-        "availability": false,
-        "end_time": "12:30:00.000000",
-        "id": 79,
-        "office_id": 1,
-        "office_per_id": "",
-        "overturn": false,
-        "professional_id": 1,
-        "start_time": "12:00:00.000000"
-      },
-      "properties": {
-        "availability": {
-          "description": "If the appointment is available or not",
-          "type": "boolean"
-        },
-        "end_time": {
-          "description": "When the appointmend end",
-          "type": "time_usec"
-        },
-        "id": {
-          "description": "The ID of the appointment",
-          "type": "integer"
-        },
-        "inserted_at": {
-          "description": "When was the country initially inserted",
-          "format": "ISO-8601",
-          "type": "string"
-        },
-        "office_id": {
-          "description": "Office's ID",
-          "type": "integer"
-        },
-        "office_per_id": {
-          "description": "Office_per's ID",
-          "type": "integer"
-        },
-        "overturn": {
-          "description": "If the appointment is a overturn appointment",
-          "type": "boolean"
-        },
-        "patient_id": {
-          "description": "Patient's ID",
-          "type": "integer"
-        },
-        "professional_id": {
-          "description": "Professional's ID",
-          "type": "integer"
-        },
-        "start_time": {
-          "description": "When the appointmend end",
-          "type": "time_usec"
-        },
-        "updated_at": {
-          "description": "When was the country last updated",
-          "format": "ISO-8601",
-          "type": "string"
-        }
-      },
-      "required": [
-        "office_per_id",
-        "office_id",
-        "professional_id",
-        "patient_id",
-        "overturn",
-        "end_time",
-        "start_time",
-        "availability"
-      ],
-      "title": "Patient Appointments",
-      "type": "object"
-    },
-    "Patient_Appointments": {
-      "description": "All appointments of the patient",
-      "items": {
-        "$ref": "#/definitions/Patient_Appointment"
-      },
-      "title": "Patient's Appointments",
-      "type": "array"
-    },
     "PersonalizedOffice": {
       "description": "A personalized office",
       "example": {
@@ -539,88 +539,6 @@
         "$ref": "#/definitions/PersonalizedOffice"
       },
       "title": "Personalized offices",
-      "type": "array"
-    },
-    "Professional_Appointment": {
-      "description": "Professional Appointments",
-      "example": {
-        "appointment_date": "2020-10-28T21:52:13.549656Z",
-        "availability": false,
-        "end_time": "12:30:00.000000",
-        "id": 79,
-        "office_id": 1,
-        "office_per_id": "",
-        "overturn": false,
-        "professional_id": 1,
-        "start_time": "12:00:00.000000"
-      },
-      "properties": {
-        "availability": {
-          "description": "If the appointment is available or not",
-          "type": "boolean"
-        },
-        "end_time": {
-          "description": "When the appointmend end",
-          "type": "time_usec"
-        },
-        "id": {
-          "description": "The ID of the appointment",
-          "type": "integer"
-        },
-        "inserted_at": {
-          "description": "When was the country initially inserted",
-          "format": "ISO-8601",
-          "type": "string"
-        },
-        "office_id": {
-          "description": "Office's ID",
-          "type": "integer"
-        },
-        "office_per_id": {
-          "description": "Office_per's ID",
-          "type": "integer"
-        },
-        "overturn": {
-          "description": "If the appointment is a overturn appointment",
-          "type": "boolean"
-        },
-        "patient_id": {
-          "description": "Patient's ID",
-          "type": "integer"
-        },
-        "professional_id": {
-          "description": "Professional's ID",
-          "type": "integer"
-        },
-        "start_time": {
-          "description": "When the appointmend end",
-          "type": "time_usec"
-        },
-        "updated_at": {
-          "description": "When was the country last updated",
-          "format": "ISO-8601",
-          "type": "string"
-        }
-      },
-      "required": [
-        "office_per_id",
-        "office_id",
-        "professional_id",
-        "patient_id",
-        "overturn",
-        "end_time",
-        "start_time",
-        "availability"
-      ],
-      "title": "Professional Appointments",
-      "type": "object"
-    },
-    "Professional_Appointments": {
-      "description": "All appointments of the Professional",
-      "items": {
-        "$ref": "#/definitions/Professional_Appointment"
-      },
-      "title": "Professional's Appointments",
       "type": "array"
     },
     "Province": {
@@ -946,31 +864,6 @@
     "version": "0.0.3"
   },
   "paths": {
-    "api/countries": {
-      "get": {
-        "description": "List all countries",
-        "operationId": "TurnosWeb.CountryController.index",
-        "parameters": [],
-        "produces": [
-          "application/json"
-        ],
-        "responses": {
-          "200": {
-            "description": "Ok",
-            "schema": {
-              "$ref": "#/definitions/Countries"
-            }
-          },
-          "400": {
-            "description": "Client Error"
-          }
-        },
-        "summary": "List all countries",
-        "tags": [
-          "Country"
-        ]
-      }
-    },
     "/api/users/{user_id}/roles": {
       "patch": {
         "description": "Update the user's roles, if permission are ok",
@@ -1070,6 +963,53 @@
         "summary": "List all offices",
         "tags": [
           "Office"
+        ]
+      }
+    },
+    "/api/users/{user_id}/appointments/{id}": {
+      "patch": {
+        "description": "Pick an appointment by a user",
+        "operationId": "TurnosWeb.AppointmentController.update",
+        "parameters": [
+          {
+            "description": "The id of the appointment",
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "description": "The id of the user",
+            "in": "path",
+            "name": "user_id",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "description": "True or False of the availability of the appointment",
+            "in": "body",
+            "name": "availability",
+            "required": true,
+            "schema": "boolean"
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Ok",
+            "schema": {
+              "$ref": "#/definitions/Appointment"
+            }
+          },
+          "422": {
+            "description": "Unprocessable Entity",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          }
+        },
+        "summary": "Pick an appointment by a user",
+        "tags": [
+          "Appointment"
         ]
       }
     },
@@ -1177,126 +1117,6 @@
         "summary": "List all medicals insurances",
         "tags": [
           "MedicalInsurance"
-        ]
-      }
-    },
-    "api/users/{user_id}/config/{id}": {
-      "get": {
-        "description": "Retrieve the config header",
-        "operationId": "TurnosWeb.ConfigHeaderController.show",
-        "parameters": [
-          {
-            "description": "The id of the user",
-            "in": "path",
-            "name": "user_id",
-            "required": true,
-            "type": "integer"
-          },
-          {
-            "description": "The id of the config header",
-            "in": "path",
-            "name": "id",
-            "required": false,
-            "type": "integer"
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Ok",
-            "schema": {
-              "$ref": "#/definitions/Config_Header"
-            }
-          },
-          "404": {
-            "description": "Not found",
-            "schema": {
-              "$ref": "#/definitions/Error"
-            }
-          }
-        },
-        "summary": "Retrieve the config header",
-        "tags": [
-          "ConfigHeader"
-        ]
-      },
-      "patch": {
-        "description": "Update the config header",
-        "operationId": "TurnosWeb.ConfigHeaderController.update",
-        "parameters": [
-          {
-            "description": "Country to record",
-            "in": "body",
-            "name": "config_header",
-            "required": true,
-            "schema": {
-              "$ref": "#/definitions/Config_Header"
-            }
-          },
-          {
-            "description": "The id of the professional",
-            "in": "path",
-            "name": "user_id",
-            "required": true,
-            "type": "integer"
-          },
-          {
-            "description": "The id of the config header",
-            "in": "path",
-            "name": "id",
-            "required": false,
-            "type": "integer"
-          }
-        ],
-        "responses": {
-          "201": {
-            "description": "Ok",
-            "schema": {
-              "$ref": "#/definitions/Config_Header"
-            }
-          },
-          "422": {
-            "description": "Unprocessable Entity",
-            "schema": {
-              "$ref": "#/definitions/Error"
-            }
-          }
-        },
-        "summary": "Update the config header",
-        "tags": [
-          "ConfigHeader"
-        ]
-      }
-    },
-    "/api/professional/{user_id}/appointments": {
-      "get": {
-        "description": "List all the next appointments of the professional",
-        "operationId": "TurnosWeb.Professional.AppointmentController.index_by_professional",
-        "parameters": [
-          {
-            "description": "The id of the professional",
-            "in": "path",
-            "name": "user_id",
-            "required": true,
-            "type": "integer"
-          }
-        ],
-        "produces": [
-          "application/json"
-        ],
-        "responses": {
-          "200": {
-            "description": "Ok",
-            "schema": {
-              "$ref": "#/definitions/Professional_Appointments"
-            }
-          },
-          "400": {
-            "description": "Client Error"
-          }
-        },
-        "summary": "List all the next appointments of the professional",
-        "tags": [
-          "Appointment"
         ]
       }
     },
@@ -1498,86 +1318,6 @@
         ]
       }
     },
-    "/api/professional/{user_id}/appointments/generate": {
-      "get": {
-        "description": "Generate the appointments base on the professional's configuration",
-        "operationId": "TurnosWeb.Professional.AppointmentController.generate_appointments",
-        "parameters": [
-          {
-            "description": "The id of the professional",
-            "in": "path",
-            "name": "user_id",
-            "required": true,
-            "type": "integer"
-          },
-          {
-            "description": "The time zone of the client",
-            "in": "body",
-            "name": "time_zone",
-            "required": true,
-            "schema": "string"
-          }
-        ],
-        "produces": [
-          "application/json"
-        ],
-        "responses": {
-          "200": {
-            "description": "Ok",
-            "schema": {
-              "$ref": "#/definitions/Professional_Appointments"
-            }
-          },
-          "400": {
-            "description": "Client Error"
-          }
-        },
-        "summary": "Generate the appointments base on the user's configuration",
-        "tags": [
-          "Appointment"
-        ]
-      }
-    },
-    "/api/professional/{user_id}/appointments/{id} ": {
-      "get": {
-        "description": "Retrieve a appointment of a professional",
-        "operationId": "TurnosWeb.Professional.AppointmentController.show",
-        "parameters": [
-          {
-            "description": "The id of the appointment",
-            "in": "path",
-            "name": "id",
-            "required": true,
-            "type": "integer"
-          },
-          {
-            "description": "The id of the professional",
-            "in": "path",
-            "name": "user_id",
-            "required": true,
-            "type": "integer"
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Ok",
-            "schema": {
-              "$ref": "#/definitions/Professional_Appointment"
-            }
-          },
-          "404": {
-            "description": "Not found",
-            "schema": {
-              "$ref": "#/definitions/Error"
-            }
-          }
-        },
-        "summary": "Retrieve a appointment of a professional",
-        "tags": [
-          "Appointment"
-        ]
-      }
-    },
     "api/countries/{country_id}/provinces/{id}": {
       "get": {
         "description": "Retrieve a country",
@@ -1615,6 +1355,48 @@
         "summary": "Retrieve a country",
         "tags": [
           "Province"
+        ]
+      }
+    },
+    "/api/users/{user_id}/config/config_details": {
+      "post": {
+        "description": "Create a config detail, acording to permisions",
+        "operationId": "TurnosWeb.ConfigDetailController.create",
+        "parameters": [
+          {
+            "description": "Config Detail to record",
+            "in": "body",
+            "name": "config_detail",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Config_Detail"
+            }
+          },
+          {
+            "description": "The id of the user",
+            "in": "path",
+            "name": "user_id",
+            "required": true,
+            "type": "integer"
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Ok",
+            "schema": {
+              "$ref": "#/definitions/Config_Detail"
+            }
+          },
+          "422": {
+            "description": "Unprocessable Entity",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          }
+        },
+        "summary": "Create a config detail",
+        "tags": [
+          "ConfigDetail"
         ]
       }
     },
@@ -1758,60 +1540,6 @@
         ]
       }
     },
-    "/api/patient/{user_id}/professionals/{professional_id}/appointments/{id}": {
-      "patch": {
-        "description": "Pick an appointment by a patient",
-        "operationId": "TurnosWeb.Patient.AppointmentController.update_patient_appointment",
-        "parameters": [
-          {
-            "description": "The id of the appointment",
-            "in": "path",
-            "name": "id",
-            "required": true,
-            "type": "integer"
-          },
-          {
-            "description": "The id of the patient",
-            "in": "path",
-            "name": "user_id",
-            "required": true,
-            "type": "integer"
-          },
-          {
-            "description": "The id of the professional",
-            "in": "path",
-            "name": "professional_id",
-            "required": true,
-            "type": "integer"
-          },
-          {
-            "description": "True or False of the availability of the appointment",
-            "in": "body",
-            "name": "availability",
-            "required": true,
-            "schema": "boolean"
-          }
-        ],
-        "responses": {
-          "201": {
-            "description": "Ok",
-            "schema": {
-              "$ref": "#/definitions/Patient_Appointment"
-            }
-          },
-          "422": {
-            "description": "Unprocessable Entity",
-            "schema": {
-              "$ref": "#/definitions/Error"
-            }
-          }
-        },
-        "summary": "Pick an appointment by a patient",
-        "tags": [
-          "Appointment"
-        ]
-      }
-    },
     "/api/users/{user_id}/updatepassword": {
       "patch": {
         "description": "Update the user's password",
@@ -1931,6 +1659,46 @@
         ]
       }
     },
+    "/api/users/{user_id}/appointments/generate": {
+      "get": {
+        "description": "Generate the appointments base on the users's configuration",
+        "operationId": "TurnosWeb.AppointmentController.generate_appointments",
+        "parameters": [
+          {
+            "description": "The id of the user",
+            "in": "path",
+            "name": "user_id",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "description": "The time zone of the client",
+            "in": "body",
+            "name": "time_zone",
+            "required": true,
+            "schema": "string"
+          }
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "Ok",
+            "schema": {
+              "$ref": "#/definitions/Appointments"
+            }
+          },
+          "400": {
+            "description": "Client Error"
+          }
+        },
+        "summary": "Generate the appointments base on the user's configuration",
+        "tags": [
+          "Appointment"
+        ]
+      }
+    },
     "/api/specialties": {
       "get": {
         "description": "List all specialties",
@@ -2016,83 +1784,36 @@
         ]
       }
     },
-    "/api/professionals/{user_id}/appointments/{id}": {
-      "patch": {
-        "description": "Change the availabilty of an appointment by a professional",
-        "operationId": "TurnosWeb.Professional.AppointmentController.update",
+    "/api/countries/{id}": {
+      "get": {
+        "description": "Retrieve a country",
+        "operationId": "TurnosWeb.CountryController.show",
         "parameters": [
           {
-            "description": "The id of the appointment",
+            "description": "The id of the country",
             "in": "path",
             "name": "id",
             "required": true,
             "type": "integer"
-          },
-          {
-            "description": "The id of the professional",
-            "in": "path",
-            "name": "user_id",
-            "required": true,
-            "type": "integer"
-          },
-          {
-            "description": "True or False of the availability of the appointment",
-            "in": "body",
-            "name": "availability",
-            "required": true,
-            "schema": "boolean"
           }
-        ],
-        "responses": {
-          "201": {
-            "description": "Ok",
-            "schema": {
-              "$ref": "#/definitions/Patient_Appointment"
-            }
-          },
-          "422": {
-            "description": "Unprocessable Entity",
-            "schema": {
-              "$ref": "#/definitions/Error"
-            }
-          }
-        },
-        "summary": "Change the availabilty of an appointment by a professional",
-        "tags": [
-          "Appointment"
-        ]
-      }
-    },
-    "/api/patient/professionals/{professional_id}/appointments ": {
-      "get": {
-        "description": "List all the next available appointments of a professional",
-        "operationId": "TurnosWeb.Patient.AppointmentController.index_by_professional",
-        "parameters": [
-          {
-            "description": "The id of the professional",
-            "in": "path",
-            "name": "professional_id",
-            "required": true,
-            "type": "integer"
-          }
-        ],
-        "produces": [
-          "application/json"
         ],
         "responses": {
           "200": {
             "description": "Ok",
             "schema": {
-              "$ref": "#/definitions/Patient_Appointment"
+              "$ref": "#/definitions/Country"
             }
           },
-          "400": {
-            "description": "Client Error"
+          "404": {
+            "description": "Not found",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
           }
         },
-        "summary": "List all the next available appointments of a professional",
+        "summary": "Retrieve a country",
         "tags": [
-          "Appointment"
+          "Country"
         ]
       }
     },
@@ -2269,65 +1990,23 @@
         ]
       }
     },
-    "api/users/{user_id}/config/config_details": {
-      "post": {
-        "description": "Create a config detail, acording to permisions",
-        "operationId": "TurnosWeb.ConfigDetailController.create",
+    "/api/users/{user_id}/config/{id}": {
+      "get": {
+        "description": "Retrieve the config header",
+        "operationId": "TurnosWeb.ConfigHeaderController.show",
         "parameters": [
-          {
-            "description": "Config Detail to record",
-            "in": "body",
-            "name": "config_detail",
-            "required": true,
-            "schema": {
-              "$ref": "#/definitions/Config_Detail"
-            }
-          },
           {
             "description": "The id of the user",
             "in": "path",
             "name": "user_id",
             "required": true,
             "type": "integer"
-          }
-        ],
-        "responses": {
-          "201": {
-            "description": "Ok",
-            "schema": {
-              "$ref": "#/definitions/Config_Detail"
-            }
-          },
-          "422": {
-            "description": "Unprocessable Entity",
-            "schema": {
-              "$ref": "#/definitions/Error"
-            }
-          }
-        },
-        "summary": "Create a config detail",
-        "tags": [
-          "ConfigDetail"
-        ]
-      }
-    },
-    "api/users/{user_id}/config/config_details/{id}": {
-      "get": {
-        "description": "Retrieve the config header, acording to permisions",
-        "operationId": "TurnosWeb.ConfigDetailController.show",
-        "parameters": [
-          {
-            "description": "The id of the professional",
-            "in": "path",
-            "name": "user_id",
-            "required": true,
-            "type": "integer"
           },
           {
-            "description": "The id of the config detail",
+            "description": "The id of the config header",
             "in": "path",
             "name": "id",
-            "required": true,
+            "required": false,
             "type": "integer"
           }
         ],
@@ -2345,36 +2024,36 @@
             }
           }
         },
-        "summary": "Retrieve the config detail",
+        "summary": "Retrieve the config header",
         "tags": [
-          "ConfigDetail"
+          "ConfigHeader"
         ]
       },
       "patch": {
-        "description": "Update the config detail, acording to permisions",
-        "operationId": "TurnosWeb.ConfigDetailController.update",
+        "description": "Update the config header",
+        "operationId": "TurnosWeb.ConfigHeaderController.update",
         "parameters": [
           {
-            "description": "Config detail to record",
+            "description": "Country to record",
             "in": "body",
-            "name": "config_detail",
+            "name": "config_header",
             "required": true,
             "schema": {
-              "$ref": "#/definitions/Config_Detail"
+              "$ref": "#/definitions/Config_Header"
             }
           },
           {
-            "description": "The id of the user",
+            "description": "The id of the professional",
             "in": "path",
             "name": "user_id",
             "required": true,
             "type": "integer"
           },
           {
-            "description": "The id of the config detail",
+            "description": "The id of the config header",
             "in": "path",
             "name": "id",
-            "required": true,
+            "required": false,
             "type": "integer"
           }
         ],
@@ -2382,7 +2061,7 @@
           "201": {
             "description": "Ok",
             "schema": {
-              "$ref": "#/definitions/Config_Detail"
+              "$ref": "#/definitions/Config_Header"
             }
           },
           "422": {
@@ -2392,9 +2071,9 @@
             }
           }
         },
-        "summary": "Update the config detail",
+        "summary": "Update the config header",
         "tags": [
-          "ConfigDetail"
+          "ConfigHeader"
         ]
       }
     },
@@ -2497,22 +2176,20 @@
         ]
       }
     },
-    "api/users/{user_id}/config": {
-      "post": {
-        "description": "Create a config header",
-        "operationId": "TurnosWeb.ConfigHeaderController.create",
+    "/api/users/{user_id}/appointments/{id} ": {
+      "get": {
+        "description": "Retrieve a appointment of a user",
+        "operationId": "TurnosWeb.AppointmentController.show",
         "parameters": [
           {
-            "description": "Country to record",
-            "in": "body",
-            "name": "config_header",
+            "description": "The id of the appointment",
+            "in": "path",
+            "name": "id",
             "required": true,
-            "schema": {
-              "$ref": "#/definitions/Config_Header"
-            }
+            "type": "integer"
           },
           {
-            "description": "The id of the professional",
+            "description": "The id of the user",
             "in": "path",
             "name": "user_id",
             "required": true,
@@ -2520,22 +2197,47 @@
           }
         ],
         "responses": {
-          "201": {
+          "200": {
             "description": "Ok",
             "schema": {
-              "$ref": "#/definitions/Config_Header"
+              "$ref": "#/definitions/Appointment"
             }
           },
-          "422": {
-            "description": "Unprocessable Entity",
+          "404": {
+            "description": "Not found",
             "schema": {
               "$ref": "#/definitions/Error"
             }
           }
         },
-        "summary": "Create a config header",
+        "summary": "Retrieve a appointment of a user",
         "tags": [
-          "ConfigHeader"
+          "Appointment"
+        ]
+      }
+    },
+    "/api/countries": {
+      "get": {
+        "description": "List all countries",
+        "operationId": "TurnosWeb.CountryController.index",
+        "parameters": [],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "Ok",
+            "schema": {
+              "$ref": "#/definitions/Countries"
+            }
+          },
+          "400": {
+            "description": "Client Error"
+          }
+        },
+        "summary": "List all countries",
+        "tags": [
+          "Country"
         ]
       }
     },
@@ -2612,6 +2314,39 @@
         ]
       }
     },
+    "/api/users/{user_id}/appointments": {
+      "get": {
+        "description": "List all the next appointments of the user",
+        "operationId": "TurnosWeb.AppointmentController.index",
+        "parameters": [
+          {
+            "description": "The id of the user",
+            "in": "path",
+            "name": "user_id",
+            "required": true,
+            "type": "integer"
+          }
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "Ok",
+            "schema": {
+              "$ref": "#/definitions/Appointments"
+            }
+          },
+          "400": {
+            "description": "Client Error"
+          }
+        },
+        "summary": "List all the next appointments of the user",
+        "tags": [
+          "Appointment"
+        ]
+      }
+    },
     "/api/users/{user_id}/config/config_details/{id}": {
       "delete": {
         "description": "Remove a config detail from the system, acording to permisions",
@@ -2641,6 +2376,91 @@
           }
         },
         "summary": "Delete a config detail",
+        "tags": [
+          "ConfigDetail"
+        ]
+      },
+      "get": {
+        "description": "Retrieve the config header, acording to permisions",
+        "operationId": "TurnosWeb.ConfigDetailController.show",
+        "parameters": [
+          {
+            "description": "The id of the professional",
+            "in": "path",
+            "name": "user_id",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "description": "The id of the config detail",
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "type": "integer"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Ok",
+            "schema": {
+              "$ref": "#/definitions/Config_Header"
+            }
+          },
+          "404": {
+            "description": "Not found",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          }
+        },
+        "summary": "Retrieve the config detail",
+        "tags": [
+          "ConfigDetail"
+        ]
+      },
+      "patch": {
+        "description": "Update the config detail, acording to permisions",
+        "operationId": "TurnosWeb.ConfigDetailController.update",
+        "parameters": [
+          {
+            "description": "Config detail to record",
+            "in": "body",
+            "name": "config_detail",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Config_Detail"
+            }
+          },
+          {
+            "description": "The id of the user",
+            "in": "path",
+            "name": "user_id",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "description": "The id of the config detail",
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "type": "integer"
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Ok",
+            "schema": {
+              "$ref": "#/definitions/Config_Detail"
+            }
+          },
+          "422": {
+            "description": "Unprocessable Entity",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          }
+        },
+        "summary": "Update the config detail",
         "tags": [
           "ConfigDetail"
         ]
@@ -2744,36 +2564,45 @@
         ]
       }
     },
-    "api/countries/{id}": {
-      "get": {
-        "description": "Retrieve a country",
-        "operationId": "TurnosWeb.CountryController.show",
+    "/api/users/{user_id}/config": {
+      "post": {
+        "description": "Create a config header",
+        "operationId": "TurnosWeb.ConfigHeaderController.create",
         "parameters": [
           {
-            "description": "The id of the country",
+            "description": "Country to record",
+            "in": "body",
+            "name": "config_header",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Config_Header"
+            }
+          },
+          {
+            "description": "The id of the professional",
             "in": "path",
-            "name": "id",
+            "name": "user_id",
             "required": true,
             "type": "integer"
           }
         ],
         "responses": {
-          "200": {
+          "201": {
             "description": "Ok",
             "schema": {
-              "$ref": "#/definitions/Country"
+              "$ref": "#/definitions/Config_Header"
             }
           },
-          "404": {
-            "description": "Not found",
+          "422": {
+            "description": "Unprocessable Entity",
             "schema": {
               "$ref": "#/definitions/Error"
             }
           }
         },
-        "summary": "Retrieve a country",
+        "summary": "Create a config header",
         "tags": [
-          "Country"
+          "ConfigHeader"
         ]
       }
     }

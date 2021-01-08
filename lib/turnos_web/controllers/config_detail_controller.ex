@@ -117,7 +117,7 @@ defmodule TurnosWeb.ConfigDetailController do
   end
 
   swagger_path :create do
-    post("api/users/{user_id}/config/config_details")
+    post("/api/users/{user_id}/config/config_details")
     summary("Create a config detail")
     description("Create a config detail, acording to permisions")
 
@@ -141,7 +141,7 @@ defmodule TurnosWeb.ConfigDetailController do
   end
 
   swagger_path :show do
-    get("api/users/{user_id}/config/config_details/{id}")
+    get("/api/users/{user_id}/config/config_details/{id}")
     summary("Retrieve the config detail")
     description("Retrieve the config header, acording to permisions")
 
@@ -165,7 +165,7 @@ defmodule TurnosWeb.ConfigDetailController do
   end
 
   swagger_path :update do
-    patch("api/users/{user_id}/config/config_details/{id}")
+    patch("/api/users/{user_id}/config/config_details/{id}")
     summary("Update the config detail")
     description("Update the config detail, acording to permisions")
 

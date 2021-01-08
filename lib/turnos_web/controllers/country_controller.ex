@@ -56,7 +56,7 @@ defmodule TurnosWeb.CountryController do
   end
 
   swagger_path :index do
-    get("api/countries")
+    get("/api/countries")
     summary("List all countries")
     description("List all countries")
     produces("application/json")
@@ -95,7 +95,7 @@ defmodule TurnosWeb.CountryController do
   end
 
   swagger_path :show do
-    get("api/countries/{id}")
+    get("/api/countries/{id}")
     summary("Retrieve a country")
     description("Retrieve a country")
 
