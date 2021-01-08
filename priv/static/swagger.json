@@ -1267,93 +1267,6 @@
         ]
       }
     },
-    "api/professional/{user_id}/config/config_details/{id}": {
-      "get": {
-        "description": "Retrieve the config header",
-        "operationId": "TurnosWeb.Professional.ConfigDetailController.show",
-        "parameters": [
-          {
-            "description": "The id of the professional",
-            "in": "path",
-            "name": "user_id",
-            "required": true,
-            "type": "integer"
-          },
-          {
-            "description": "The id of the config detail",
-            "in": "path",
-            "name": "id",
-            "required": true,
-            "type": "integer"
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Ok",
-            "schema": {
-              "$ref": "#/definitions/Config_Header"
-            }
-          },
-          "404": {
-            "description": "Not found",
-            "schema": {
-              "$ref": "#/definitions/Error"
-            }
-          }
-        },
-        "summary": "Retrieve the config detail",
-        "tags": [
-          "ConfigDetail"
-        ]
-      },
-      "patch": {
-        "description": "Update the config detail",
-        "operationId": "TurnosWeb.Professional.ConfigDetailController.update",
-        "parameters": [
-          {
-            "description": "Country to record",
-            "in": "body",
-            "name": "config_detail",
-            "required": true,
-            "schema": {
-              "$ref": "#/definitions/Config_Detail"
-            }
-          },
-          {
-            "description": "The id of the professional",
-            "in": "path",
-            "name": "user_id",
-            "required": true,
-            "type": "integer"
-          },
-          {
-            "description": "The id of the config detail",
-            "in": "path",
-            "name": "id",
-            "required": true,
-            "type": "integer"
-          }
-        ],
-        "responses": {
-          "201": {
-            "description": "Ok",
-            "schema": {
-              "$ref": "#/definitions/Config_Detail"
-            }
-          },
-          "422": {
-            "description": "Unprocessable Entity",
-            "schema": {
-              "$ref": "#/definitions/Error"
-            }
-          }
-        },
-        "summary": "Update the config detail",
-        "tags": [
-          "ConfigDetail"
-        ]
-      }
-    },
     "/api/professional/{user_id}/appointments": {
       "get": {
         "description": "List all the next appointments of the professional",
@@ -1705,48 +1618,6 @@
         ]
       }
     },
-    "api/professional/{user_id}/config/config_details": {
-      "post": {
-        "description": "Create a config detail",
-        "operationId": "TurnosWeb.Professional.ConfigDetailController.create",
-        "parameters": [
-          {
-            "description": "Config Detail to record",
-            "in": "body",
-            "name": "config_detail",
-            "required": true,
-            "schema": {
-              "$ref": "#/definitions/Config_Detail"
-            }
-          },
-          {
-            "description": "The id of the professional",
-            "in": "path",
-            "name": "user_id",
-            "required": true,
-            "type": "integer"
-          }
-        ],
-        "responses": {
-          "201": {
-            "description": "Ok",
-            "schema": {
-              "$ref": "#/definitions/Config_Detail"
-            }
-          },
-          "422": {
-            "description": "Unprocessable Entity",
-            "schema": {
-              "$ref": "#/definitions/Error"
-            }
-          }
-        },
-        "summary": "Create a config detail",
-        "tags": [
-          "ConfigDetail"
-        ]
-      }
-    },
     "/api/offices/": {
       "post": {
         "description": "Record a new office",
@@ -2085,35 +1956,26 @@
         ]
       }
     },
-    "/api/professional/{user_id}/config/config_details/{id}": {
-      "delete": {
-        "description": "Remove a config detail from the system",
-        "operationId": "TurnosWeb.Professional.ConfigDetailController.delete",
-        "parameters": [
-          {
-            "description": "The id of the professional",
-            "in": "path",
-            "name": "user_id",
-            "required": true,
-            "type": "integer"
-          },
-          {
-            "description": "The id of the config detail",
-            "in": "path",
-            "name": "id",
-            "required": true,
-            "type": "integer"
-          }
+    "/api/users/{user_id}/config/config_details ": {
+      "get": {
+        "description": "List all config details of a config header, will show acording to permisions",
+        "operationId": "TurnosWeb.ConfigDetailController.index",
+        "parameters": [],
+        "produces": [
+          "application/json"
         ],
         "responses": {
-          "204": {
-            "description": "No content"
+          "200": {
+            "description": "Ok",
+            "schema": {
+              "$ref": "#/definitions/Config_Details"
+            }
           },
-          "404": {
-            "description": "Not found"
+          "400": {
+            "description": "Client Error"
           }
         },
-        "summary": "Delete a config detail",
+        "summary": "List all config details of a config header",
         "tags": [
           "ConfigDetail"
         ]
@@ -2407,6 +2269,135 @@
         ]
       }
     },
+    "api/users/{user_id}/config/config_details": {
+      "post": {
+        "description": "Create a config detail, acording to permisions",
+        "operationId": "TurnosWeb.ConfigDetailController.create",
+        "parameters": [
+          {
+            "description": "Config Detail to record",
+            "in": "body",
+            "name": "config_detail",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Config_Detail"
+            }
+          },
+          {
+            "description": "The id of the user",
+            "in": "path",
+            "name": "user_id",
+            "required": true,
+            "type": "integer"
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Ok",
+            "schema": {
+              "$ref": "#/definitions/Config_Detail"
+            }
+          },
+          "422": {
+            "description": "Unprocessable Entity",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          }
+        },
+        "summary": "Create a config detail",
+        "tags": [
+          "ConfigDetail"
+        ]
+      }
+    },
+    "api/users/{user_id}/config/config_details/{id}": {
+      "get": {
+        "description": "Retrieve the config header, acording to permisions",
+        "operationId": "TurnosWeb.ConfigDetailController.show",
+        "parameters": [
+          {
+            "description": "The id of the professional",
+            "in": "path",
+            "name": "user_id",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "description": "The id of the config detail",
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "type": "integer"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Ok",
+            "schema": {
+              "$ref": "#/definitions/Config_Header"
+            }
+          },
+          "404": {
+            "description": "Not found",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          }
+        },
+        "summary": "Retrieve the config detail",
+        "tags": [
+          "ConfigDetail"
+        ]
+      },
+      "patch": {
+        "description": "Update the config detail, acording to permisions",
+        "operationId": "TurnosWeb.ConfigDetailController.update",
+        "parameters": [
+          {
+            "description": "Config detail to record",
+            "in": "body",
+            "name": "config_detail",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Config_Detail"
+            }
+          },
+          {
+            "description": "The id of the user",
+            "in": "path",
+            "name": "user_id",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "description": "The id of the config detail",
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "type": "integer"
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Ok",
+            "schema": {
+              "$ref": "#/definitions/Config_Detail"
+            }
+          },
+          "422": {
+            "description": "Unprocessable Entity",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          }
+        },
+        "summary": "Update the config detail",
+        "tags": [
+          "ConfigDetail"
+        ]
+      }
+    },
     "/api/users/{user_id}/specialties/": {
       "get": {
         "description": "Retrieve the specialties of a user, will show acording to permisions",
@@ -2621,26 +2612,35 @@
         ]
       }
     },
-    "/api/professional/{user_id}/config/config_details ": {
-      "get": {
-        "description": "List all config details of a config header",
-        "operationId": "TurnosWeb.Professional.ConfigDetailController.index",
-        "parameters": [],
-        "produces": [
-          "application/json"
+    "/api/users/{user_id}/config/config_details/{id}": {
+      "delete": {
+        "description": "Remove a config detail from the system, acording to permisions",
+        "operationId": "TurnosWeb.ConfigDetailController.delete",
+        "parameters": [
+          {
+            "description": "The id of the user",
+            "in": "path",
+            "name": "user_id",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "description": "The id of the config detail",
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "type": "integer"
+          }
         ],
         "responses": {
-          "200": {
-            "description": "Ok",
-            "schema": {
-              "$ref": "#/definitions/Config_Details"
-            }
+          "204": {
+            "description": "No content"
           },
-          "400": {
-            "description": "Client Error"
+          "404": {
+            "description": "Not found"
           }
         },
-        "summary": "List all config details of a config header, that belong to a professional",
+        "summary": "Delete a config detail",
         "tags": [
           "ConfigDetail"
         ]

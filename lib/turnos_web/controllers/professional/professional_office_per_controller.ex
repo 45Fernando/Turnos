@@ -33,7 +33,7 @@ defmodule TurnosWeb.Professional.OfficePerController do
       |> put_view(TurnosWeb.OfficePerView)
       |> put_resp_header(
         "location",
-        Routes.professional_user_office_per_path(conn, :show, office_per.user_id, office_per)
+        Routes.user_office_per_path(conn, :show, office_per.user_id, office_per)
       )
       |> render("show.json", office_per: office_per)
     end
