@@ -4,7 +4,7 @@ defmodule Turnos.Application do
   @moduledoc false
 
   use Application
-  #use Supervisor
+  # use Supervisor
 
   def start(_type, _args) do
     # List all child processes to be supervised
@@ -16,7 +16,7 @@ defmodule Turnos.Application do
       # Starts a worker by calling: Turnos.Worker.start_link(arg)
       # {Turnos.Worker, arg},
       {Guardian.DB.Token.SweeperServer, []}
-      #worker(Guardian.DB.Token.SweeperServer, [])
+      # worker(Guardian.DB.Token.SweeperServer, [])
     ]
 
     # See https://hexdocs.pm/elixir/Supervisor.html

@@ -159,13 +159,13 @@ defmodule TurnosWeb.UserController do
   def show(conn, %{"id" => id}, current_user_roles) do
     cond do
       "admin" in current_user_roles ->
-        TurnosWeb.Admin.UserController.show(conn, id)
+        TurnosWeb.Admin.UserController.show(conn, %{"id" => id})
 
       "professional" in current_user_roles ->
         TurnosWeb.Professional.UserController.show(conn, [])
 
       "patient" in current_user_roles ->
-        TurnosWeb.Patient.UserController.show(conn, id)
+        TurnosWeb.Patient.UserController.show(conn, %{"id" => id})
 
       true ->
         conn |> TurnosWeb.ExtractRoles.halt_connection()
