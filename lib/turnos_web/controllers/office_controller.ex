@@ -114,7 +114,7 @@ defmodule TurnosWeb.OfficeController do
     response(404, "Not found", Schema.ref(:Error))
   end
 
-  def show(conn, params) do
+  def show(conn, params, _current_user_roles) do
     TurnosWeb.Admin.OfficeController.show(conn, params)
   end
 
