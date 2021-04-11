@@ -1,5 +1,14 @@
 # Turnos
 
+BackEnd para un sistema de gestión de turnos automáticos para profesionales y pacientes.
+
+Tecnologías usadas:
+Phoenix Framework
+PostGreSQL
+RESTapi
+JWT
+Postman
+
 ## Instalando Elixir Version: 1.9.4
 En Ubuntu 14.04/16.04/17.04/18.04/19.04:
 
